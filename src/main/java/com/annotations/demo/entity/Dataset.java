@@ -12,15 +12,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {"tasks", "classesPossibles", "coupleTexts"})
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Dataset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +44,4 @@ public class Dataset {
     //relation coupleText/dataset
     @OneToMany(mappedBy="dataset")
     private Set<CoupleText> coupleTexts = new HashSet<>();
-
-    
 }

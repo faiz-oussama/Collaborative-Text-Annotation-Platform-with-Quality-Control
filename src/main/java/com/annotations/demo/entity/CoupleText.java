@@ -12,11 +12,17 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {"taches", "annotations"})
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -29,7 +35,7 @@ public class CoupleText {
     private String text_2;
 
 
-    @ManyToMany(mappedBy="couple_id")
+    @ManyToMany(mappedBy="couples")
     private List<Task> taches = new ArrayList<>();
 
     @ManyToOne
@@ -37,6 +43,6 @@ public class CoupleText {
     private Dataset dataset;
 
 
-    @OneToMany(mappedBy="annotation_id")
+    @OneToMany(mappedBy="coupleText")
     private List<Annotation> annotations = new ArrayList<>();
 }

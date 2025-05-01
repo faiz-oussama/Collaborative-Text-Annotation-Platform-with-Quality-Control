@@ -13,12 +13,17 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = {"couples", "annotateur"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task {
@@ -35,15 +40,19 @@ public class Task {
     private Annotateur annotateur;
 
 
+    //hibernete va cree ici un table association qui lie entre les taches et les couples de textes
+
     @ManyToMany
     @JoinTable(
         name = "tache_couple",
         joinColumns = @JoinColumn(name = "tache_id"),
         inverseJoinColumns = @JoinColumn(name = "couple_id")
     )
-
     private List<CoupleText> couples = new ArrayList<>();
     
 
+    @ManyToOne
+    @JoinColumn(name = "dataset_id")
+    private Dataset dataset;
 
 }

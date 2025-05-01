@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 //ici je vais utiliser des annotations de lombok plus specifique
 //car @Data ne vas pas prendre en consideration la classe parente User
+
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
