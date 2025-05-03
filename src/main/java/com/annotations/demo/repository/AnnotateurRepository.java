@@ -5,7 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.annotations.demo.entity.Annotateur;
 
+import java.util.List;
+
 @Repository
 public interface AnnotateurRepository extends JpaRepository<Annotateur, Long> {
     Annotateur findByLogin(String login);
-} 
+
+}

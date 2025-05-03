@@ -5,42 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Annotations App</title>
     <link rel="stylesheet" href="/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="bg-gray-100 h-screen flex items-center justify-center">
-    <div class="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg">
-        <div class="text-center">
-            <h1 class="text-3xl font-bold text-gray-900">Welcome Back</h1>
-            <p class="mt-2 text-sm text-gray-600">Please sign in to your account</p>
-        </div>
-        <div th:if="${param.error}" class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
-            Invalid username or password.
-        </div>
-        <div th:if="${param.logout}" class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
-            You have been logged out.
-        </div>
-        <form class="mt-8 space-y-6" method="post" th:action="@{/login}">
-            <div class="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <label for="username" class="sr-only">Username</label>
-                    <input id="username" name="username" type="text" autocomplete="username" required
-                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                        placeholder="Username">
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header text-center">
+                <div class="animate-float mb-6">
+                    <i class="fas fa-clipboard-check text-5xl text-primary"></i>
                 </div>
-                <div>
-                    <label for="password" class="sr-only">Password</label>
-                    <input id="password" name="password" type="password" autocomplete="current-password" required
-                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                        placeholder="Password">
+                <h1 class="text-4xl font-extrabold bg-gradient-primary text-transparent bg-clip-text">Annotations App</h1>
+                <p class="mt-2 text-gray">Please sign in to your account</p>
+            </div>
+            
+            <div th:if="${param.error}" class="p-4 mb-4 rounded-lg bg-danger bg-opacity-10 text-danger" role="alert">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span>Invalid username or password</span>
                 </div>
             </div>
+            
+            <div th:if="${param.logout}" class="p-4 mb-4 rounded-lg bg-success bg-opacity-10 text-success" role="alert">
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <span>You have been logged out successfully</span>
+                </div>
+            </div>
+            
+            <form class="mt-8 space-y-6" method="post" th:action="@{/login}">
+                <div class="space-y-4">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-gray"></i>
+                        </div>
+                        <input id="username" name="username" type="text" autocomplete="username" required
+                            class="form-control pl-10 bg-gray-light border-0 shadow-inner"
+                            placeholder="Username">
+                    </div>
+                    
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray"></i>
+                        </div>
+                        <input id="password" name="password" type="password" autocomplete="current-password" required
+                            class="form-control pl-10 bg-gray-light border-0 shadow-inner"
+                            placeholder="Password">
+                    </div>
+                </div>
 
-            <div>
-                <button type="submit"
-                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Sign in
-                </button>
-            </div>
-        </form>
+                <div>
+                    <button type="submit" class="auth-btn">
+                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </span>
+                        Sign in
+                    </button>
+                </div>
+                
+                <div class="text-center text-sm text-gray-dark mt-4">
+                    <p>Secure login for authorized users only</p>
+                </div>
+            </form>
+        </div>
     </div>
+    
+    <script>
+        // Add subtle animation effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentNode.classList.add('transform', 'scale-105', 'transition');
+                });
+                input.addEventListener('blur', function() {
+                    this.parentNode.classList.remove('transform', 'scale-105');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -42,6 +42,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false , columnDefinition = "boolean default false")
+    private boolean deleted;
+
     @OneToOne
     @JoinColumn(name = "role_id" , nullable = false)
     private Role role;

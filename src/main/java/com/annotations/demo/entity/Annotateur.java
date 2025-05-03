@@ -24,11 +24,13 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 public class Annotateur extends User {
     
     @OneToMany(mappedBy = "annotateur" , cascade = CascadeType.ALL)
     private List<Task> taches = new ArrayList<>();
+
+    @OneToMany(mappedBy="annotateur", cascade = CascadeType.ALL)
+    private List<Annotation> annotations = new ArrayList<>();
 }

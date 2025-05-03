@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+    <link rel="stylesheet" href="/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-card">
+            <div class="error-icon animate-float">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h1 class="error-title">Access Denied</h1>
+            <p class="error-message">Sorry, you don't have permission to access this page. Please contact your administrator or return to the home page.</p>
+            <div class="mt-6">
+                <a href="/" class="error-btn">
+                    <i class="fas fa-home mr-2"></i> Back to Home
+                </a>
+            </div>
+            
+            <div class="mt-8 text-sm text-gray">
+                <p>If you believe this is an error, please contact support.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add subtle particles effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.error-container');
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 10 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = 'rgba(255, 255, 255, 0.5)';
+                particle.style.borderRadius = '50%';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animation = `float ${Math.random() * 10 + 5}s ease-in-out infinite`;
+                particle.style.opacity = Math.random() * 0.5;
+                container.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -20,4 +20,9 @@ public class AuthController {
     public String home() {
         return "index";
     }
+
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "access-denied";
+    }
 } 

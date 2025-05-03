@@ -1,0 +1,364 @@
+<!-- src/main/resources/templates/user/home.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="dashboard-header">
+        <div class="container">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold">Annotator Dashboard</h1>
+                    <p class="text-white text-opacity-80">View and manage your annotation tasks</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 bg-white bg-opacity-20 rounded-lg px-4 py-2 text-white hover-scale transition">
+                            <i class="fas fa-user"></i>
+                            <span>User</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                    <a href="/logout" class="flex items-center space-x-2 bg-white bg-opacity-10 rounded-lg px-4 py-2 text-white hover-scale transition">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container py-6">
+        <!-- Task Summary Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="stat-card card-blue animate-fade-in">
+                <div class="stat-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <h3>My Tasks</h3>
+                <div class="text-4xl font-bold">8</div>
+                <p class="text-white text-opacity-80">Active tasks assigned to you</p>
+            </div>
+            
+            <div class="stat-card card-green animate-fade-in" style="animation-delay: 0.1s">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Completed</h3>
+                <div class="text-4xl font-bold">142</div>
+                <p class="text-white text-opacity-80">Tasks completed successfully</p>
+            </div>
+            
+            <div class="stat-card card-purple animate-fade-in" style="animation-delay: 0.2s">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Accuracy</h3>
+                <div class="text-4xl font-bold">96%</div>
+                <p class="text-white text-opacity-80">Your annotation accuracy</p>
+            </div>
+        </div>
+        
+        <!-- Tasks Section -->
+        <div class="grid grid-cols-1 gap-8">
+            <!-- Current Tasks -->
+            <div class="dashboard-card">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold flex items-center">
+                        <i class="fas fa-clipboard-list text-primary mr-2"></i>
+                        Current Tasks
+                    </h2>
+                    <div class="flex items-center">
+                        <div class="relative mr-4">
+                            <input type="text" placeholder="Search tasks..." class="form-control text-sm bg-gray-light border-0 shadow-inner py-2 pl-8">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray"></i>
+                        </div>
+                        <select class="form-control text-sm bg-gray-light border-0 shadow-inner py-2">
+                            <option>All Tasks</option>
+                            <option>In Progress</option>
+                            <option>Not Started</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- Task 1 -->
+                    <div class="p-4 border border-gray-light rounded-lg hover:shadow-md transition">
+                        <div class="flex justify-between mb-3">
+                            <h3 class="font-medium flex items-center">
+                                <span class="inline-block w-3 h-3 bg-success rounded-full mr-2"></span>
+                                Product Description Classification
+                            </h3>
+                            <span class="px-2 py-1 bg-success bg-opacity-10 text-success rounded-full text-xs">In Progress</span>
+                        </div>
+                        <p class="text-gray text-sm mb-3">Classify product descriptions according to their category and identify key features.</p>
+                        <div class="flex flex-wrap justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <div>
+                                    <span class="text-xs text-gray-dark">Progress</span>
+                                    <div class="bg-gray rounded-full h-2 w-32 mt-1 overflow-hidden">
+                                        <div class="bg-success h-full" style="width: 65%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-gray-dark">Deadline</span>
+                                    <div class="text-sm font-medium">Oct 15, 2023</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-sm mt-2 md:mt-0">
+                                <i class="fas fa-play mr-1"></i> Continue Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Task 2 -->
+                    <div class="p-4 border border-gray-light rounded-lg hover:shadow-md transition">
+                        <div class="flex justify-between mb-3">
+                            <h3 class="font-medium flex items-center">
+                                <span class="inline-block w-3 h-3 bg-warning rounded-full mr-2"></span>
+                                Customer Review Sentiment Analysis
+                            </h3>
+                            <span class="px-2 py-1 bg-warning bg-opacity-10 text-warning rounded-full text-xs">Not Started</span>
+                        </div>
+                        <p class="text-gray text-sm mb-3">Analyze customer reviews and categorize them by sentiment (positive, negative, neutral).</p>
+                        <div class="flex flex-wrap justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <div>
+                                    <span class="text-xs text-gray-dark">Progress</span>
+                                    <div class="bg-gray rounded-full h-2 w-32 mt-1 overflow-hidden">
+                                        <div class="bg-warning h-full" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-gray-dark">Deadline</span>
+                                    <div class="text-sm font-medium">Oct 20, 2023</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-sm mt-2 md:mt-0">
+                                <i class="fas fa-play mr-1"></i> Start Task
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Task 3 -->
+                    <div class="p-4 border border-gray-light rounded-lg hover:shadow-md transition">
+                        <div class="flex justify-between mb-3">
+                            <h3 class="font-medium flex items-center">
+                                <span class="inline-block w-3 h-3 bg-primary rounded-full mr-2"></span>
+                                Image Tagging Project
+                            </h3>
+                            <span class="px-2 py-1 bg-primary bg-opacity-10 text-primary rounded-full text-xs">In Progress</span>
+                        </div>
+                        <p class="text-gray text-sm mb-3">Tag product images with relevant categories, colors, and visual attributes.</p>
+                        <div class="flex flex-wrap justify-between items-center">
+                            <div class="flex items-center space-x-4">
+                                <div>
+                                    <span class="text-xs text-gray-dark">Progress</span>
+                                    <div class="bg-gray rounded-full h-2 w-32 mt-1 overflow-hidden">
+                                        <div class="bg-primary h-full" style="width: 25%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-gray-dark">Deadline</span>
+                                    <div class="text-sm font-medium">Oct 30, 2023</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-sm mt-2 md:mt-0">
+                                <i class="fas fa-play mr-1"></i> Continue Task
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center mt-6">
+                    <nav class="flex items-center">
+                        <button class="px-3 py-1 rounded border border-gray-light text-gray-dark text-sm mr-1">Previous</button>
+                        <button class="px-3 py-1 rounded bg-primary text-white text-sm mr-1">1</button>
+                        <button class="px-3 py-1 rounded border border-gray-light text-gray-dark text-sm mr-1">2</button>
+                        <button class="px-3 py-1 rounded border border-gray-light text-gray-dark text-sm">Next</button>
+                    </nav>
+                </div>
+            </div>
+            
+            <!-- Recently Completed Tasks -->
+            <div class="dashboard-card">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold flex items-center">
+                        <i class="fas fa-check-double text-primary mr-2"></i>
+                        Recently Completed
+                    </h2>
+                </div>
+                
+                <div class="overflow-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-gray-light">
+                                <th class="text-left py-3 px-4 font-semibold">Task Name</th>
+                                <th class="text-left py-3 px-4 font-semibold">Completed On</th>
+                                <th class="text-left py-3 px-4 font-semibold">Accuracy</th>
+                                <th class="text-right py-3 px-4 font-semibold">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-light hover:bg-gray-light transition">
+                                <td class="py-3 px-4">
+                                    <div class="font-medium">Product Category Assignment</div>
+                                    <div class="text-gray text-sm">Batch #2489</div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div>Oct 5, 2023</div>
+                                    <div class="text-gray text-sm">11:23 AM</div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2 py-1 bg-success bg-opacity-10 text-success rounded-full text-xs">98%</span>
+                                </td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-sm btn-outline">View Results</button>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-gray-light hover:bg-gray-light transition">
+                                <td class="py-3 px-4">
+                                    <div class="font-medium">Text Classification</div>
+                                    <div class="text-gray text-sm">Batch #2475</div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div>Oct 2, 2023</div>
+                                    <div class="text-gray text-sm">3:45 PM</div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2 py-1 bg-success bg-opacity-10 text-success rounded-full text-xs">95%</span>
+                                </td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-sm btn-outline">View Results</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Performance Metrics -->
+            <div class="dashboard-card">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold flex items-center">
+                        <i class="fas fa-chart-line text-primary mr-2"></i>
+                        Your Performance
+                    </h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-gray-light rounded-lg">
+                        <h3 class="font-medium mb-3">Weekly Completion Rate</h3>
+                        <div class="h-40 flex items-end justify-between px-2">
+                            <div class="flex flex-col items-center">
+                                <div class="bg-primary w-6 rounded-t" style="height: 20%"></div>
+                                <div class="text-xs mt-2">Mon</div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-primary w-6 rounded-t" style="height: 60%"></div>
+                                <div class="text-xs mt-2">Tue</div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-primary w-6 rounded-t" style="height: 40%"></div>
+                                <div class="text-xs mt-2">Wed</div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-primary w-6 rounded-t" style="height: 80%"></div>
+                                <div class="text-xs mt-2">Thu</div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-primary w-6 rounded-t" style="height: 50%"></div>
+                                <div class="text-xs mt-2">Fri</div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-primary w-6 rounded-t" style="height: 30%"></div>
+                                <div class="text-xs mt-2">Sat</div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="bg-primary w-6 rounded-t" style="height: 10%"></div>
+                                <div class="text-xs mt-2">Sun</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-gray-light rounded-lg flex flex-col">
+                        <h3 class="font-medium mb-3">Performance Stats</h3>
+                        <div class="space-y-4 flex-1">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm">Accuracy Rate</span>
+                                    <span class="text-sm font-medium">95%</span>
+                                </div>
+                                <div class="bg-gray rounded-full h-2 overflow-hidden">
+                                    <div class="bg-success h-full" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm">Completion Rate</span>
+                                    <span class="text-sm font-medium">82%</span>
+                                </div>
+                                <div class="bg-gray rounded-full h-2 overflow-hidden">
+                                    <div class="bg-primary h-full" style="width: 82%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm">Average Time per Task</span>
+                                    <span class="text-sm font-medium">15 min</span>
+                                </div>
+                                <div class="bg-gray rounded-full h-2 overflow-hidden">
+                                    <div class="bg-secondary h-full" style="width: 68%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button class="btn btn-sm btn-outline w-full">
+                                <i class="fas fa-chart-pie mr-1"></i> View Detailed Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="bg-dark text-white py-6 mt-10">
+        <div class="container">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold">Annotations App</h2>
+                    <p class="text-gray text-sm">© 2023 All rights reserved</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray hover:text-white transition"><i class="fas fa-question-circle"></i> Help</a>
+                    <a href="#" class="text-gray hover:text-white transition"><i class="fas fa-cog"></i> Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Add interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to all task cards
+            const taskItems = document.querySelectorAll('.border.border-gray-light');
+            taskItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.classList.add('shadow-md');
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.classList.remove('shadow-md');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/main.css">
+    <title>Add Annotateur - Annotations App</title>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <h1 class="text-xl font-bold text-indigo-600">Annotations App</h1>
+                    </div>
+                    <div class="ml-6 flex space-x-8">
+                        <a href="/admin/showAdminHome" class="inline-flex items-center px-1 pt-1 text-gray-900 hover:text-indigo-600">
+                            Admin Home
+                        </a>
+                        <a href="/admin/annotateurs" class="inline-flex items-center px-1 pt-1 text-gray-900 hover:text-indigo-600">
+                            All Annotateurs
+                        </a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <div class="flex items-center">
+                            <span class="text-gray-700 mr-2" sec:authentication="name">Username</span>
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="px-3 py-1 rounded bg-indigo-100 text-indigo-700 hover:bg-indigo-200 text-sm">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6">
+                <h2 class="text-2xl font-medium text-gray-900">Add New Annotateur</h2>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">Create a new annotateur account in the system.</p>
+            </div>
+            
+            <div th:if="${successMessage}" class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
+                <span th:text="${successMessage}"></span>
+            </div>
+            
+            <div th:if="${errorMessage}" class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                <span th:text="${errorMessage}"></span>
+            </div>
+            
+            <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+                <form th:action="@{/admin/annotateurs/save}" method="post" th:object="${user}" class="space-y-6">
+                    <!-- Personal Information Section -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
+                        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                            <div>
+                                <label for="nom" class="block text-sm font-medium text-gray-700">Last Name</label>
+                                <div class="mt-1">
+                                    <input type="text" name="nom" id="nom" th:field="*{nom}" required 
+                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="prenom" class="block text-sm font-medium text-gray-700">First Name</label>
+                                <div class="mt-1">
+                                    <input type="text" name="prenom" id="prenom" th:field="*{prenom}" required 
+                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Account Information Section -->
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Account Information</h3>
+                        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                            <div>
+                                <label for="login" class="block text-sm font-medium text-gray-700">Username</label>
+                                <div class="mt-1">
+                                    <input type="text" name="login" id="login" th:field="*{login}" required 
+                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <div class="mt-1">
+                                    <input type="password" name="password" id="password" th:field="*{password}" required 
+                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end pt-5">
+                        <a href="/admin/annotateurs" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-3">
+                            Cancel
+                        </a>
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Create Annotateur
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-white border-t border-gray-200 mt-10">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-gray-500 text-sm">
+                &copy; 2023 Annotations App. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
