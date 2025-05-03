@@ -33,7 +33,7 @@ public class Task {
     private Long id;
 
     @Column(nullable = false)
-    private Date date_limite;
+    private Date dateLimite;
     
     @ManyToOne
     @JoinColumn(name = "annotateur_id")

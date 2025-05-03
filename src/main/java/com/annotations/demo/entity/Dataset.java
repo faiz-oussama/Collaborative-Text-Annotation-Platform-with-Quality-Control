@@ -30,7 +30,7 @@ public class Dataset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nomDataset;
+    private String name;
     private String description;
 
     //relation taches/dataset
