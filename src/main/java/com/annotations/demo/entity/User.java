@@ -1,15 +1,6 @@
 package com.annotations.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,7 +21,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nom;
 
     @Column(nullable = false)
@@ -45,7 +36,7 @@ public class User {
     @Column(nullable = false , columnDefinition = "boolean default false")
     private boolean deleted;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "role_id" , nullable = false)
     private Role role;
 }

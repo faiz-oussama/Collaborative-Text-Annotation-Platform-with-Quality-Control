@@ -42,10 +42,17 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div class="bg-white shadow overflow-hidden sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6">
-                <h2 class="text-2xl font-medium text-gray-900">Add New Annotateur</h2>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">Create a new annotateur account in the system.</p>
+                <h2 class="text-2xl font-medium text-gray-900">
+                    <span th:text="${user.id != null ? 'Update Annotateur' : 'Add New Annotateur'}">Add New Annotateur</span>
+                </h2>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                <span th:text="${user.id != null ? 'Update an existing annotateur account.' : 'Create a new annotateur account in the system.'}">
+                    Create a new annotateur account in the system.
+                </span>
+                </p>
             </div>
-            
+
+
             <div th:if="${successMessage}" class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
                 <span th:text="${successMessage}"></span>
             </div>
@@ -56,6 +63,7 @@
             
             <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
                 <form th:action="@{/admin/annotateurs/save}" method="post" th:object="${user}" class="space-y-6">
+                    <input type="hidden" th:field="*{id}" />
                     <!-- Personal Information Section -->
                     <div>
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
@@ -91,9 +99,14 @@
                             </div>
                             
                             <div>
-                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                <label for="password" class="block text-sm font-medium text-gray-700">
+                                    Password <span th:if="${user.id == null}" class="text-red-500">*</span>
+                                    <span th:if="${user.id != null}" class="text-sm text-gray-500">(Leave empty to keep current password)</span>
+                                </label>
                                 <div class="mt-1">
-                                    <input type="password" name="password" id="password" th:field="*{password}" required 
+                                    <input type="password" name="password" id="password" 
+                                           th:value="${user.password}" 
+                                           th:required="${user.id == null}"
                                            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                                 </div>
                             </div>
@@ -105,7 +118,7 @@
                             Cancel
                         </a>
                         <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Create Annotateur
+                            <span th:text="${user.id != null ? 'Update Annotateur' : 'Create Annotateur'}">Create Annotateur</span>
                         </button>
                     </div>
                 </form>

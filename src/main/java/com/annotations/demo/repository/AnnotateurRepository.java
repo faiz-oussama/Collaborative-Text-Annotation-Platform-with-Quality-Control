@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface AnnotateurRepository extends JpaRepository<Annotateur, Long> {
-    Annotateur findByLogin(String login);
-
+    List<Annotateur> findAllByDeleted(boolean b);
 }
