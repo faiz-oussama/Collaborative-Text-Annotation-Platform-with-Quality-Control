@@ -6,7 +6,6 @@ import com.annotations.demo.entity.RoleType;
 import com.annotations.demo.entity.User;
 import com.annotations.demo.repository.RoleRepository;
 import com.annotations.demo.service.AnnotateurService;
-import com.annotations.demo.service.GenericUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,13 +38,13 @@ public class AdminController {
     public String showUsers(Model model) {
         List<Annotateur> annotateurs = annotateurService.findAllActive();
         model.addAttribute("annotateurs", annotateurs);
-        return "admin/annotateurs";
+        return "admin/annotateur_management/annotateurs";
     }
     
     @GetMapping("/annotateurs/add")
     public String addAnnotateur(Model model) {
         model.addAttribute("user", new User());
-        return "admin/addAnnotateur";
+        return "admin/annotateur_management/addAnnotateur";
     }
 
     @GetMapping("/annotateurs/update/{id}")
@@ -56,7 +55,7 @@ public class AdminController {
             return "redirect:/admin/annotateurs";
         }
         model.addAttribute("user", annotateur);
-        return "admin/addAnnotateur";
+        return "admin/annotateur_management/addAnnotateur";
     }
 
 
@@ -94,7 +93,7 @@ public class AdminController {
     
             String successMessage = isUpdate ? "Annotateur updated successfully" : "Annotateur added successfully";
             redirectAttributes.addFlashAttribute("successMessage", successMessage);
-            return "redirect:/admin/annotateurs";
+            return "redirect:/admin/annotateur_management/annotateurs";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error " + (isUpdate ? "updating" : "adding") + " annotateur: " + e.getMessage());
             if (isUpdate) {

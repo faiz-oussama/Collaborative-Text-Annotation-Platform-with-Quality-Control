@@ -75,10 +75,12 @@ public class SecurityConfig {
                 .successHandler(authenticationSuccessHandler()) // Custom success handler
                 .permitAll() // Allow everyone to access the login page
             )
-            .logout(logout -> logout // Configure logout settings
-                .logoutUrl("/logout") // URL for logging out
-                .deleteCookies("JSESSIONID") // Remove session cookies after logout
-                .permitAll() // Allow everyone to access the logout functionality
+            .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .deleteCookies("JSESSIONID") // Ensures session cookies are removed
+                    .invalidateHttpSession(true) // Invalidate the session
+                    .logoutSuccessUrl("/login?logout=true") // Optionally, redirect to the login page on successful logout
+                    .permitAll()
             )
             .exceptionHandling(exception -> exception // Configure exception handling
                 .accessDeniedPage("/access-denied") // Redirect users to /access-denied if they attempt to access unauthorized pages
