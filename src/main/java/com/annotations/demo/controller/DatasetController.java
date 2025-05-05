@@ -2,14 +2,21 @@ package com.annotations.demo.controller;
 
 
 import com.annotations.demo.entity.ClassPossible;
+import com.annotations.demo.entity.CoupleText;
 import com.annotations.demo.entity.Dataset;
+import com.annotations.demo.service.AsyncDatasetParserService;
+import com.annotations.demo.service.CoupleTextService;
+import com.annotations.demo.service.CoupleTextServiceImpl;
 import com.annotations.demo.service.DatasetServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,9 +26,15 @@ import java.util.stream.Collectors;
 public class DatasetController {
 
     private final DatasetServiceImpl datasetService;
+    private final CoupleTextServiceImpl coupleTextService;
+    private final AsyncDatasetParserService asyncDatasetParserService;
 
-    public DatasetController(DatasetServiceImpl datasetService) {
+    // Constructor-based injection for both services
+    @Autowired
+    public DatasetController(DatasetServiceImpl datasetService, CoupleTextServiceImpl coupleTextService, AsyncDatasetParserService asyncDatasetParserService) {
         this.datasetService = datasetService;
+        this.coupleTextService = coupleTextService;
+        this.asyncDatasetParserService = asyncDatasetParserService;
     }
 
     @GetMapping("/datasets")
@@ -29,6 +42,37 @@ public class DatasetController {
         model.addAttribute("datasets", datasetService.findAllDatasets());
         return "admin/datasets_management/datasets";
     }
+
+    @GetMapping("/datasets/details/{id}")
+    public String DatasetDetails(@PathVariable Long id, Model model,
+                                 @RequestParam(name = "page", defaultValue = "0") int page,
+                                 @RequestParam(name = "size", defaultValue = "25") int size) {
+
+        Dataset dataset = datasetService.findDatasetById(id);
+        Page<CoupleText> coupleTextsPage = coupleTextService.getCoupleTexts(page, size);
+
+        if (dataset == null) {
+            model.addAttribute("errorMessage", "Dataset not found");
+            return "redirect:/admin/datasets";
+        }
+
+        int totalPages = coupleTextsPage.getTotalPages();
+        int currentPage = page;
+
+        // Pagination window control (show up to 5 pages max, centered around current)
+        int startPage = Math.max(0, currentPage - 2);
+        int endPage = Math.min(totalPages - 1, currentPage + 2);
+
+        model.addAttribute("coupleTextsPage", coupleTextsPage);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("dataset", dataset);
+
+        return "admin/datasets_management/dataset_view";
+    }
+
 
     @GetMapping("/datasets/add")
     public String addDataset(Model model) {
@@ -40,12 +84,17 @@ public class DatasetController {
     public String saveDataset(@ModelAttribute Dataset dataset,
                               @RequestParam("classes") String classesRaw,
                               @RequestParam("file") MultipartFile file,
-                              RedirectAttributes redirectAttributes) {
+                              RedirectAttributes redirectAttributes) throws IOException {
 
-        Dataset savedDataset = datasetService.createDataset(dataset.getName(), dataset.getDescription(), file, classesRaw);
-        datasetService.SaveDataset(savedDataset);
-        redirectAttributes.addFlashAttribute("success", "Dataset added successfully");
+        try {
+            Dataset savedDataset = datasetService.createDataset(dataset.getName(), dataset.getDescription(), file, classesRaw);
+            datasetService.SaveDataset(savedDataset);
 
+            asyncDatasetParserService.parseDatasetAsync(savedDataset);
+            redirectAttributes.addFlashAttribute("success", "Dataset added successfully");
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to upload dataset: " + e.getMessage());
+        }
 
         return "redirect:/admin/datasets";
     }

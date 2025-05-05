@@ -43,7 +43,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${dataset.description}"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
-                                <a th:href="@{/admin/datasets/{id}(id=${dataset.id})}" 
+                                <a th:href="@{/admin/datasets/details/{id}(id=${dataset.id})}"
                                    class="bg-blue-600 hover:bg-blue-700 text-white text-xs py-1 px-3 rounded">
                                     Details
                                 </a>
