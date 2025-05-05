@@ -33,6 +33,11 @@ public class Dataset {
     private String name;
     private String description;
 
+    private String filePath;
+
+    private String fileType;
+
+
     //relation taches/dataset
     @OneToMany(mappedBy="dataset")
     private List<Task> tasks = new ArrayList<>();

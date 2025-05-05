@@ -16,7 +16,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "textClass")
 @ToString(exclude = "dataset")
 @NoArgsConstructor
 @AllArgsConstructor

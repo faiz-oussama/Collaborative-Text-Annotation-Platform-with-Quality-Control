@@ -32,7 +32,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Progress</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
@@ -40,13 +40,7 @@
                     <tr th:each="dataset, stat : ${datasets}" class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${stat.count}"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${dataset.name}"></td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                <div class="bg-blue-600 h-2.5 rounded-full" 
-                                     th:style="'width: ' + ${dataset.progressPercentage} + '%'"></div>
-                            </div>
-                            <span class="text-xs text-gray-500 mt-1 inline-block" th:text="${dataset.progressPercentage} + '%'"></span>
-                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${dataset.description}"></td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
                                 <a th:href="@{/admin/datasets/{id}(id=${dataset.id})}" 
