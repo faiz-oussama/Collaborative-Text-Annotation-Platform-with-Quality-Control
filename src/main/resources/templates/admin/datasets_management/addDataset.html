@@ -3,111 +3,852 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Dataset</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Add New Dataset - Annotations App</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Enhanced animations and effects */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-fadeUp {
+            animation: fadeUp 0.6s ease forwards;
+        }
+        
+        .animate-delay-1 {
+            animation-delay: 0.1s;
+        }
+        
+        .animate-delay-2 {
+            animation-delay: 0.2s;
+        }
+        
+        .animate-delay-3 {
+            animation-delay: 0.3s;
+        }
+        
+        /* Enhanced card styling - adjusted height and spacing */
+        .enhanced-card {
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+            backdrop-filter: blur(10px);
+            background: linear-gradient(145deg, #ffffff, #f8faff);
+            
+        }
+        
+        .enhanced-header {
+            background: linear-gradient(145deg, rgba(var(--primary-color-rgb), 0.08) 0%, rgba(var(--primary-color-rgb), 0.03) 100%);
+            padding: 0.85rem 1.25rem;
+            border-bottom: 1px solid rgba(var(--primary-color-rgb), 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enhanced-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(var(--primary-color-rgb), 0.1), transparent);
+            transform: skewX(-30deg) translateX(70%);
+        }
+        
+        .dataset-card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(var(--primary-color-rgb), 1);
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .dataset-card-title i {
+            font-size: 1.4rem;
+            background: rgba(var(--primary-color-rgb), 0.1);
+            color: rgba(var(--primary-color-rgb), 0.9);
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .enhanced-body {
+            padding: 1.25rem;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* Input styling - reduced heights */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .form-control-enhanced {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            border-radius: 0.6rem;
+            border: 1px solid #e5e7eb;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+        
+        textarea.form-control-enhanced {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .input-label {
+            position: absolute;
+            left: 1rem;
+            top: 0.8rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            transform-origin: left;
+        }
+        
+        .form-control-enhanced:focus ~ .input-label,
+        .form-control-enhanced:not(:placeholder-shown) ~ .input-label {
+            transform: translateY(-140%) scale(0.8);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        /* Upload zone - reduced height */
+        .upload-zone {
+            background: linear-gradient(145deg, #f8faff, #ffffff);
+            border: 2px dashed rgba(var(--primary-color-rgb), 0.3);
+            border-radius: 1.25rem;
+            padding: 1.5rem 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .upload-zone::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(var(--primary-color-rgb), 0.1) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            border-radius: 100%;
+            z-index: 0;
+        }
+        
+        .upload-zone::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(var(--secondary-color-rgb), 0.08) 0%, transparent 70%);
+            bottom: -70px;
+            left: -70px;
+            border-radius: 100%;
+            z-index: 0;
+        }
+        
+        .upload-zone.dragover {
+            background-color: rgba(var(--primary-color-rgb), 0.05);
+            border-color: rgba(var(--primary-color-rgb), 0.8);
+            transform: scale(0.99);
+            box-shadow: inset 0 0 20px rgba(var(--primary-color-rgb), 0.05);
+        }
+        
+        .upload-icon {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 10px 20px rgba(var(--primary-color-rgb), 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .upload-icon i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .upload-zone:hover .upload-icon i {
+            transform: translateY(-5px) scale(1.1);
+        }
+        
+        .upload-zone:hover .upload-icon {
+            box-shadow: 0 15px 25px rgba(var(--primary-color-rgb), 0.2);
+        }
+        
+        .select-file-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .select-file-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            z-index: -1;
+            transition: transform 0.6s ease;
+        }
+        
+        .select-file-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(var(--primary-color-rgb), 0.3);
+        }
+        
+        .select-file-btn:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .file-preview-enhanced {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            transform: scale(0.95);
+            opacity: 0;
+        }
+        
+        .file-preview-enhanced.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(var(--primary-color-rgb), 0.1);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+        
+        .file-size {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        .remove-file {
+            width: 30px;
+            height: 30px;
+            background: #fee2e2;
+            color: #ef4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .remove-file:hover {
+            background: #fecaca;
+            transform: rotate(90deg);
+        }
+        
+        /* Tag container - improved spacing */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        
+        .tag {
+            background: rgba(var(--primary-color-rgb), 0.1);
+            color: rgba(var(--primary-color-rgb), 0.9);
+            border-radius: 2rem;
+            padding: 0.35rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(var(--primary-color-rgb), 0.05);
+            border: 1px solid rgba(var(--primary-color-rgb), 0.05);
+        }
+        
+        .tag:hover {
+            background: rgba(var(--primary-color-rgb), 0.15);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 5px 10px rgba(var(--primary-color-rgb), 0.1);
+        }
+        
+        .tag i {
+            font-size: 1.1rem;
+        }
+        
+        /* Form actions - positioned closer to content and higher from the bottom */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(var(--primary-color-rgb), 0.05);
+        }
+        
+        .action-btn-enhanced {
+            padding: 0.7rem 1.5rem;
+            border-radius: 0.6rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        .action-btn-enhanced.primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.2);
+        }
+        
+        .action-btn-enhanced.secondary {
+            background: white;
+            color: #64748b;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .action-btn-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            z-index: -1;
+            transition: transform 0.6s ease;
+        }
+        
+        .action-btn-enhanced:hover {
+            transform: translateY(-3px);
+        }
+        
+        .action-btn-enhanced.primary:hover {
+            box-shadow: 0 8px 20px rgba(var(--primary-color-rgb), 0.3);
+        }
+        
+        .action-btn-enhanced.secondary:hover {
+            background: #f8faff;
+            border-color: rgba(var(--primary-color-rgb), 0.2);
+            color: rgba(var(--primary-color-rgb), 0.8);
+        }
+        
+        .action-btn-enhanced:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .action-btn-enhanced i {
+            font-size: 1.2rem;
+        }
+        
+        /* Background decorations */
+        .background-decoration {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .decoration-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(var(--primary-color-rgb), 0.1) 0%, transparent 70%);
+            top: 10%;
+            right: 5%;
+            border-radius: 100%;
+        }
+        
+        .decoration-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(var(--secondary-color-rgb), 0.08) 0%, transparent 70%);
+            bottom: -250px;
+            left: -100px;
+            border-radius: 100%;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Page Header -->
-    <div class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Add New Dataset</h2>
-        <p class="mt-1 text-sm text-gray-600">Create a new dataset for annotation tasks</p>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar('datasets')}"></div>
+<div th:replace="~{fragments/navbar :: navbar('Add New Dataset')}"></div>
+
+<!-- Background decorations -->
+<div class="background-decoration decoration-1"></div>
+<div class="background-decoration decoration-2"></div>
+
+<main class="main-content">
+    <div class="user-header animate-fadeUp">
+        <div class="header-title">
+            <h1><i class='bx bx-plus-circle'></i> Add New Dataset</h1>
+            <p class="header-subtitle">Create a powerful new dataset for your annotation tasks</p>
+        </div>
+
+        <a href="/admin/datasets" class="action-btn">
+            <i class='bx bx-arrow-back'></i> Back to Datasets
+        </a>
     </div>
 
     <!-- Alert for messages -->
-    <div th:if="${message}" class="mb-6 p-4 rounded-md"
-         th:classappend="${messageType == 'success'} ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
-        <span th:text="${message}"></span>
+    <div th:if="${message}" class="user-container animate-fadeUp animate-delay-1" style="margin-bottom: 1rem;">
+        <div class="alert" th:classappend="${messageType == 'success'} ? 'alert-success' : 'alert-error'">
+            <i class='bx' th:classappend="${messageType == 'success'} ? 'bx-check-circle' : 'bx-error-circle'"></i>
+            <span th:text="${message}"></span>
+        </div>
     </div>
-
-    <!-- Dataset Form -->
-    <div class="bg-white shadow-md rounded-lg p-6">
-        <form th:action="@{/admin/datasets/save}" th:object="${dataset}" method="post" enctype="multipart/form-data" class="space-y-6">
+    
+    <div class="user-container">
+        <form th:action="@{/admin/datasets/save}" th:object="${dataset}" method="post" enctype="multipart/form-data" class="space-y-8">
             <input type="hidden" th:field="*{id}" />
-            <!-- Dataset Name -->
-            <div>
-                <label for="name" class="block text-sm font-medium text-gray-700">Dataset Name</label>
-                <input type="text" name="name" th:field="*{name}" id="name" required
-                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-            </div>
-
-            <!-- Dataset Description -->
-            <div>
-                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                <textarea name="description" th:field="*{description}" id="description" rows="3"
-                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
-            </div>
-
-            <!-- File Upload -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Upload Dataset File</label>
-                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                    <div class="space-y-1 text-center">
-                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <div class="flex text-sm text-gray-600">
-                            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
-                                <span>Upload a file</span>
-                                <input id="file-upload" name="file" type="file" class="sr-only" accept=".xlsx,.csv,.json">
-                            </label>
-                            <p class="pl-1">or drag and drop</p>
+            
+            <!-- Dataset Information Card -->
+            <div class="enhanced-card">
+                <div class="enhanced-header">
+                    <h2 class="dataset-card-title">
+                        <i class='bx bx-data'></i>
+                        Dataset Information
+                    </h2>
+                </div>
+                <div class="enhanced-body">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <!-- Dataset Name -->
+                        <div class="input-wrapper">
+                            <input type="text" name="name" th:field="*{name}" id="name" required
+                                class="form-control-enhanced" placeholder=" ">
+                            <label for="name" class="input-label">Dataset Name</label>
                         </div>
-                        <p class="text-xs text-gray-500">Excel, CSV or JSON files up to 10MB</p>
+                        
+                        <!-- Dataset Description -->
+                        <div class="input-wrapper sm:col-span-2">
+                            <textarea name="description" th:field="*{description}" id="description" rows="2"
+                                    class="form-control-enhanced" placeholder=" "></textarea>
+                            <label for="description" class="input-label">Description</label>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Classes Possibles Section -->
-            <div>
-                <label for="classes" class="block text-sm font-medium text-gray-700 mb-2">Possible Classes</label>
-                <p class="text-xs text-gray-500 mb-3">Add the possible annotation classes for this dataset</p>
-
-                <div id="classes-container" class="space-y-2">
-                    <div class="flex items-center space-x-2">
-                        <input type="text"
-                               id="classes"
-                               name="classes"
-                               placeholder="(Example: similar;not similar...)"
-                               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                               th:value="${classes != null} ? ${classes} : ''">
+            
+            <!-- File Upload Card -->
+            <div class="enhanced-card animate-fadeUp animate-delay-3">
+                <div class="enhanced-header">
+                    <h2 class="dataset-card-title">
+                        <i class='bx bx-cloud-upload'></i>
+                        Upload Dataset File
+                    </h2>
+                </div>
+                <div class="enhanced-body">
+                    <div id="upload-zone" class="upload-zone">
+                        <div class="upload-icon">
+                            <i class='bx bx-cloud-upload'></i>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Drag and Drop File</h3>
+                            <p class="text-sm text-gray-600 mb-6">or click to browse from your computer</p>
+                            
+                            <label for="file-upload">
+                                <div class="select-file-btn">
+                                    <i class='bx bx-file'></i>
+                                    <span>Select File</span>
+                                </div>
+                                <input id="file-upload" name="file" type="file" accept=".xlsx,.csv,.json" class="sr-only">
+                            </label>
+                            
+                            <p class="mt-4 text-xs text-gray-500">Supports Excel, CSV or JSON files up to 10MB</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced File Preview -->
+                    <div id="file-preview-enhanced" class="file-preview-enhanced">
+                        <div class="file-icon">
+                            <i class='bx bxs-file'></i>
+                        </div>
+                        <div class="file-info">
+                            <div id="file-name" class="file-name">filename.csv</div>
+                            <div id="file-size" class="file-size">Size: 2.4 MB</div>
+                        </div>
+                        <div id="remove-file" class="remove-file">
+                            <i class='bx bx-x'></i>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Form Actions -->
-            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-                <a href="/admin/datasets" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            
+            <!-- Classes Possibles Card -->
+            <div class="enhanced-card">
+                <div class="enhanced-header">
+                    <h2 class="dataset-card-title">
+                        <i class='bx bx-purchase-tag-alt'></i>
+                        Possible Classes
+                    </h2>
+                </div>
+                <div class="enhanced-body">
+                    <p class="text-sm text-gray-600 mb-4">Add the possible annotation classes for this dataset</p>
+                    
+                    <div id="classes-container">
+                        <div class="input-wrapper" style="margin-bottom: 0.5rem;">
+                            <input type="text"
+                                   id="classes"
+                                   name="classes"
+                                   placeholder=" "
+                                   class="form-control-enhanced"
+                                   th:value="${classes != null} ? ${classes} : ''">
+                            <label for="classes" class="input-label">Enter Classes (separate with semicolons)</label>
+                        </div>
+                        
+                        <div id="tags-preview" class="tag-container">
+                            <!-- Tags will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Form Actions immediately after the last input -->
+            <div class="form-actions" style="margin-bottom: 30px; margin-right: 20px;">
+                <a href="/admin/datasets" class="action-btn-enhanced secondary">
+                    <i class='bx bx-x'></i>
                     Cancel
                 </a>
-                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <button type="submit" class="action-btn-enhanced primary">
+                    <i class='bx bx-save'></i>
                     Create Dataset
                 </button>
             </div>
         </form>
     </div>
-</div>
+</main>
 
-<!-- JavaScript for dynamic class fields -->
+<!-- JavaScript for enhanced interactions -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // File upload handling
         const fileInput = document.getElementById('file-upload');
-        fileInput.addEventListener('change', function(e) {
-            const fileName = e.target.files[0]?.name;
-            if (fileName) {
-                const filePreview = document.createElement('p');
-                filePreview.className = 'text-sm text-gray-800 mt-2';
-                filePreview.textContent = `Selected file: ${fileName}`;
-
-                const existingPreview = document.querySelector('.file-preview');
-                if (existingPreview) {
-                    existingPreview.textContent = `Selected file: ${fileName}`;
+        const uploadZone = document.getElementById('upload-zone');
+        const filePreview = document.getElementById('file-preview-enhanced');
+        const fileName = document.getElementById('file-name');
+        const fileSize = document.getElementById('file-size');
+        const removeFile = document.getElementById('remove-file');
+        
+        // Initial state - hide file preview
+        filePreview.style.display = 'none';
+        
+        // Add subtle animation to upload icon
+        const uploadIcon = uploadZone.querySelector('.upload-icon');
+        let pulseInterval;
+        
+        function startPulseAnimation() {
+            clearInterval(pulseInterval);
+            let scale = 1;
+            let growing = true;
+            pulseInterval = setInterval(() => {
+                if (growing) {
+                    scale += 0.005;
+                    if (scale >= 1.03) growing = false;
                 } else {
-                    filePreview.classList.add('file-preview');
-                    fileInput.parentElement.parentElement.parentElement.appendChild(filePreview);
+                    scale -= 0.005;
+                    if (scale <= 1) growing = true;
                 }
+                uploadIcon.style.transform = `scale(${scale})`;
+            }, 50);
+        }
+        
+        function stopPulseAnimation() {
+            clearInterval(pulseInterval);
+            uploadIcon.style.transform = 'scale(1)';
+        }
+        
+        uploadZone.addEventListener('mouseenter', startPulseAnimation);
+        uploadZone.addEventListener('mouseleave', stopPulseAnimation);
+        
+        // Handle file selection
+        fileInput.addEventListener('change', function(e) {
+            handleFileSelection(e.target.files[0]);
+        });
+        
+        // Handle drag and drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadZone.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            uploadZone.classList.add('dragover');
+            startPulseAnimation();
+        }
+        
+        function unhighlight() {
+            uploadZone.classList.remove('dragover');
+            stopPulseAnimation();
+        }
+        
+        uploadZone.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length) {
+                handleFileSelection(files[0]);
             }
+        }
+        
+        function handleFileSelection(file) {
+            if (file) {
+                // Determine file type and set appropriate icon
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                let fileIcon = 'bxs-file';
+                
+                if (['csv', 'txt'].includes(fileExtension)) {
+                    fileIcon = 'bxs-file-txt';
+                } else if (['xlsx', 'xls'].includes(fileExtension)) {
+                    fileIcon = 'bxs-file-doc';
+                } else if (['json'].includes(fileExtension)) {
+                    fileIcon = 'bxs-file-json';
+                }
+                
+                // Update icon
+                document.querySelector('#file-preview-enhanced .file-icon i').className = `bx ${fileIcon}`;
+                
+                // Display file info with formatting
+                fileName.textContent = file.name;
+                fileSize.textContent = `Size: ${formatFileSize(file.size)}`;
+                
+                // Show file preview with animation
+                filePreview.style.display = 'flex';
+                setTimeout(() => {
+                    filePreview.classList.add('visible');
+                }, 10);
+                
+                // Create visual feedback for successful upload
+                uploadZone.style.borderColor = 'rgba(var(--primary-color-rgb), 0.6)';
+                setTimeout(() => {
+                    uploadZone.style.borderColor = '';
+                }, 1000);
+                
+                // Animate the card when file is selected - use smaller values for subtle movement
+                const fileUploadCard = uploadZone.closest('.enhanced-card');
+                fileUploadCard.style.transform = 'translateY(-3px)';
+                setTimeout(() => {
+                    fileUploadCard.style.transform = '';
+                }, 300);
+            }
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Handle remove file with enhanced animation
+        removeFile.addEventListener('click', function() {
+            fileInput.value = '';
+            
+            // Animate removal
+            filePreview.style.transform = 'translateX(5px)';
+            filePreview.style.opacity = '0';
+            
+            setTimeout(() => {
+                filePreview.classList.remove('visible');
+                filePreview.style.display = 'none';
+                filePreview.style.transform = '';
+                filePreview.style.opacity = '';
+            }, 200);
+            
+            // Reset border color if needed
+            uploadZone.style.borderColor = '';
+        });
+        
+        // Tags preview for classes with enhanced interaction
+        const classesInput = document.getElementById('classes');
+        const tagsContainer = document.getElementById('tags-preview');
+        
+        function updateTagsPreview() {
+            const classes = classesInput.value.split(';').filter(tag => tag.trim() !== '');
+            
+            // Clear existing tags with animation
+            const existingTags = tagsContainer.querySelectorAll('.tag');
+            existingTags.forEach(tag => {
+                tag.style.opacity = '0';
+                tag.style.transform = 'translateY(5px)';
+            });
+            
+            setTimeout(() => {
+                tagsContainer.innerHTML = '';
+                
+                // Add new tags with staggered animation
+                classes.forEach((className, index) => {
+                    if (className.trim()) {
+                        const tag = document.createElement('div');
+                        tag.className = 'tag';
+                        tag.innerHTML = `<i class='bx bx-tag'></i>${className.trim()}`;
+                        tag.style.opacity = '0';
+                        tag.style.transform = 'translateY(5px)';
+                        tagsContainer.appendChild(tag);
+                        
+                        // Stagger the animations
+                        setTimeout(() => {
+                            tag.style.opacity = '1';
+                            tag.style.transform = 'translateY(0)';
+                        }, 30 * index);
+                    }
+                });
+            }, existingTags.length > 0 ? 200 : 0);
+        }
+        
+        // Add transition to tags for smoother animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .tag {
+                transition: opacity 0.2s ease, transform 0.2s ease;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Update tags on input with debounce
+        let debounceTimer;
+        classesInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(updateTagsPreview, 200);
+        });
+        
+        // Initialize tags if there are values
+        if (classesInput.value) {
+            updateTagsPreview();
+        }
+        
+        // Toggle sidebar functionality
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+        }
+        
+        // Add interaction effects to buttons with smaller movements
+        const buttons = document.querySelectorAll('.action-btn-enhanced');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+            
+            button.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(-1px)';
+            });
+            
+            button.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+        });
+        
+        // Enhance form with subtle animations on input focus
+        const inputElements = document.querySelectorAll('.form-control-enhanced');
+        inputElements.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 4px 10px rgba(var(--primary-color-rgb), 0.1)';
+                this.style.borderColor = 'rgba(var(--primary-color-rgb), 0.6)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = '';
+                this.style.boxShadow = '';
+                this.style.borderColor = '';
+            });
         });
     });
 </script>

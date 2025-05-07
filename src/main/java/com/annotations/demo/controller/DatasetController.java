@@ -6,6 +6,7 @@ import com.annotations.demo.entity.ClassPossible;
 import com.annotations.demo.entity.CoupleText;
 import com.annotations.demo.entity.Dataset;
 import com.annotations.demo.service.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -26,18 +27,22 @@ public class DatasetController {
     private final AnnotateurService annotateurService;
     private final CoupleTextServiceImpl coupleTextService;
     private final AsyncDatasetParserService asyncDatasetParserService;
+    private final UserService userService;
 
     // Constructor-based injection for both services
     @Autowired
-    public DatasetController(DatasetServiceImpl datasetService, AnnotateurService annotateurService, CoupleTextServiceImpl coupleTextService, AsyncDatasetParserService asyncDatasetParserService) {
+    public DatasetController(DatasetServiceImpl datasetService, AnnotateurService annotateurService, CoupleTextServiceImpl coupleTextService, AsyncDatasetParserService asyncDatasetParserService, UserService userService) {
         this.datasetService = datasetService;
         this.annotateurService = annotateurService;
         this.coupleTextService = coupleTextService;
         this.asyncDatasetParserService = asyncDatasetParserService;
+        this.userService = userService;
     }
 
     @GetMapping("/datasets")
     public String showDatasetHome(Model model) {
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        model.addAttribute("currentUserName", currentUserName);
         model.addAttribute("datasets", datasetService.findAllDatasets());
         return "admin/datasets_management/datasets";
     }
@@ -47,6 +52,8 @@ public class DatasetController {
                                  @RequestParam(name = "page", defaultValue = "0") int page,
                                  @RequestParam(name = "size", defaultValue = "25") int size) {
 
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        model.addAttribute("currentUserName", currentUserName);
         Dataset dataset = datasetService.findDatasetById(id);
         Page<CoupleText> coupleTextsPage = coupleTextService.getCoupleTextsByDatasetId(id, page, size);
 
@@ -75,6 +82,8 @@ public class DatasetController {
 
     @GetMapping("/datasets/add")
     public String addDataset(Model model) {
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        model.addAttribute("currentUserName", currentUserName);
         model.addAttribute("dataset", new Dataset());
         return "admin/datasets_management/addDataset";
     }
@@ -100,6 +109,8 @@ public class DatasetController {
 
     @GetMapping("/datasets/{id}/assign_annotator")
     public String assignAnnotator(Model model, @PathVariable Long id) {
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        model.addAttribute("currentUserName", currentUserName);
         List<Annotateur> annotateurs = annotateurService.findAllActive();
         Dataset dataset = datasetService.findDatasetById(id);
 
