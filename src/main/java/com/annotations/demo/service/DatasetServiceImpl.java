@@ -180,6 +180,11 @@ public class DatasetServiceImpl implements DatasetService {
         datasetRepository.deleteById(id);
     }
 
+    @Override
+    public long countDatasets() {
+        return datasetRepository.count();
+    }
+
 
 
 }

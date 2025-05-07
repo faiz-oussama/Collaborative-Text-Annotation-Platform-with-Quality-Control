@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Statistiques et Suivi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <a href="/admin/showAdminHome" class="text-primary-600 hover:text-primary-800 flex items-center transition-colors duration-200">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Admin Home
+                    </a>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">Suivi & Statistiques</h1>
+                <div>
+                    <form th:action="@{/logout}" th:method="post" class="inline">
+                        <button type="submit" class="text-gray-600 hover:text-gray-900 transition-colors">
+                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <!-- Global Stats Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <!-- Total Annotations Card -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 p-3 bg-primary-100 rounded-full">
+                            <i class="fas fa-clipboard-check text-primary-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h2 class="text-sm font-medium text-gray-500">Total Annotations</h2>
+                            <p class="text-2xl font-semibold text-gray-900" th:text="${totalAnnotations}">5,248</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Tasks Card -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 p-3 bg-green-100 rounded-full">
+                            <i class="fas fa-tasks text-green-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h2 class="text-sm font-medium text-gray-500">Active Tasks</h2>
+                            <p class="text-2xl font-semibold text-gray-900" th:text="${activeTasks}">12</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Datasets Card -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 p-3 bg-indigo-100 rounded-full">
+                            <i class="fas fa-database text-indigo-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h2 class="text-sm font-medium text-gray-500">Datasets</h2>
+                            <p class="text-2xl font-semibold text-gray-900" th:text="${totalDatasets}">8</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annotateurs Card -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 p-3 bg-purple-100 rounded-full">
+                            <i class="fas fa-users text-purple-600 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h2 class="text-sm font-medium text-gray-500">Annotateurs</h2>
+                            <p class="text-2xl font-semibold text-gray-900" th:text="${totalAnnotateurs}">23</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Progress by Dataset -->
+            <div class="col-span-2 bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-chart-bar text-primary-500 mr-2"></i>
+                    Progress by Dataset
+                </h2>
+                <div class="h-80">
+                    <canvas id="datasetsProgressChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Classification Distribution -->
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-chart-pie text-primary-500 mr-2"></i>
+                    Class Distribution
+                </h2>
+                <div class="h-64">
+                    <canvas id="classDistributionChart"></canvas>
+                </div>
+                <div class="mt-4 text-sm text-gray-500 text-center">
+                    <p>Distribution across all datasets</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Annotator Performance -->
+        <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                    <i class="fas fa-user-check text-primary-500 mr-2"></i>
+                    Annotator Performance
+                </h2>
+                <div class="h-80">
+                    <canvas id="annotatorPerformanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-200 mt-8">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500">© 2023 Annotations App. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+</div>
+
+<!-- JavaScript for Charts -->
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        // Dataset Progress Chart
+        const datasetsProgressCtx = document.getElementById('datasetsProgressChart').getContext('2d');
+        const datasetsProgressData = /*[[${datasetsProgressData}]]*/ {
+            labels: ['Dataset 1', 'Dataset 2', 'Dataset 3', 'Dataset 4', 'Dataset 5'],
+            totalCouples: [120, 80, 200, 150, 90],
+            annotatedCouples: [100, 40, 180, 75, 90]
+        };
+
+        new Chart(datasetsProgressCtx, {
+            type: 'bar',
+            data: {
+                labels: datasetsProgressData.labels,
+                datasets: [
+                    {
+                        label: 'Total Couples',
+                        data: datasetsProgressData.totalCouples,
+                        backgroundColor: 'rgba(203, 213, 225, 0.7)',
+                        borderColor: 'rgb(203, 213, 225)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Annotated',
+                        data: datasetsProgressData.annotatedCouples,
+                        backgroundColor: 'rgba(14, 165, 233, 0.7)',
+                        borderColor: 'rgb(14, 165, 233)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Text Couples'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Datasets'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Annotator Performance Chart
+        const annotatorPerformanceCtx = document.getElementById('annotatorPerformanceChart').getContext('2d');
+        const annotatorPerformanceData = /*[[${annotatorPerformanceData}]]*/ {
+            annotators: ['John Doe', 'Jane Smith', 'Alex Brown', 'Maria Garcia', 'Tom Wilson'],
+            completionRates: [92, 85, 78, 95, 67]
+        };
+
+        new Chart(annotatorPerformanceCtx, {
+            type: 'bar',
+            data: {
+                labels: annotatorPerformanceData.annotators,
+                datasets: [
+                    {
+                        label: 'Completion Rate (%)',
+                        data: annotatorPerformanceData.completionRates,
+                        backgroundColor: 'rgba(14, 165, 233, 0.7)',
+                        borderColor: 'rgb(14, 165, 233)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Completion Rate (%)'
+                        },
+                        max: 100
+                    }
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

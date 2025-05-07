@@ -35,6 +35,11 @@ public class AnnotateurService extends GenericUserService {
         return annotateurRepository.findAllByDeleted(false);
     }
 
+
+    public List<Annotateur> findAllByIds(List<Long> ids) {
+        return annotateurRepository.findAllById(ids);
+    }
+
     /**
      * Find annotateur by ID with type safety
      */
@@ -79,5 +84,9 @@ public class AnnotateurService extends GenericUserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return annotateurRepository.save((Annotateur) user);
         }
+    }
+
+    public long countActiveAnnotateurs() {
+        return annotateurRepository.count();
     }
 }

@@ -1,61 +1,112 @@
-<!-- src/main/resources/templates/admin/home.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+
+
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <nav class="bg-indigo-800 text-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold">Annotations App - Admin</h1>
-            <div class="flex items-center space-x-4">
-                <span>Welcome, Admin</span>
-                <form th:action="@{/logout}" class="inline-block"
-                           th:method="post">
-                    <input type="submit"
-                           value="Log out" />
-                    <input type="hidden"
-                           name="${_csrf.parameterName}"
-                           value="${_csrf.token}"/>
-                </form>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar('dashboard')}"></div>
+<div th:replace="~{fragments/navbar :: navbar('Admin Dashboard')}"></div>
+
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="content-header">
+        <h2 class="content-title">Admin Dashboard</h2>
+        <p class="content-subtitle">Monitor and manage your application's key metrics</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-card-icon">
+                <i class='bx bx-user'></i>
             </div>
+            <div th:text="${totalAnnotateurs}" class="stat-card-value" style="color: #374151;"></div>
+            <div class="stat-card-label" style="color: #6B7280;">Total Users</div>
         </div>
-    </nav>
-    
-    <main class="container mx-auto p-6">
-        <h2 class="text-2xl font-bold mb-6">Admin Dashboard</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-                <a href="/admin/annotateurs" class="block">
-                    <h3 class="text-xl font-semibold mb-4">User Management</h3>
-                    <p>Manage users and their roles.</p>
-                </a>
+
+        <div class="stat-card">
+            <div class="stat-card-icon">
+                <i class='bx bx-data'></i>
             </div>
-            
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-                <a href="/admin/datasets" class="block">
-                    <h3 class="text-xl font-semibold mb-4">Dataset Management</h3>
-                    <p>Manage annotation datasets.</p>
-                </a>
-            </div>
-            
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-                <a href="/admin/tasks" class="block">
-                    <h3 class="text-xl font-semibold mb-4">Task Management</h3>
-                    <p>Create and assign annotation tasks.</p>
-                </a>
-            </div>
-            
-            <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow">
-                <a href="/admin/statistics" class="block">
-                    <h3 class="text-xl font-semibold mb-4">System Statistics</h3>
-                    <p>View system usage and performance.</p>
-                </a>
-            </div>
+            <div th:text="${totalDatasets}" class="stat-card-value" style="color: #374151;"></div>
+            <div class="stat-card-label">Active Datasets</div>
         </div>
-    </main>
+
+        <div class="stat-card">
+            <div class="stat-card-icon">
+                <i class='bx bx-spreadsheet'></i>
+            </div>
+            <div th:text="${totalAnnotations}" class="stat-card-value" style="color: #374151;"></div>
+            <div class="stat-card-label">Total Annotations</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon">
+                <i class='bx bx-task'></i>
+            </div>
+            <div class="stat-card-value" style="color: #374151;">94.2%</div>
+            <div class="stat-card-label">Task Completion</div>
+        </div>
+    </div>
+
+    <!-- Main Cards -->
+    <div class="main-cards">
+        <div class="card">
+            <a href="/admin/annotateurs">
+                <div class="card-decoration"></div>
+                <div class="card-icon">
+                    <i class='bx bx-user'></i>
+                </div>
+                <h3 class="card-title">User Management</h3>
+                <p class="card-description">Manage user accounts, assign roles, and control access permissions for all system users.</p>
+                <div class="card-action">
+                    <span>Manage Users</span>
+                    <i class='bx bx-right-arrow-alt'></i>
+                </div>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="/admin/datasets">
+                <div class="card-decoration"></div>
+                <div class="card-icon">
+                    <i class='bx bx-data'></i>
+                </div>
+                <h3 class="card-title">Dataset Management</h3>
+                <p class="card-description">Upload, organize, and manage annotation datasets. Create tasks and assign to annotators.</p>
+                <div class="card-action">
+                    <span>Manage Datasets</span>
+                    <i class='bx bx-right-arrow-alt'></i>
+                </div>
+            </a>
+        </div>
+
+        <div class="card">
+            <a href="/admin/statistics">
+                <div class="card-decoration"></div>
+                <div class="card-icon">
+                    <i class='bx bx-bar-chart-alt-2'></i>
+                </div>
+                <h3 class="card-title">System Statistics</h3>
+                <p class="card-description">View detailed analytics, performance metrics, and usage statistics of your application.</p>
+                <div class="card-action">
+                    <span>View Statistics</span>
+                    <i class='bx bx-right-arrow-alt'></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</main>
+
+<script src="/dashboard.js"></script>
 </body>
 </html>

@@ -5,7 +5,8 @@ import com.annotations.demo.entity.Role;
 import com.annotations.demo.entity.RoleType;
 import com.annotations.demo.entity.User;
 import com.annotations.demo.repository.RoleRepository;
-import com.annotations.demo.service.AnnotateurService;
+import com.annotations.demo.service.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,37 +19,62 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+    private final UserService userService;
     private final AnnotateurService annotateurService;
     private final RoleRepository roleRepository;
+    private final TaskService taskService;
+    private final DatasetService datasetService;
+    private final AnnotationService annotationService;
     
     @Autowired
     public AdminController(
-            AnnotateurService annotateurService,
-        RoleRepository roleRepository) {
+            UserService userService, AnnotateurService annotateurService,
+            RoleRepository roleRepository, TaskService taskService, DatasetService datasetService, AnnotationService annotationService) {
+        this.userService = userService;
         this.annotateurService = annotateurService;
         this.roleRepository = roleRepository;
+        this.taskService = taskService;
+        this.datasetService = datasetService;
+        this.annotationService = annotationService;
     }
     
     @GetMapping("/showAdminHome")
     public String showAdminHome(Model model) {
+        long totalAnnotations = annotationService.countTotalAnnotations();
+        long activeTasks = taskService.countActiveTasks();
+        long totalDatasets = datasetService.countDatasets();
+        long totalAnnotateurs = annotateurService.countActiveAnnotateurs();
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        model.addAttribute("currentUserName", currentUserName);
+        model.addAttribute("totalAnnotations", totalAnnotations);
+        model.addAttribute("activeTasks", activeTasks);
+        model.addAttribute("totalDatasets", totalDatasets);
+        model.addAttribute("totalAnnotateurs", totalAnnotateurs);
+
         return "admin/home";
     }
     
     @GetMapping("/annotateurs")
     public String showUsers(Model model) {
         List<Annotateur> annotateurs = annotateurService.findAllActive();
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        model.addAttribute("currentUserName", currentUserName);
         model.addAttribute("annotateurs", annotateurs);
         return "admin/annotateur_management/annotateurs";
     }
     
     @GetMapping("/annotateurs/add")
     public String addAnnotateur(Model model) {
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        model.addAttribute("currentUserName", currentUserName);
         model.addAttribute("user", new User());
         return "admin/annotateur_management/addAnnotateur";
     }
 
     @GetMapping("/annotateurs/update/{id}")
     public String updateAnnotateur(@PathVariable Long id, Model model) {
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        model.addAttribute("currentUserName", currentUserName);
         Annotateur annotateur = annotateurService.findAnnotateurById(id);
         if (annotateur == null) {
             model.addAttribute("errorMessage", "Annotateur not found");
@@ -93,7 +119,7 @@ public class AdminController {
     
             String successMessage = isUpdate ? "Annotateur updated successfully" : "Annotateur added successfully";
             redirectAttributes.addFlashAttribute("successMessage", successMessage);
-            return "redirect:/admin/annotateur_management/annotateurs";
+            return "redirect:/admin/annotateurs";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error " + (isUpdate ? "updating" : "adding") + " annotateur: " + e.getMessage());
             if (isUpdate) {

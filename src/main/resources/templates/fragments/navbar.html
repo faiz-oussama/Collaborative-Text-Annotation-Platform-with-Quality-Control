@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<!-- Navbar Fragment -->
+<header th:fragment="navbar(pageTitle)" class="navbar">
+    <div class="navbar-left">
+        <div class="menu-toggle" id="menu-toggle">
+            <i class='bx bx-menu'></i>
+        </div>
+        <h1 class="page-title" th:text="${pageTitle}">Admin Dashboard</h1>
+    </div>
+
+    <div class="navbar-right">
+        <div class="search-bar">
+            <i class='bx bx-search'></i>
+            <input type="text" placeholder="Search...">
+        </div>
+        <div class="user-welcome">Welcome, <span th:text="${currentUserName}"></span> </div>
+        <form th:action="@{/logout}" th:method="post" style="margin: 0;">
+            <button type="submit" class="logout-btn">
+                <i class='bx bx-log-out'></i>
+                <span>Log out</span>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </button>
+        </form>
+    </div>
+</header>
+</body>
+</html>

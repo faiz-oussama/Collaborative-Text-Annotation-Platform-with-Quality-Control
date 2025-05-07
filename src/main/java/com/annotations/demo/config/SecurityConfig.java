@@ -65,7 +65,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz // Configure authorization for different URL patterns
                 .requestMatchers("/user/**").hasRole("USER_ROLE") // Only allow users with the USER role for /user/** paths
                 .requestMatchers("/admin/**").hasRole("ADMIN_ROLE") // Only allow users with the ADMIN role for /admin/** paths
-                .requestMatchers("/main.css", "/images/**", "/favicon.ico").permitAll() // Allow access to static resources
+                .requestMatchers("/main.css", "/css/**", "/js/**", "/images/**", "/favicon.ico", "/*.html", "/webjars/**").permitAll() // Allow access to static resources
                 .anyRequest().permitAll() // Allow all other requests without restriction
             )
             .formLogin(form -> form // Configure login settings

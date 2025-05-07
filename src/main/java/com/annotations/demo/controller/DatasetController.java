@@ -1,13 +1,11 @@
 package com.annotations.demo.controller;
 
 
+import com.annotations.demo.entity.Annotateur;
 import com.annotations.demo.entity.ClassPossible;
 import com.annotations.demo.entity.CoupleText;
 import com.annotations.demo.entity.Dataset;
-import com.annotations.demo.service.AsyncDatasetParserService;
-import com.annotations.demo.service.CoupleTextService;
-import com.annotations.demo.service.CoupleTextServiceImpl;
-import com.annotations.demo.service.DatasetServiceImpl;
+import com.annotations.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -17,8 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -26,13 +23,15 @@ import java.util.stream.Collectors;
 public class DatasetController {
 
     private final DatasetServiceImpl datasetService;
+    private final AnnotateurService annotateurService;
     private final CoupleTextServiceImpl coupleTextService;
     private final AsyncDatasetParserService asyncDatasetParserService;
 
     // Constructor-based injection for both services
     @Autowired
-    public DatasetController(DatasetServiceImpl datasetService, CoupleTextServiceImpl coupleTextService, AsyncDatasetParserService asyncDatasetParserService) {
+    public DatasetController(DatasetServiceImpl datasetService, AnnotateurService annotateurService, CoupleTextServiceImpl coupleTextService, AsyncDatasetParserService asyncDatasetParserService) {
         this.datasetService = datasetService;
+        this.annotateurService = annotateurService;
         this.coupleTextService = coupleTextService;
         this.asyncDatasetParserService = asyncDatasetParserService;
     }
@@ -49,7 +48,7 @@ public class DatasetController {
                                  @RequestParam(name = "size", defaultValue = "25") int size) {
 
         Dataset dataset = datasetService.findDatasetById(id);
-        Page<CoupleText> coupleTextsPage = coupleTextService.getCoupleTexts(page, size);
+        Page<CoupleText> coupleTextsPage = coupleTextService.getCoupleTextsByDatasetId(id, page, size);
 
         if (dataset == null) {
             model.addAttribute("errorMessage", "Dataset not found");
@@ -97,5 +96,29 @@ public class DatasetController {
         }
 
         return "redirect:/admin/datasets";
+    }
+
+    @GetMapping("/datasets/{id}/assign_annotator")
+    public String assignAnnotator(Model model, @PathVariable Long id) {
+        List<Annotateur> annotateurs = annotateurService.findAllActive();
+        Dataset dataset = datasetService.findDatasetById(id);
+
+
+        List<Long> assignedAnnotateurIds = new ArrayList<>();
+        if (dataset.getTasks() != null) {
+            assignedAnnotateurIds = dataset.getTasks().stream()
+                    .filter(task -> task.getAnnotateur() != null)
+                    .map(task -> task.getAnnotateur().getId())
+                    .toList();
+        }
+        Date deadlineDate = null;
+        if (dataset.getTasks() != null && !dataset.getTasks().isEmpty()) {
+            deadlineDate = dataset.getTasks().get(0).getDateLimite(); // Using get(0) for better compatibility
+        }
+        model.addAttribute("deadlineDate", deadlineDate);
+        model.addAttribute("assignedAnnotateurIds", assignedAnnotateurIds);
+        model.addAttribute("dataset", dataset);
+        model.addAttribute("annotateurs", annotateurs);
+        return "admin/datasets_management/annotateur_assignment";
     }
 }

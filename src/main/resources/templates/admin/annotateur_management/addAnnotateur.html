@@ -1,137 +1,482 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/main.css">
     <title>Add Annotateur - Annotations App</title>
+    <link rel="stylesheet" href="/custom.css">
+    <link rel="stylesheet" href="/main.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Add User Page Specific Styles */
+        .form-container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            background: var(--primary-gradient);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-header::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -150px;
+            right: -150px;
+        }
+
+        .form-header::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            bottom: -100px;
+            left: -100px;
+        }
+
+        .form-title {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-body {
+            padding: 40px;
+            position: relative;
+        }
+
+        .form-icon {
+            position: absolute;
+            top: -40px;
+            right: 0px;
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(112, 72, 232, 0.2);
+            z-index: 10;
+        }
+
+        .form-icon i {
+            font-size: 36px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .form-label-required::after {
+            content: '*';
+            color: #ef4444;
+            margin-left: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(112, 72, 232, 0.1);
+        }
+
+        .input-icon-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 18px;
+            pointer-events: none; /* Makes the icon not interfere with input */
+        }
+
+        .input-with-icon {
+            padding-left: 45px !important; /* Important to override any other styling */
+        }
+
+        .form-helper {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 10px 25px rgba(112, 72, 232, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(112, 72, 232, 0.4);
+        }
+
+        .btn-primary:hover::before {
+            transform: translateX(100%);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: var(--text-secondary);
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            color: var(--text-color);
+        }
+
+        .btn i {
+            font-size: 18px;
+        }
+
+        .tips-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .tips-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .tips-title i {
+            color: var(--tertiary-color);
+            font-size: 20px;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tips-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .tips-list li i {
+            color: var(--tertiary-color);
+            font-size: 16px;
+            margin-top: 2px;
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            color: #065f46;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            color: #b91c1c;
+        }
+
+        .alert i {
+            font-size: 20px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .form-body {
+                padding: 30px 20px;
+            }
+
+            .form-header {
+                padding: 25px 20px;
+            }
+
+            .form-title {
+                font-size: 24px;
+            }
+
+            .form-icon {
+                width: 70px;
+                height: 70px;
+                right: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <nav class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
-                    <div class="flex-shrink-0 flex items-center">
-                        <h1 class="text-xl font-bold text-indigo-600">Annotations App</h1>
-                    </div>
-                    <div class="ml-6 flex space-x-8">
-                        <a href="/admin/showAdminHome" class="inline-flex items-center px-1 pt-1 text-gray-900 hover:text-indigo-600">
-                            Admin Home
-                        </a>
-                        <a href="/admin/annotateurs" class="inline-flex items-center px-1 pt-1 text-gray-900 hover:text-indigo-600">
-                            All Annotateurs
-                        </a>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <div class="flex items-center">
-                            <span class="text-gray-700 mr-2" sec:authentication="name">Username</span>
-                            <form th:action="@{/logout}" method="post">
-                                <button type="submit" class="px-3 py-1 rounded bg-indigo-100 text-indigo-700 hover:bg-indigo-200 text-sm">
-                                    Logout
-                                </button>
-                            </form>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar('users')}"></div>
+<div th:replace="~{fragments/navbar :: navbar('Add New Annotateur')}"></div>
+
+<main class="main-content">
+    <div class="form-container">
+        <div class="form-header">
+            <h1 class="form-title">Add New Annotateur</h1>
+            <p class="form-subtitle">Create a new annotateur account to access the annotation system</p>
+        </div>
+
+        <div class="form-body">
+            <!-- Alert messages from controller -->
+            <div th:if="${successMessage}" class="alert alert-success">
+                <i class='bx bx-check-circle'></i>
+                <span th:text="${successMessage}">Success message</span>
+            </div>
+
+            <div th:if="${errorMessage}" class="alert alert-error">
+                <i class='bx bx-error-circle'></i>
+                <span th:text="${errorMessage}">Error message</span>
+            </div>
+
+            <form th:action="@{/admin/annotateurs/save}" method="post" id="annotateurForm" th:object="${user}">
+                <!-- Hidden field for updates -->
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class='bx bx-user-circle'></i> Personal Information
+                    </h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prenom" class="form-label form-label-required">First Name</label>
+                            <div class="input-icon-wrapper">
+                                <i class='bx bx-user input-icon'></i>
+                                <input type="text" id="prenom" name="prenom" th:field="*{prenom}" class="form-control input-with-icon" placeholder="Enter first name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nom" class="form-label form-label-required">Last Name</label>
+                            <div class="input-icon-wrapper">
+                                <i class='bx bx-user input-icon'></i>
+                                <input type="text" id="nom" name="nom" th:field="*{nom}" class="form-control input-with-icon" placeholder="Enter last name" required>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </nav>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-            <div class="px-4 py-5 sm:px-6">
-                <h2 class="text-2xl font-medium text-gray-900">
-                    <span th:text="${user.id != null ? 'Update Annotateur' : 'Add New Annotateur'}">Add New Annotateur</span>
-                </h2>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                <span th:text="${user.id != null ? 'Update an existing annotateur account.' : 'Create a new annotateur account in the system.'}">
-                    Create a new annotateur account in the system.
-                </span>
-                </p>
-            </div>
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <i class='bx bx-lock-alt'></i> Authentication Information
+                    </h3>
 
-
-            <div th:if="${successMessage}" class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg">
-                <span th:text="${successMessage}"></span>
-            </div>
-            
-            <div th:if="${errorMessage}" class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
-                <span th:text="${errorMessage}"></span>
-            </div>
-            
-            <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
-                <form th:action="@{/admin/annotateurs/save}" method="post" th:object="${user}" class="space-y-6">
-                    <input type="hidden" th:field="*{id}" />
-                    <!-- Personal Information Section -->
-                    <div>
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
-                        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
-                            <div>
-                                <label for="nom" class="block text-sm font-medium text-gray-700">Last Name</label>
-                                <div class="mt-1">
-                                    <input type="text" name="nom" id="nom" th:field="*{nom}" required 
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="login" class="form-label form-label-required">Username</label>
+                            <div class="input-icon-wrapper">
+                                <i class='bx bx-at input-icon'></i>
+                                <input type="text" id="login" name="login" th:field="*{login}" class="form-control input-with-icon" placeholder="Create username" required>
                             </div>
-                            
-                            <div>
-                                <label for="prenom" class="block text-sm font-medium text-gray-700">First Name</label>
-                                <div class="mt-1">
-                                    <input type="text" name="prenom" id="prenom" th:field="*{prenom}" required 
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                </div>
+                            <div class="form-helper">This username will be used for login</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label form-label-required">Password</label>
+                            <div class="input-icon-wrapper">
+                                <i class='bx bx-lock input-icon'></i>
+                                <input type="password" id="password" name="password" th:field="*{password}" class="form-control input-with-icon" placeholder="Create password" required>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Account Information Section -->
-                    <div>
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Account Information</h3>
-                        <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
-                            <div>
-                                <label for="login" class="block text-sm font-medium text-gray-700">Username</label>
-                                <div class="mt-1">
-                                    <input type="text" name="login" id="login" th:field="*{login}" required 
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label for="password" class="block text-sm font-medium text-gray-700">
-                                    Password <span th:if="${user.id == null}" class="text-red-500">*</span>
-                                    <span th:if="${user.id != null}" class="text-sm text-gray-500">(Leave empty to keep current password)</span>
-                                </label>
-                                <div class="mt-1">
-                                    <input type="password" name="password" id="password" 
-                                           th:value="${user.password}" 
-                                           th:required="${user.id == null}"
-                                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label form-label-required">Confirm Password</label>
+                            <div class="input-icon-wrapper">
+                                <i class='bx bx-lock input-icon'></i>
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control input-with-icon" placeholder="Confirm password" required>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="flex justify-end pt-5">
-                        <a href="/admin/annotateurs" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mr-3">
-                            Cancel
-                        </a>
-                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <span th:text="${user.id != null ? 'Update Annotateur' : 'Create Annotateur'}">Create Annotateur</span>
-                        </button>
+                </div>
+
+                <div class="tips-card">
+                    <div class="tips-title">
+                        <i class='bx bx-bulb'></i>
+                        <span>Important Information</span>
                     </div>
-                </form>
-            </div>
+                    <ul class="tips-list">
+                        <li>
+                            <i class='bx bx-check'></i>
+                            <span>Use a strong password with at least 8 characters including letters, numbers, and symbols</span>
+                        </li>
+                        <li>
+                            <i class='bx bx-check'></i>
+                            <span>Username must be unique and will be used for login authentication</span>
+                        </li>
+                        <li>
+                            <i class='bx bx-check'></i>
+                            <span>The new annotateur will be active immediately after creation</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class='bx bx-user-plus'></i>
+                        <span th:text="${user.id != null ? 'Update Annotateur' : 'Create Annotateur'}">Create Annotateur</span>
+                    </button>
+
+                    <a href="/admin/annotateurs" class="btn btn-secondary">
+                        <i class='bx bx-arrow-back'></i>
+                        <span>Cancel</span>
+                    </a>
+                </div>
+            </form>
         </div>
-    </main>
-    
-    <footer class="bg-white border-t border-gray-200 mt-10">
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <p class="text-center text-gray-500 text-sm">
-                &copy; 2023 Annotations App. All rights reserved.
-            </p>
-        </div>
-    </footer>
+    </div>
+</main>
 </body>
 </html>

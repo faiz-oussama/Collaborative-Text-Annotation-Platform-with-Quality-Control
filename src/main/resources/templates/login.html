@@ -5,84 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Annotations App</title>
     <link rel="stylesheet" href="/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #7048e8;
+            --primary-hover: #5f3dc4;
+            --error-color: #ef4444;
+            --success-color: #10b981;
+            --bg-color: #f8f9fe;
+            --text-color: #1e293b;
+            --text-secondary: #64748b;
+            --border-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header text-center">
-                <div class="animate-float mb-6">
-                    <i class="fas fa-clipboard-check text-5xl text-primary"></i>
-                </div>
-                <h1 class="text-4xl font-extrabold bg-gradient-primary text-transparent bg-clip-text">Annotations App</h1>
-                <p class="mt-2 text-gray">Please sign in to your account</p>
+<div class="login-container">
+    <div class="login-card">
+        <div class="card-header">
+            <div class="logo-container">
+                <i class="fas fa-clipboard-check"></i>
             </div>
-            
-            <div th:if="${param.error}" class="p-4 mb-4 rounded-lg bg-danger bg-opacity-10 text-danger" role="alert">
-                <div class="flex items-center">
-                    <i class="fas fa-exclamation-circle mr-2"></i>
-                    <span>Invalid username or password</span>
-                </div>
+            <h1 class="login-title">Annotations App</h1>
+            <p class="login-subtitle">Sign in to your account</p>
+        </div>
+
+        <div class="card-body">
+            <!-- Alerts -->
+            <div th:if="${param.error}" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Invalid username or password</span>
             </div>
-            
-            <div th:if="${param.logout}" class="p-4 mb-4 rounded-lg bg-success bg-opacity-10 text-success" role="alert">
-                <div class="flex items-center">
-                    <i class="fas fa-check-circle mr-2"></i>
-                    <span>You have been logged out successfully</span>
-                </div>
+
+            <div th:if="${param.logout}" class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <span>You have been logged out successfully</span>
             </div>
-            
-            <form class="mt-8 space-y-6" method="post" th:action="@{/login}">
-                <div class="space-y-4">
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-user text-gray"></i>
-                        </div>
-                        <input id="username" name="username" type="text" autocomplete="username" required
-                            class="form-control pl-10 bg-gray-light border-0 shadow-inner"
-                            placeholder="Username">
-                    </div>
-                    
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-lock text-gray"></i>
-                        </div>
-                        <input id="password" name="password" type="password" autocomplete="current-password" required
-                            class="form-control pl-10 bg-gray-light border-0 shadow-inner"
-                            placeholder="Password">
-                    </div>
+
+            <!-- Login Form -->
+            <form method="post" th:action="@{/login}">
+                <div class="form-group">
+                    <i class="fas fa-user form-icon"></i>
+                    <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-control"
+                            placeholder="Username"
+                            autocomplete="username"
+                            required
+                    >
                 </div>
 
-                <div>
-                    <button type="submit" class="auth-btn">
-                        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                            <i class="fas fa-sign-in-alt"></i>
-                        </span>
-                        Sign in
-                    </button>
+                <div class="form-group">
+                    <i class="fas fa-lock form-icon"></i>
+                    <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Password"
+                            autocomplete="current-password"
+                            required
+                    >
                 </div>
-                
-                <div class="text-center text-sm text-gray-dark mt-4">
-                    <p>Secure login for authorized users only</p>
-                </div>
+
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Sign in</span>
+                </button>
             </form>
         </div>
     </div>
-    
-    <script>
-        // Add subtle animation effects
-        document.addEventListener('DOMContentLoaded', function() {
-            const inputs = document.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.parentNode.classList.add('transform', 'scale-105', 'transition');
-                });
-                input.addEventListener('blur', function() {
-                    this.parentNode.classList.remove('transform', 'scale-105');
-                });
-            });
-        });
-    </script>
+
+    <div class="login-footer">
+        <div class="footer-text">
+            <i class="fas fa-shield-alt"></i>
+            <span>Secure authentication for authorized users</span>
+        </div>
+    </div>
+</div>
 </body>
 </html>

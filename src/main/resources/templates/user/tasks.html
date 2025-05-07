@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Annotation Task</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <a href="/user/home" class="text-primary-600 hover:text-primary-800 flex items-center transition-colors duration-200">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+                    </a>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">Task #<span th:text="${task.id}">123</span></h1>
+                <div>
+                    <form th:action="@{/logout}" th:method="post" class="inline">
+                        <button type="submit" class="text-gray-600 hover:text-gray-900 transition-colors">
+                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                        </button>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <!-- Task Progress Info -->
+        <div class="bg-white shadow-md rounded-xl mb-6 overflow-hidden">
+            <div class="px-6 py-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">
+                        <i class="fas fa-tasks text-primary-500 mr-2"></i>
+                        Annotation Progress
+                    </h2>
+                    <span class="text-sm bg-primary-100 text-primary-800 py-1 px-3 rounded-full">
+                            <span th:text="${currentIndex + 1}">1</span> / <span th:text="${totalCouples}">10</span> Couples
+                        </span>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+                    <div class="bg-primary-600 h-2.5 rounded-full"
+                         th:style="'width: ' + ${(currentIndex + 1) * 100 / totalCouples} + '%'"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <span class="text-sm text-gray-500">Dataset:</span>
+                        <p class="font-medium text-gray-900" th:text="${task.dataset.name}">Product Dataset</p>
+                    </div>
+                    <div>
+                        <span class="text-sm text-gray-500">Deadline:</span>
+                        <p class="font-medium text-gray-900" th:text="${#dates.format(task.dateLimite, 'MMM dd, yyyy')}">Oct 15, 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Text Couple -->
+        <div class="bg-white shadow-md rounded-xl mb-6">
+            <div class="px-6 py-5">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">
+                    <i class="fas fa-file-alt text-primary-500 mr-2"></i>
+                    Current Text Pair
+                </h2>
+
+                <!-- Text Visualization -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-gray-50 p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h3 class="font-semibold text-gray-700 mb-2">Text 1</h3>
+                        <p class="text-gray-800" th:text="${currentCouple.text_1}">This is the first text that needs to be annotated...</p>
+                    </div>
+
+                    <div class="bg-gray-50 p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h3 class="font-semibold text-gray-700 mb-2">Text 2</h3>
+                        <p class="text-gray-800" th:text="${currentCouple.text_2}">This is the second text that needs to be annotated...</p>
+                    </div>
+                </div>
+
+                <!-- Annotation Form -->
+                <form th:action="@{/user/tasks/{taskId}/annotate(taskId=${task.id})}" method="post" class="mt-8">
+                    <input type="hidden" name="coupleId" th:value="${currentCouple.id}" />
+                    <input type="hidden" name="currentIndex" th:value="${currentIndex}" />
+
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Select Classification</h3>
+                        <div class="space-y-2 max-w-lg">
+                            <div th:each="classOption : ${task.dataset.classesPossibles}"
+                                 class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                                <input type="radio" th:id="${'class_' + classOption.id}"
+                                       name="classSelection" th:value="${classOption.textClass}"
+                                       class="h-5 w-5 text-primary-600 focus:ring-primary-500 mr-3"
+                                       th:checked="${classOption.textClass == selectedClassId}"
+                                       required>
+                                <label th:for="${'class_' + classOption.id}"
+                                       class="block text-gray-700 font-medium cursor-pointer w-full"
+                                       th:text="${classOption.textClass}">
+                                    Classification Option
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes (Optional) -->
+                    <div class="mb-6">
+                        <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Notes (Optional)</label>
+                        <textarea id="notes" name="notes" rows="2"
+                                  class="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                  placeholder="Add any observations or notes..."></textarea>
+                    </div>
+
+                    <!-- Navigation and Submit Buttons -->
+                    <div class="flex items-center justify-between mt-8">
+                        <div>
+                            <!-- Previous Button -->
+                            <a th:href="@{/user/tasks/{id}(id=${task.id}, index=${currentIndex - 1})}"
+                               th:class="${currentIndex == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}"
+                               class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Previous
+                            </a>
+
+                            <!-- Next Button -->
+                            <a th:href="@{/user/tasks/{id}(id=${task.id}, index=${currentIndex + 1})}"
+                               th:class="${currentIndex >= totalCouples - 1 ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}"
+                               class="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                                Next
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+
+                        <!-- Validate Button -->
+                        <button type="submit"
+                                class="inline-flex items-center px-5 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                            <i class="fas fa-check mr-2"></i>
+                            Validate and Continue
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-8">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm text-gray-500">© 2023 Annotations App. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-gray-500">
+                        <i class="fas fa-question-circle"></i>
+                        <span class="ml-1">Help</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

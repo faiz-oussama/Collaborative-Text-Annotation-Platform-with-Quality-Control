@@ -14,4 +14,5 @@ public interface DatasetService {
     Dataset createDataset(String name, String description, MultipartFile file, String classRaw) throws IOException;
     void ParseDataset(Dataset dataset);
     void deleteDataset(Long id);
+    long countDatasets();
 }

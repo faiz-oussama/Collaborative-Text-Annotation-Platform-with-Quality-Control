@@ -32,9 +32,7 @@ public class Dataset {
     private Long id;
     private String name;
     private String description;
-
     private String filePath;
-
     private String fileType;
 
 

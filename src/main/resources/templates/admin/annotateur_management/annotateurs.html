@@ -2,52 +2,236 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Annotations App</title>
+    <link rel="stylesheet" href="/custom.css">
     <link rel="stylesheet" href="/main.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-r from-gray-100 to-gray-200 min-h-screen py-10 px-6">
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar('users')}"></div>
+<div th:replace="~{fragments/navbar :: navbar('User Management')}"></div>
 
-<div class="max-w-7xl mx-auto bg-white rounded-3xl shadow-2xl p-10">
-    <header class="mb-8 flex justify-between items-center">
-        <h1 class="text-3xl font-extrabold text-gray-800">
-            👤 Gestion des Annotateurs <span class="text-sm font-normal text-gray-500">(UC4 - ADMIN)</span>
-        </h1>
-        <a href="#" th:href="@{/admin/annotateurs/add}"
-           class="inline-flex items-center px-5 py-2.5 bg-blue-600 text-white font-medium text-sm rounded-lg shadow hover:bg-blue-700 transition duration-300">
-            ➕ Ajouter Annotateur
+<main class="main-content">
+    <div class="user-header">
+        <div class="header-title">
+            <h1><i class='bx bx-user-circle'></i> User Management</h1>
+            <p class="header-subtitle">Manage all system users, their permissions and account settings.</p>
+        </div>
+
+        <a href="/admin/annotateurs/add" class="action-btn">
+            <i class='bx bx-plus'></i> Add New User
         </a>
-    </header>
-
-    <div class="overflow-x-auto">
-        <table class="w-full text-sm text-left text-gray-600 border border-gray-200 rounded-lg overflow-hidden shadow">
-            <thead class="text-xs uppercase bg-gray-100 text-gray-700">
-            <tr>
-                <th scope="col" class="px-6 py-4">Nom</th>
-                <th scope="col" class="px-6 py-4">Prénom</th>
-                <th scope="col" class="px-6 py-4">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr th:each="annotateur : ${annotateurs}" class="bg-white border-t hover:bg-gray-50 transition">
-                <td class="px-6 py-4 font-medium text-gray-900" th:text="${annotateur.nom}">Nom</td>
-                <td class="px-6 py-4" th:text="${annotateur.prenom}">Prénom</td>
-                <td class="px-6 py-4 flex flex-wrap gap-3">
-                    <a th:href="@{'/admin/annotateurs/update/' + ${annotateur.id}}"
-                       class="inline-block px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 shadow-sm transition">
-                        ✏️ Modifier
-                    </a>
-                    <a th:href="@{'/admin/annotateurs/delete/' + ${annotateur.id}}"
-                       onclick="return confirm('Confirmer la suppression ?')"
-                       class="inline-block px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 shadow-sm transition">
-                        🗑️ Supprimer
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
-</div>
 
+    <div class="user-container show-table" id="userContainer">
+        <div class="filters-bar">
+            <div class="filter-group">
+                <div class="search-wrapper">
+                    <i class='bx bx-search'></i>
+                    <input type="text" class="search-input" id="searchUsers" placeholder="Search users...">
+                </div>
+            </div>
+
+            <div class="view-switch">
+                <button class="view-btn active" id="tableViewBtn" title="Table View">
+                    <i class='bx bx-table'></i>
+                </button>
+                <button class="view-btn" id="gridViewBtn" title="Grid View">
+                    <i class='bx bx-grid-alt'></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="table-view">
+            <table class="users-table">
+                <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Last Activity</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="annotateur : ${annotateurs}" th:id="'user-' + ${annotateur.id}">
+                    <td>
+                        <div class="user-cell">
+                            <div class="cell-avatar" th:text="${#strings.substring(annotateur.prenom, 0, 1) + #strings.substring(annotateur.nom, 0, 1)}">JD</div>
+                            <div class="cell-info">
+                                <div class="cell-name" th:text="${annotateur.prenom + ' ' + annotateur.nom}">John Doe</div>
+                                <div class="cell-email" th:text="${annotateur.prenom.toLowerCase() + '.' + annotateur.nom.toLowerCase() + '@example.com'}">john.doe@example.com</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="cell-role">Annotator</span>
+                    </td>
+                    <td>
+                                <span class="status-pill status-active">
+                                    <span class="status-dot"></span>
+                                    Active
+                                </span>
+                    </td>
+                    <td>Today, 10:30 AM</td>
+                    <td>
+                        <div class="cell-actions">
+                            <a th:href="@{'/admin/annotateurs/update/' + ${annotateur.id}}" class="action-icon edit" title="Edit User">
+                                <i class='bx bx-edit-alt'></i>
+                            </a>
+                            <a th:href="@{'/admin/annotateurs/delete/' + ${annotateur.id}}"
+                               onclick="return confirm('Are you sure you want to delete this user?')"
+                               class="action-icon delete" title="Delete User">
+                                <i class='bx bx-trash'></i>
+                            </a>
+                            <button class="action-icon view" title="View Details">
+                                <i class='bx bx-detail'></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- If no users -->
+                <tr th:if="${#lists.isEmpty(annotateurs)}">
+                    <td colspan="5">
+                        <div class="no-results">
+                            <i class='bx bx-search-alt'></i>
+                            <h3>No users found</h3>
+                            <p>There are no users in the system matching your criteria.</p>
+                            <a href="/admin/annotateurs/add" class="btn btn-success">
+                                <i class='bx bx-plus'></i> Add New User
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Grid View -->
+        <div class="grid-view users-grid">
+            <div th:each="annotateur : ${annotateurs}" class="user-card" th:id="'user-card-' + ${annotateur.id}">
+                <div class="card-banner"></div>
+                <div class="user-avatar" th:text="${#strings.substring(annotateur.prenom, 0, 1) + #strings.substring(annotateur.nom, 0, 1)}">JD</div>
+                <div class="card-body">
+                    <h3 class="user-name" th:text="${annotateur.prenom + ' ' + annotateur.nom}">John Doe</h3>
+                    <p class="user-position">Annotator</p>
+
+                    <div class="user-badges">
+                        <span class="badge badge-primary">Active</span>
+                        <span class="badge badge-secondary">Level 2</span>
+                    </div>
+
+                    <div class="card-actions">
+                        <a th:href="@{'/admin/annotateurs/update/' + ${annotateur.id}}" class="btn btn-success">
+                            <i class='bx bx-edit'></i> Edit
+                        </a>
+                        <a th:href="@{'/admin/annotateurs/delete/' + ${annotateur.id}}"
+                           onclick="return confirm('Are you sure you want to delete this user?')"
+                           class="btn btn-danger">
+                            <i class='bx bx-trash'></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- If no users -->
+            <div th:if="${#lists.isEmpty(annotateurs)}" class="no-results" style="grid-column: 1/-1;">
+                <i class='bx bx-search-alt'></i>
+                <h3>No users found</h3>
+                <p>There are no users in the system matching your criteria.</p>
+                <a href="/admin/annotateurs/add" class="btn btn-success">
+                    <i class='bx bx-plus'></i> Add New User
+                </a>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" th:if="${!#lists.isEmpty(annotateurs)}">
+            <div class="pagination-info">
+                Showing <span class="font-semibold">1-10</span> of <span class="font-semibold" th:text="${#lists.size(annotateurs)}">24</span> users
+            </div>
+
+            <div class="pagination-controls">
+                <button class="page-btn" disabled>
+                    <i class='bx bx-chevron-left'></i>
+                </button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">
+                    <i class='bx bx-chevron-right'></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Toggle between table and grid view
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('userContainer');
+        const tableBtn = document.getElementById('tableViewBtn');
+        const gridBtn = document.getElementById('gridViewBtn');
+        const searchInput = document.getElementById('searchUsers');
+
+        tableBtn.addEventListener('click', function() {
+            container.classList.remove('show-grid');
+            container.classList.add('show-table');
+            tableBtn.classList.add('active');
+            gridBtn.classList.remove('active');
+        });
+
+        gridBtn.addEventListener('click', function() {
+            container.classList.remove('show-table');
+            container.classList.add('show-grid');
+            gridBtn.classList.add('active');
+            tableBtn.classList.remove('active');
+        });
+
+        // Simple search functionality
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll('.users-table tbody tr');
+            const gridCards = document.querySelectorAll('.user-card');
+
+            // Search in table view
+            tableRows.forEach(row => {
+                if (!row.querySelector('.no-results')) {
+                    const userName = row.querySelector('.cell-name').textContent.toLowerCase();
+                    const userEmail = row.querySelector('.cell-email').textContent.toLowerCase();
+
+                    if (userName.includes(searchTerm) || userEmail.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+
+            // Search in grid view
+            gridCards.forEach(card => {
+                const userName = card.querySelector('.user-name').textContent.toLowerCase();
+
+                if (userName.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Toggle sidebar
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        menuToggle?.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+    });
+</script>
 </body>
 </html>

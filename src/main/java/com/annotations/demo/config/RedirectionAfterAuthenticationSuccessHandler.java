@@ -70,7 +70,7 @@ public class RedirectionAfterAuthenticationSuccessHandler implements Authenticat
         // Map of roles to their corresponding target URLs after login
         Map<String, String> roleTargetUrlMap = new HashMap<>();
         // Define redirection URLs for roles
-        roleTargetUrlMap.put("ROLE_USER_ROLE", "/user/showUserHome");
+        roleTargetUrlMap.put("ROLE_USER_ROLE", "/user/home");
         roleTargetUrlMap.put("ROLE_ADMIN_ROLE", "/admin/showAdminHome");
         // Iterate through the authorities (roles) granted to the user
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

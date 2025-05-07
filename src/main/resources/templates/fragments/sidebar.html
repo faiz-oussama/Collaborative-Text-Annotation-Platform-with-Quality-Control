@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<aside th:fragment="sidebar(activeMenu)" class="sidebar" id="sidebar">
+    <div class="sidebar-content">
+        <div class="sidebar-header">
+            <div class="logo-icon">
+                <i class='bx bx-analyse'></i>
+            </div>
+            <div class="logo-text">Annotations</div>
+        </div>
+
+        <nav class="sidebar-menu">
+            <div class="menu-label">Core</div>
+            <a href="/admin/showAdminHome" class="menu-item" th:classappend="${activeMenu == 'dashboard'} ? 'active' : ''">
+                <i class='bx bx-home'></i>
+                <span>Dashboard</span>
+            </a>
+
+            <div class="menu-label">Management</div>
+            <a href="/admin/annotateurs" class="menu-item" th:classappend="${activeMenu == 'users'} ? 'active' : ''">
+                <i class='bx bx-user'></i>
+                <span>Users</span>
+            </a>
+            <a href="/admin/datasets" class="menu-item" th:classappend="${activeMenu == 'datasets'} ? 'active' : ''">
+                <i class='bx bx-data'></i>
+                <span>Datasets</span>
+            </a>
+            <a href="/admin/statistics" class="menu-item" th:classappend="${activeMenu == 'statistics'} ? 'active' : ''">
+                <i class='bx bx-bar-chart-alt-2'></i>
+                <span>Statistics</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-text">Annotations App • v2.0</div>
+        </div>
+    </div>
+</aside>
+</body>
+</html>

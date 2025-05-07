@@ -228,19 +228,23 @@
             <div class="px-4 py-5 sm:p-6">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">Assigned Annotators</h2>
 
+                <div class="flex justify-between items-center mb-6">
+                    <a th:href="@{/admin/datasets/{id}/assign_annotator(id=${dataset.id})}" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        Assign new Annotateur
+                    </a>
+                </div>
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     <div th:each="task : ${dataset.tasks}" th:if="${task.annotateur != null}"
                          class="relative rounded-lg border border-gray-200 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-primary-400 hover:bg-primary-50 transition-colors duration-200 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500">
-                        <div class="flex-shrink-0">
-                                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-primary-500">
-                                    <span class="text-lg font-medium leading-none text-white" th:text="${task.annotateur.firstname.charAt(0) + task.annotateur.lastname.charAt(0)}">AA</span>
-                                </span>
-                        </div>
+
                         <div class="flex-1 min-w-0">
                             <a href="#" class="focus:outline-none">
                                 <span class="absolute inset-0" aria-hidden="true"></span>
-                                <p class="text-sm font-medium text-gray-900" th:text="${task.annotateur.firstname + ' ' + task.annotateur.lastname}">Annotator Name</p>
-                                <p class="text-sm text-gray-500 truncate" th:text="${task.annotateur.email}">annotator@example.com</p>
+                                <p class="text-sm font-medium text-gray-900" th:text="${task.annotateur.getNom() + ' ' + task.annotateur.getPrenom()}"></p>
+                                <p class="text-sm text-gray-500 truncate" th:text="${task.annotateur.getLogin()}"></p>
                             </a>
                         </div>
                     </div>
