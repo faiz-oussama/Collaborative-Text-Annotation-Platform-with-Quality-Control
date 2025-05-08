@@ -108,13 +108,26 @@ public class DatasetController {
     }
 
     @GetMapping("/datasets/{id}/assign_annotator")
-    public String assignAnnotator(Model model, @PathVariable Long id) {
+    public String assignAnnotator(Model model,
+                                  @PathVariable Long id,
+                                  RedirectAttributes redirectAttributes) {
+        // Retrieve current user for display
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
         model.addAttribute("currentUserName", currentUserName);
+
+        // Fetch active annotators
         List<Annotateur> annotateurs = annotateurService.findAllActive();
+
+        // Check if at least 3 annotators exist
+        if (annotateurs.size() < 3) {
+            redirectAttributes.addFlashAttribute("error", "Au moins 3 annotateurs actifs sont requis pour l'annotation.");
+            return "redirect:/admin/datasets"; // Redirect to dataset list
+        }
+
+        // Proceed normally if enough annotators
         Dataset dataset = datasetService.findDatasetById(id);
 
-
+        // Get already assigned annotators
         List<Long> assignedAnnotateurIds = new ArrayList<>();
         if (dataset.getTasks() != null) {
             assignedAnnotateurIds = dataset.getTasks().stream()
@@ -122,14 +135,19 @@ public class DatasetController {
                     .map(task -> task.getAnnotateur().getId())
                     .toList();
         }
+
+        // Get deadline from existing tasks
         Date deadlineDate = null;
         if (dataset.getTasks() != null && !dataset.getTasks().isEmpty()) {
-            deadlineDate = dataset.getTasks().get(0).getDateLimite(); // Using get(0) for better compatibility
+            deadlineDate = dataset.getTasks().get(0).getDateLimite();
         }
+
+        // Add attributes to model
         model.addAttribute("deadlineDate", deadlineDate);
         model.addAttribute("assignedAnnotateurIds", assignedAnnotateurIds);
         model.addAttribute("dataset", dataset);
         model.addAttribute("annotateurs", annotateurs);
+
         return "admin/datasets_management/annotateur_assignment";
     }
 }

@@ -10,10 +10,7 @@ import com.annotations.demo.repository.TaskRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -29,35 +26,72 @@ public class AssignTaskToAnnotator {
     }
 
 
+
+
     public void assignTaskToAnnotator(List<Annotateur> annotateurList, Dataset dataset, Date deadline) {
 
-        //getting parameters I will be using
+        // Récupération des paires de texte du dataset
         Long datasetId = dataset.getId();
         List<CoupleText> coupleTextList = coupleTextServiceImpl.findAllCoupleTextsByDatasetId(datasetId);
 
-        // Shuffle to ensure randomness
-        Collections.shuffle(coupleTextList);
-
-        int total = coupleTextList.size();
-        int annotatorCount = annotateurList.size();
-        int batchSize = total / annotatorCount;
-        int remaining = total % annotatorCount;
-
-        int index = 0;
-        for (Annotateur annotator : annotateurList) {
-            int currentBatchSize = batchSize + (remaining-- > 0 ? 1 : 0);
-
-            List<CoupleText> subList = coupleTextList.subList(index, index + currentBatchSize);
-
-            // Create new task for the annotator
-            Task tache = new Task();
-            tache.setCouples(new ArrayList<>(subList));
-            tache.setAnnotateur(annotator);
-            tache.setDataset(dataset);
-            tache.setDateLimite(deadline);// If needed
-            taskeRepository.save(tache);
-
-            index += currentBatchSize;
+        // Étape 1 : Duplication des paires (3 fois chacune)
+        List<CoupleText> duplicatedPairs = new ArrayList<>();
+        for (CoupleText couple : coupleTextList) {
+            for (int i = 0; i < 3; i++) {  // 3 annotations par paire
+                duplicatedPairs.add(new CoupleText(couple));  // Constructeur de copie ou méthode clone()
+            }
         }
+
+        // Étape 2 : Mélanger les paires dupliquées
+        Collections.shuffle(duplicatedPairs);
+
+        // Étape 3 : Assignation round-robin aux annotateurs
+        int annotatorCount = annotateurList.size();
+        Map<Annotateur, List<CoupleText>> taskMap = new HashMap<>();
+
+        // Initialisation des listes de tâches
+        for (Annotateur a : annotateurList) {
+            taskMap.put(a, new ArrayList<>());
+        }
+
+        // Distribution round-robin
+        for (int i = 0; i < duplicatedPairs.size(); i++) {
+            Annotateur annotator = annotateurList.get(i % annotatorCount);
+            CoupleText pair = duplicatedPairs.get(i);
+
+            // Éviter qu’un annotateur reçoive la même paire originale plusieurs fois
+            if (!hasAnnotatorAlreadyReceivedOriginalPair(annotator, pair, coupleTextList)) {
+                taskMap.get(annotator).add(pair);
+            } else {
+                // Si déjà attribué, passer à l’annotateur suivant (simple fallback)
+                int nextIndex = (i + 1) % annotatorCount;
+                taskMap.get(annotateurList.get(nextIndex)).add(pair);
+            }
+        }
+
+        // Étape 4 : Création des tâches dans la base de données
+        for (Map.Entry<Annotateur, List<CoupleText>> entry : taskMap.entrySet()) {
+            Annotateur annotator = entry.getKey();
+            List<CoupleText> tasks = entry.getValue();
+
+            if (!tasks.isEmpty()) {
+                Task task = new Task();
+                task.setCouples(tasks);
+                task.setAnnotateur(annotator);
+                task.setDataset(dataset);
+                task.setDateLimite(deadline);
+                taskeRepository.save(task);
+            }
+        }
+    }
+
+    // Méthode utilitaire pour éviter la répétition d’une paire originale pour un annotateur
+    private boolean hasAnnotatorAlreadyReceivedOriginalPair(Annotateur annotator, CoupleText duplicatedPair, List<CoupleText> originalPairs) {
+        // Recherche de la paire originale correspondante
+        return originalPairs.stream()
+                .anyMatch(original -> original.getId().equals(duplicatedPair.getOriginalId())) &&
+                annotator.getTaches().stream()
+                        .flatMap(t -> t.getCouples().stream())
+                        .anyMatch(c -> c.getOriginalId().equals(duplicatedPair.getOriginalId()));
     }
 }

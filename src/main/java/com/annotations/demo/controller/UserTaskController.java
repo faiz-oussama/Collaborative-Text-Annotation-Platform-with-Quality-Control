@@ -1,9 +1,6 @@
 package com.annotations.demo.controller;
 
-import com.annotations.demo.entity.CoupleText;
-import com.annotations.demo.entity.Task;
-import com.annotations.demo.entity.TaskProgress;
-import com.annotations.demo.entity.User;
+import com.annotations.demo.entity.*;
 import com.annotations.demo.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -13,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -35,12 +30,28 @@ public class UserTaskController {
 
     @GetMapping("/tasks")
     public String showUserTaskHome(Model model) {
+        User annotateur = userService.getCurrentAnnotateur();
+        if (annotateur == null) {
+            return "redirect:/login";
+        }
+
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
-        model.addAttribute("currentUserName", currentUserName);
-        List<Task> tasks = taskService.findAllTasksByAnnotateurId(userService.getCurrentAnnotateurId());
+        List<Task> tasks = taskService.findAllTasksByAnnotateurId(annotateur.getId());
+
+        // Map task ID → lastIndex
+        Map<Long, Float> taskProgressMap = new HashMap<>();
+
+        for (Task task : tasks) {
+            Optional<TaskProgress> progressOpt = taskProgressService.getProgressForUserAndTask(annotateur, task.getId());
+            taskProgressMap.put(task.getId(), Float.valueOf(progressOpt.map(TaskProgress::getLastIndex).orElse(0)));
+        }
+
         model.addAttribute("tasks", tasks);
+        model.addAttribute("taskProgressMap", taskProgressMap);
+        model.addAttribute("currentUserName", currentUserName);
         return "user/tasks";
     }
+
     /**
      * Display the task detail with the current couple to annotate
      */
@@ -116,21 +127,33 @@ public class UserTaskController {
         // Save the annotation
         annotationService.saveAnnotation(classSelection, coupleId, annotateur.getId());
 
-        // Determine next index (move to next couple)
-        int nextIndex = currentIndex + 1;
 
-        // Add success message
+        int nextIndex = currentIndex + 1;
+        taskProgressService.saveOrUpdateProgress(annotateur, taskId, nextIndex);
         redirectAttributes.addFlashAttribute("successMessage", "Annotation saved successfully!");
 
-        // Redirect to the next couple or back to the task list if this was the last one
         Task task = taskService.findTaskById(taskId);
         if (task != null && nextIndex >= task.getCouples().size()) {
-            // This was the last couple, redirect to task list
             redirectAttributes.addFlashAttribute("completedMessage", "Congratulations! You have completed all annotations for this task.");
             return "redirect:/user/home";
         }
 
         return "redirect:/user/tasks/" + taskId + "?index=" + nextIndex;
+    }
+
+
+
+    @GetMapping("/history")
+    public String showUserHistory(Model model) {
+        User annotateur = userService.getCurrentAnnotateur();
+        if (annotateur == null) {
+            return "redirect:/login";
+        }
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        List<Annotation> annotations = annotationService.findAllAnnotationsByUser(annotateur);
+        model.addAttribute("annotations", annotations);
+        model.addAttribute("currentUserName", currentUserName);
+        return "user/history";
     }
 
 }

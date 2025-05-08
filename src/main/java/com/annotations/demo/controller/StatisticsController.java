@@ -4,10 +4,8 @@ import com.annotations.demo.entity.Annotateur;
 import com.annotations.demo.entity.Annotation;
 import com.annotations.demo.entity.Dataset;
 import com.annotations.demo.entity.Task;
-import com.annotations.demo.service.AnnotateurService;
-import com.annotations.demo.service.AnnotationService;
-import com.annotations.demo.service.DatasetService;
-import com.annotations.demo.service.TaskService;
+import com.annotations.demo.service.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,16 +24,18 @@ public class StatisticsController {
     private final AnnotateurService annotateurService;
     private final DatasetService datasetService;
     private final AnnotationService annotationService;
+    private final UserService userService;
 
     @Autowired
     public StatisticsController(TaskService taskService,
                                 AnnotateurService annotateurService,
                                 DatasetService datasetService,
-                                AnnotationService annotationService) {
+                                AnnotationService annotationService, UserService userService) {
         this.taskService = taskService;
         this.annotateurService = annotateurService;
         this.datasetService = datasetService;
         this.annotationService = annotationService;
+        this.userService = userService;
     }
 
     @GetMapping("/overview")
@@ -94,6 +94,9 @@ public class StatisticsController {
         agreementData.put("kappaValues", kappaValues);
         model.addAttribute("agreementData", agreementData);
 
+
+        String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+        model.addAttribute("currentUserName", currentUserName);
 
         return "admin/statistics_management/overview";
     }

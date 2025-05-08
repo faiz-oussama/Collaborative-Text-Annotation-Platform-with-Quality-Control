@@ -4,6 +4,7 @@ package com.annotations.demo.service;
 import com.annotations.demo.entity.Annotateur;
 import com.annotations.demo.entity.Annotation;
 import com.annotations.demo.entity.CoupleText;
+import com.annotations.demo.entity.User;
 import com.annotations.demo.repository.AnnotationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,4 +58,10 @@ public class AnnotationServiceImpl implements AnnotationService {
         }
         return count;
     }
+
+    @Override
+    public List<Annotation> findAllAnnotationsByUser(User user){
+        return annotationRepository.findByAnnotateur(user);
+    }
+
 }

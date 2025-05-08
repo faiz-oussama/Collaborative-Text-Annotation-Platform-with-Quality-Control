@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annotation History</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        .history-container {
+            margin-top: 1.5rem;
+        }
+        
+        .annotation-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1rem;
+            padding: 1.25rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .annotation-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .annotation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .annotation-id {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+        
+        .annotation-chosen-class {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(112, 72, 232, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .text-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .text-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .text-box h4 {
+            color: #475569;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .text-content {
+            font-size: 0.875rem;
+            color: #1e293b;
+            white-space: pre-wrap;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state h3 {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+        
+        .empty-state p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .text-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/user_sidebar :: sidebar('history')}"></div>
+<div th:replace="~{fragments/user_navbar :: navbar('Annotation History')}"></div>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="content-header">
+        <h2 class="content-title">Annotation History</h2>
+        <p class="content-subtitle">View all your past annotations across different tasks</p>
+    </div>
+    
+    <div class="history-container">
+        <!-- Empty state -->
+        <div class="empty-state" th:if="${annotations == null || annotations.isEmpty()}">
+            <i class='bx bx-history'></i>
+            <h3>No annotation history found</h3>
+            <p>You haven't made any annotations yet. Complete some annotation tasks to see your history here.</p>
+        </div>
+        
+        <!-- Annotation list -->
+        <div th:if="${annotations != null && !annotations.isEmpty()}">
+            <div class="annotation-card" th:each="annotation : ${annotations}">
+                <div class="annotation-header">
+                    <div class="annotation-id">Annotation #<span th:text="${annotation.id}">123</span></div>
+                    <div class="annotation-chosen-class">
+                        <i class='bx bx-tag-alt mr-1'></i>
+                        <span th:text="${annotation.ChosenClass}">Class</span>
+                    </div>
+                </div>
+                
+                <div class="text-container">
+                    <div class="text-box">
+                        <h4>Text 1</h4>
+                        <div class="text-content" th:text="${annotation.coupleText.text_1}">
+                            Text content 1 goes here...
+                        </div>
+                    </div>
+                    
+                    <div class="text-box">
+                        <h4>Text 2</h4>
+                        <div class="text-content" th:text="${annotation.coupleText.text_2}">
+                            Text content 2 goes here...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center text-sm text-gray-500">
+                    <i class='bx bx-data mr-1'></i>
+                    <span>Dataset: </span>
+                    <span th:text="${annotation.coupleText.dataset.name}" class="font-medium ml-1">Dataset Name</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="/dashboard.js"></script>
+</body>
+</html>
