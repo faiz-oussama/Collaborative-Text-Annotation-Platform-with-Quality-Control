@@ -49,6 +49,12 @@ public class CoupleTextServiceImpl implements CoupleTextService {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public long countCoupleTextsByDatasetId(Long datasetId) {
+        return coupleTextRepository.countByDatasetId(datasetId);
+    }
+
     @Override
     public Page<CoupleText> getCoupleTextsByDatasetId(Long datasetId, int page, int size) {
         Optional<Dataset> datasetOptional = datasetRepository.findById(datasetId);

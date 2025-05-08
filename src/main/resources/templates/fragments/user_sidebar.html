@@ -15,23 +15,23 @@
 
         <nav class="sidebar-menu">
             <div class="menu-label">Core</div>
-            <a href="/admin/showAdminHome" class="menu-item" th:classappend="${activeMenu == 'dashboard'} ? 'active' : ''">
+            <a href="/user/home" class="menu-item" th:classappend="${activeMenu == 'dashboard'} ? 'active' : ''">
                 <i class='bx bx-home'></i>
                 <span>Dashboard</span>
             </a>
 
-            <div class="menu-label">Management</div>
-            <a href="/admin/annotateurs" class="menu-item" th:classappend="${activeMenu == 'users'} ? 'active' : ''">
+            <div class="menu-label">Annotation</div>
+            <a href="/user/tasks" class="menu-item" th:classappend="${activeMenu == 'tasks'} ? 'active' : ''">
+                <i class='bx bx-task'></i>
+                <span>My Tasks</span>
+            </a>
+            <a href="/user/history" class="menu-item" th:classappend="${activeMenu == 'history'} ? 'active' : ''">
+                <i class='bx bx-history'></i>
+                <span>Annotation History</span>
+            </a>
+            <a href="/user/profile" class="menu-item" th:classappend="${activeMenu == 'profile'} ? 'active' : ''">
                 <i class='bx bx-user'></i>
-                <span>Users</span>
-            </a>
-            <a href="/admin/datasets" class="menu-item" th:classappend="${activeMenu == 'datasets'} ? 'active' : ''">
-                <i class='bx bx-data'></i>
-                <span>Datasets</span>
-            </a>
-            <a href="/admin/overview" class="menu-item" th:classappend="${activeMenu == 'statistics'} ? 'active' : ''">
-                <i class='bx bx-bar-chart-alt-2'></i>
-                <span>Statistics</span>
+                <span>My Profile</span>
             </a>
         </nav>
 
@@ -41,4 +41,4 @@
     </div>
 </aside>
 </body>
-</html>
+</html> 

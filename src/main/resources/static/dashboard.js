@@ -4,20 +4,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('sidebar');
 
     if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => {
+        menuToggle.addEventListener('click', function() {
             sidebar.classList.toggle('active');
         });
+    }
 
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 &&
-                !sidebar.contains(e.target) &&
-                !menuToggle.contains(e.target) &&
-                sidebar.classList.contains('active')) {
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile && sidebar && sidebar.classList.contains('active')) {
+            // Check if click is outside the sidebar
+            if (!sidebar.contains(event.target) && event.target !== menuToggle) {
                 sidebar.classList.remove('active');
             }
-        });
-    }
+        }
+    });
 
     // Animate elements on scroll
     const animateOnScroll = () => {
@@ -34,7 +35,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll(); // Initial call to animate visible elements
+
+    // Initialize dropdowns, tooltips, or other interactive elements
+    initializeUI();
 });
+
+function initializeUI() {
+    // Add any additional UI initializations here
+    // This can include tooltips, popovers, dropdowns, etc.
+    
+    // Example: Initialize tooltips (if using Bootstrap)
+    // if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+    //     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    //     tooltipTriggerList.map(function (tooltipTriggerEl) {
+    //         return new bootstrap.Tooltip(tooltipTriggerEl);
+    //     });
+    // }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     // Toggle sidebar
@@ -144,4 +161,4 @@ document.addEventListener('DOMContentLoaded', function() {
             successToast.classList.remove('show');
         }, 5000);
     }
-});l
+});

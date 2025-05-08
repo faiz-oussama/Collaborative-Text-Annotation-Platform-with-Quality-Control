@@ -3,124 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assign Annotators to Dataset</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Assign Annotators - Annotations App</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">   
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assign_annotator_form.css">
 </head>
-<body class="bg-gray-50">
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
-    <!-- Header -->
-    <header class="bg-white shadow-sm mb-8">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <a th:href="@{'/admin/datasets/details/' + ${dataset.id}}" class="text-primary-600 hover:text-primary-800 flex items-center transition-colors duration-200">
-                        <i class="fas fa-arrow-left mr-2"></i> Back to Dataset Details
-                    </a>
-                </div>
-                <h1 class="text-2xl font-bold text-gray-900">Assign Annotators</h1>
-                <div></div> <!-- Empty div for flex justification -->
-            </div>
-        </div>
-    </header>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar('datasets')}"></div>
+<div th:replace="~{fragments/navbar :: navbar('Assign Annotators')}"></div>
 
-    <!-- Main Content -->
-    <main class="max-w-3xl mx-auto">
-        <!-- Dataset Info Card -->
-        <div class="bg-white rounded-xl shadow-md mb-6 p-6">
-            <div class="flex items-center justify-between mb-2">
-                <h2 class="text-lg font-semibold text-gray-800">Dataset Information</h2>
-                <span class="px-3 py-1 inline-flex text-sm leading-5 font-medium rounded-full bg-primary-100 text-primary-800">
-                        ID: <span th:text="${dataset.id}"></span>
-                    </span>
-            </div>
-            <p class="text-lg font-medium text-gray-700" th:text="${dataset.name}">Dataset Name</p>
-            <p class="text-sm text-gray-500" th:text="${dataset.description}">Dataset description...</p>
+
+
+<main class="main-content">
+    <div class="user-header animate-fadeUp">
+        <div class="header-title">
+            <h1>
+                <!-- Direct SVG instead of Boxicons -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" style="margin-right: 0.5em; vertical-align: middle; fill: #4A6CF7;">
+                    <path d="M8 12.052c1.995 0 3.5-1.505 3.5-3.5s-1.505-3.5-3.5-3.5-3.5 1.505-3.5 3.5 1.505 3.5 3.5 3.5zM9 13H7c-2.757 0-5 2.243-5 5v1h12v-1c0-2.757-2.243-5-5-5zm11-3h-2v-2h-2v2h-2v2h2v2h2v-2h2v-2z"/>
+                </svg>
+                Assign Annotators
+            </h1>
+            <p class="header-subtitle">Assign annotators to work on this dataset</p>
         </div>
 
-        <!-- Annotator Selection Form -->
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4">Select Annotators to Assign</h2>
+        <a th:href="@{'/admin/datasets/details/' + ${dataset.id}}" class="action-btn">
+            <!-- Direct SVG for back arrow -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" style="margin-right: 0.4em; vertical-align: middle; fill: currentColor;">
+                <path d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z"/>
+            </svg>
+            Back to Dataset
+        </a>
+    </div>
 
-            <form th:action="@{'/admin/datasets/' + ${dataset.id} + '/assign'}" method="post">
-                <!-- Deadline Input -->
-                <div class="mb-6">
-                    <label for="deadline" class="block text-sm font-medium text-gray-700 mb-1">Task Deadline</label>
-                    <input type="date" id="deadline" name="deadline" th:value="${#dates.format(deadline, 'yyyy-MM-dd')}"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-                           required>
+
+    <!-- Annotator Selection Form -->
+    <div class="user-container">
+        <form th:action="@{'/admin/datasets/' + ${dataset.id} + '/assign'}" method="post">
+            <div class="enhanced-card">
+                <div class="enhanced-header">
+                    <h2 class="dataset-card-title">
+                        <!-- Calendar SVG icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="fill: #4A6CF7;">
+                            <path d="M19 4h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm.001 16H5V8h14l.001 12zM7 10h10v2H7v-2zm0 4h5v2H7v-2z"/>
+                        </svg>
+                        Task Deadline
+                    </h2>
                 </div>
-
-                <!-- Select All Checkbox -->
-                <div class="mb-4 flex items-center">
-                    <input type="checkbox" id="select-all" class="h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500">
-                    <label for="select-all" class="ml-2 block text-sm font-medium text-gray-700">Select All Annotators</label>
+                <div class="enhanced-body">
+                    <!-- Deadline Input -->
+                    <div class="input-wrapper">
+                        <label for="deadline" class="input-label">Select a deadline for task completion</label>
+                        <input type="date" id="deadline" name="deadline" th:value="${#dates.format(deadline, 'yyyy-MM-dd')}"
+                            class="form-control-enhanced" required>
+                    </div>
                 </div>
+            </div>
+            
+            <hr class="section-divider">
+            
+            <!-- Annotator Selection Section -->
+            <div class="enhanced-card">
+                <div class="enhanced-header">
+                    <h2 class="dataset-card-title">
+                        <!-- User check SVG icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="fill: #4A6CF7;">
+                            <path d="M16 2H8C4.691 2 2 4.691 2 8v13a1 1 0 0 0 1 1h13c3.309 0 6-2.691 6-6V8c0-3.309-2.691-6-6-6zm-5 15.5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v2zm6-1.9a.997.997 0 0 1-1.41.02l-2.17-2.16-1.21 1.2a1 1 0 0 1-1.42 0 1.007 1.007 0 0 1 0-1.42l1.91-1.91c.2-.2.45-.29.71-.29.26 0 .51.09.71.29l2.88 2.86c.39.39.39 1.02.01 1.41M15 7c0 1.66-1.34 3-3 3S9 8.66 9 7s1.34-3 3-3 3 1.34 3 3z"/>
+                        </svg>
+                        Select Annotators
+                    </h2>
+                </div>
+                <div class="enhanced-body">
+                    <!-- Select All Checkbox -->
+                    <div class="select-all-wrapper">
+                        <input type="checkbox" id="select-all" class="checkbox-input">
+                        <label for="select-all" class="checkbox-label checkbox-name">Select All Annotators</label>
+                    </div>
 
-                <!-- Divider -->
-                <div class="border-t border-gray-200 my-4"></div>
-
-                <!-- Annotator Checklist -->
-                <div class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                    <div th:each="annotateur : ${annotateurs}" class="relative flex items-start">
-                        <div class="flex items-center h-5">
+                    <!-- Annotator Checklist -->
+                    <div class="annotator-list">
+                        <div th:each="annotateur : ${annotateurs}" class="checkbox-wrapper">
                             <input th:id="'annotateur-' + ${annotateur.id}"
-                                   name="selectedAnnotateurs"
-                                   th:value="${annotateur.id}"
-                                   th:checked="${#lists.contains(assignedAnnotateurIds, annotateur.id)}"
-                                   type="checkbox"
-                                   class="annotateur-checkbox h-4 w-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500">
+                                name="selectedAnnotateurs"
+                                th:value="${annotateur.id}"
+                                th:checked="${#lists.contains(assignedAnnotateurIds, annotateur.id)}"
+                                type="checkbox"
+                                class="annotateur-checkbox checkbox-input">
+                            <div class="checkbox-content">
+                                <label th:for="'annotateur-' + ${annotateur.id}" class="checkbox-name">
+                                    <span th:text="${annotateur.prenom + ' ' + annotateur.nom}">Annotator Name</span>
+                                </label>
+                                <div th:text="${annotateur.login}" class="checkbox-email">annotator@example.com</div>
+                            </div>
                         </div>
-                        <div class="ml-3 text-sm">
-                            <label th:for="'annotateur-' + ${annotateur.id}" class="font-medium text-gray-700">
-                                <span th:text="${annotateur.prenom + ' ' + annotateur.nom}">Annotator Name</span>
-                            </label>
-                            <p th:text="${annotateur.login}" class="text-gray-500">annotator@example.com</p>
+
+                        <!-- Empty state when no annotators are available -->
+                        <div th:if="${annotateurs.isEmpty()}" class="empty-state">
+                            <!-- User X SVG icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" style="margin-bottom: 0.8em; fill: #64748b;">
+                                <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm4.207 12.793-1.414 1.414L12 13.414l-2.793 2.793-1.414-1.414L10.586 12 7.793 9.207l1.414-1.414L12 10.586l2.793-2.793 1.414 1.414L13.414 12l2.793 2.793z"/>
+                            </svg>
+                            <p>No annotators available to assign.</p>
                         </div>
                     </div>
 
-                    <!-- Empty state when no annotators are available -->
-                    <div th:if="${annotateurs.isEmpty()}" class="text-center py-4 text-gray-500">
-                        <i class="fas fa-users text-gray-300 text-3xl mb-2"></i>
-                        <p>No annotators available to assign.</p>
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <a th:href="@{'/admin/datasets/details/' + ${dataset.id}}" class="action-btn-enhanced secondary">
+                            <!-- X SVG icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" style="margin-right: 0.4em; vertical-align: middle; fill: currentColor;">
+                                <path d="m16.192 6.344-4.243 4.242-4.242-4.242-1.414 1.414L10.535 12l-4.242 4.242 1.414 1.414 4.242-4.242 4.243 4.242 1.414-1.414L13.364 12l4.242-4.242z"/>
+                            </svg>
+                            Cancel
+                        </a>
+                        <button type="submit" class="action-btn-enhanced primary">
+                            <!-- Check SVG icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" style="margin-right: 0.4em; vertical-align: middle; fill: currentColor;">
+                                <path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"/>
+                            </svg>
+                            Assign Selected Annotators
+                        </button>
                     </div>
                 </div>
+            </div>
+        </form>
+    </div>
+</main>
 
-                <!-- Submit Button -->
-                <div class="mt-6 text-right">
-                    <button type="submit"
-                            class="bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200">
-                        Assign Selected Annotators
-                    </button>
-                </div>
-            </form>
-        </div>
-    </main>
-</div>
-
-<!-- JavaScript for Select All functionality -->
+<!-- JavaScript for enhanced interactions -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const selectAllCheckbox = document.getElementById('select-all');
@@ -143,6 +155,68 @@
                 selectAllCheckbox.indeterminate = someChecked && !allChecked;
             });
         });
+        
+        // Initialize the select all checkbox state
+        const allChecked = [...annotateurCheckboxes].every(c => c.checked);
+        const someChecked = [...annotateurCheckboxes].some(c => c.checked);
+        selectAllCheckbox.checked = allChecked;
+        selectAllCheckbox.indeterminate = someChecked && !allChecked;
+        
+        // Add hover effects to checkbox wrappers
+        const checkboxWrappers = document.querySelectorAll('.checkbox-wrapper');
+        checkboxWrappers.forEach(wrapper => {
+            wrapper.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.05)';
+            });
+            
+            wrapper.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+                this.style.boxShadow = '';
+            });
+        });
+        
+        // Add focus styles to form controls
+        const formControls = document.querySelectorAll('.form-control-enhanced');
+        formControls.forEach(control => {
+            control.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            control.addEventListener('blur', function() {
+                this.parentElement.style.transform = '';
+            });
+        });
+        
+        // Add button interaction effects
+        const buttons = document.querySelectorAll('.action-btn-enhanced, .action-btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+            
+            button.addEventListener('mousedown', function() {
+                this.style.transform = 'translateY(-1px)';
+            });
+            
+            button.addEventListener('mouseup', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+        });
+        
+        // Toggle sidebar functionality
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+        }
     });
 </script>
 </body>

@@ -10,4 +10,5 @@ public interface CoupleTextService {
     Page<CoupleText> getCoupleTexts(int page, int size);
     Page<CoupleText> getCoupleTextsByDatasetId(Long datasetId, int page, int size);
     List<CoupleText> findAllCoupleTextsByDatasetId(Long id);
+    long countCoupleTextsByDatasetId(Long id);
 }

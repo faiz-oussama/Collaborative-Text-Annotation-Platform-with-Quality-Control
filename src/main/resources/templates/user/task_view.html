@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annotation Task</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link rel="stylesheet" href="/task_view.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+
+</head>
+<body>
+<div th:replace="~{fragments/user_sidebar :: sidebar('tasks')}"></div>
+<div th:replace="~{fragments/user_navbar :: navbar('Annotation Task')}"></div>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="content-header">
+        <h2 class="content-title">Task #<span th:text="${task.id}">123</span></h2>
+        <p class="content-subtitle">Annotate text pairs for this dataset</p>
+    </div>
+
+    <!-- Task Progress Info -->
+    <div class="progress-container">
+        <div class="progress-header">
+            <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                <i class='bx bx-task'></i>
+                <span class="ml-2">Annotation Progress</span>
+            </h3>
+            <span class="badge">
+                <span th:text="${currentIndex + 1}">1</span> / <span th:text="${totalCouples}">10</span> Couples
+            </span>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" th:style="'width: ' + ${(currentIndex + 1) * 100 / totalCouples} + '%'"></div>
+        </div>
+
+        <div class="progress-info">
+            <div class="progress-info-item">
+                <span>Dataset:</span>
+                <p th:text="${task.dataset.name}">Product Dataset</p>
+            </div>
+            <div class="progress-info-item">
+                <span>Deadline:</span>
+                <p th:text="${#dates.format(task.dateLimite, 'MMM dd, yyyy')}">Oct 15, 2023</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Text Couple -->
+    <div class="task-container">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <i class='bx bx-file'></i>
+            <span class="ml-2">Current Text Pair</span>
+        </h3>
+
+        <!-- Text Visualization -->
+        <div class="text-pair">
+            <div class="text-box">
+                <h3><i class='bx bx-text'></i> Text 1</h3>
+                <p th:text="${currentCouple.text_1}">This is the first text that needs to be annotated...</p>
+            </div>
+
+            <div class="text-box">
+                <h3><i class='bx bx-text'></i> Text 2</h3>
+                <p th:text="${currentCouple.text_2}">This is the second text that needs to be annotated...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Annotation Form -->
+    <div class="annotation-form">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <i class='bx bx-edit'></i>
+            <span class="ml-2">Annotation</span>
+        </h3>
+
+        <form th:action="@{/user/tasks/{taskId}/annotate(taskId=${task.id})}" method="post">
+            <input type="hidden" name="coupleId" th:value="${currentCouple.id}" />
+            <input type="hidden" name="currentIndex" th:value="${currentIndex}" />
+
+            <div class="form-group">
+                <h4 class="mb-3 font-medium">Select Classification</h4>
+                <div class="classification-options">
+                    <div th:each="classOption : ${task.dataset.classesPossibles}"
+                         class="classification-option">
+                        <input type="radio" th:id="${'class_' + classOption.id}"
+                               name="classSelection" th:value="${classOption.textClass}"
+                               th:checked="${classOption.textClass == selectedClassId}"
+                               required>
+                        <label th:for="${'class_' + classOption.id}"
+                               th:text="${classOption.textClass}">
+                            Classification Option
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes (Optional) -->
+            <div class="form-group">
+                <label for="notes">Notes (Optional)</label>
+                <textarea id="notes" name="notes" placeholder="Add any observations or notes..."></textarea>
+            </div>
+
+            <!-- Navigation and Submit Buttons -->
+            <div class="form-actions">
+                <div class="nav-buttons">
+                    <!-- Previous Button -->
+                    <a th:href="@{/user/tasks/{id}(id=${task.id}, index=${currentIndex - 1})}"
+                       class="btn-secondary"
+                       th:disabled="${currentIndex == 0}">
+                        <i class='bx bx-chevron-left'></i>
+                        Previous
+                    </a>
+
+                    <!-- Next Button -->
+                    <a th:href="@{/user/tasks/{id}(id=${task.id}, index=${currentIndex + 1})}"
+                       class="btn-secondary"
+                       th:disabled="${currentIndex >= totalCouples - 1}">
+                        Next
+                        <i class='bx bx-chevron-right'></i>
+                    </a>
+                </div>
+
+                <!-- Validate Button -->
+                <button type="submit" class="btn-primary">
+                    <i class='bx bx-check'></i>
+                    Validate and Continue
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<script src="/dashboard.js"></script>
+</body>
+</html>

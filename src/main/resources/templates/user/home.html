@@ -1,97 +1,109 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
     <link rel="stylesheet" href="/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
 <body>
-<!-- Header Section -->
-<div class="dashboard-header">
-    <div class="container">
-        <div class="flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-bold">Annotator Dashboard</h1>
-                <p class="text-white text-opacity-80">View and manage your annotation tasks</p>
-            </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative">
-                    <button class="flex items-center space-x-2 bg-white bg-opacity-20 rounded-lg px-4 py-2 text-white hover-scale transition">
-                        <i class="fas fa-user"></i>
-                        <span>User</span>
-                        <i class="fas fa-chevron-down text-xs"></i>
-                    </button>
-                </div>
-                <form th:action="@{/logout}"
-                      th:method="post">
-                    <input type="submit"
-                           value="Log out" />
-                    <input type="hidden"
-                           name="${_csrf.parameterName}"
-                           value="${_csrf.token}"/>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<div th:replace="~{fragments/user_sidebar :: sidebar('dashboard')}"></div>
+<div th:replace="~{fragments/user_navbar :: navbar('User Dashboard')}"></div>
 
 <!-- Main Content -->
-<div class="container py-6">
-    <!-- Tasks Section -->
-    <div class="dashboard-card">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-semibold flex items-center">
-                <i class="fas fa-clipboard-list text-primary mr-2"></i>
-                My Tasks
-            </h2>
-            <a th:href="@{/user/tasks}" class="btn btn-primary">
-                <i class="fas fa-list mr-1"></i> View All Tasks
+<main class="main-content">
+    <div class="content-header">
+        <h2 class="content-title">Annotator Dashboard</h2>
+        <p class="content-subtitle">View and manage your annotation tasks</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-card-icon">
+                <i class='bx bx-task'></i>
+            </div>
+            <div th:text="${pendingTasksCount}" class="stat-card-value">5</div>
+            <div class="stat-card-label">Pending Tasks</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon">
+                <i class='bx bx-check-circle'></i>
+            </div>
+            <div th:text="${completedTasksCount}" class="stat-card-value">12</div>
+            <div class="stat-card-label">Completed Tasks</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon">
+                <i class='bx bx-time'></i>
+            </div>
+            <div th:text="${urgentTasksCount}" class="stat-card-value">2</div>
+            <div class="stat-card-label">Urgent Tasks</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-icon">
+                <i class='bx bx-trending-up'></i>
+            </div>
+            <div class="stat-card-value">94.2%</div>
+            <div class="stat-card-label">Accuracy Rate</div>
+        </div>
+    </div>
+
+    <!-- Main Cards -->
+    <div class="main-cards">
+        <div class="card">
+            <a th:href="@{/user/tasks}">
+                <div class="card-decoration"></div>
+                <div class="card-icon">
+                    <i class='bx bx-task'></i>
+                </div>
+                <h3 class="card-title">My Tasks</h3>
+                <p class="card-description">View and complete your assigned annotation tasks. Track your progress and deadlines.</p>
+                <div class="card-action">
+                    <span>View Tasks</span>
+                    <i class='bx bx-right-arrow-alt'></i>
+                </div>
             </a>
         </div>
 
-        <div class="overflow-auto">
-            <table class="w-full">
-                <thead>
-                <tr class="border-b border-gray-light">
-                    <th class="text-left py-3 px-4 font-semibold">Task ID</th>
-                    <th class="text-left py-3 px-4 font-semibold">Dataset Name</th>
-                    <th class="text-left py-3 px-4 font-semibold">Deadline</th>
-                    <th class="text-right py-3 px-4 font-semibold">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="task : ${tasks}" class="border-b border-gray-light hover:bg-gray-light transition">
-                    <td class="py-3 px-4" th:text="${task.id}">123</td>
-                    <td class="py-3 px-4" th:text="${task.dataset.name}">Product Classification</td>
-                    <td class="py-3 px-4" th:text="${#dates.format(task.dateLimite, 'MMM dd, yyyy')}">Oct 15, 2023</td>
-                    <td class="py-3 px-4 text-right">
-                        <a th:href="@{/user/tasks/{id}(id=${task.id})}" class="btn btn-sm btn-primary">
-                            <i class="fas fa-pencil-alt mr-1"></i> Work
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="card">
+            <a th:href="@{/user/history}">
+                <div class="card-decoration"></div>
+                <div class="card-icon">
+                    <i class='bx bx-history'></i>
+                </div>
+                <h3 class="card-title">Annotation History</h3>
+                <p class="card-description">Review your previous annotations, track your performance, and see detailed statistics.</p>
+                <div class="card-action">
+                    <span>View History</span>
+                    <i class='bx bx-right-arrow-alt'></i>
+                </div>
+            </a>
         </div>
-    </div>
-</div>
 
-<footer class="bg-dark text-white py-6 mt-10">
-    <div class="container">
-        <div class="flex justify-between items-center">
-            <div>
-                <h2 class="text-xl font-bold">Annotations App</h2>
-                <p class="text-gray text-sm">© 2023 All rights reserved</p>
-            </div>
-            <div class="flex space-x-4">
-                <a href="#" class="text-gray hover:text-white transition"><i class="fas fa-question-circle"></i> Help</a>
-                <a href="#" class="text-gray hover:text-white transition"><i class="fas fa-cog"></i> Settings</a>
-            </div>
+        <div class="card">
+            <a th:href="@{/user/profile}">
+                <div class="card-decoration"></div>
+                <div class="card-icon">
+                    <i class='bx bx-user'></i>
+                </div>
+                <h3 class="card-title">My Profile</h3>
+                <p class="card-description">Manage your account information, update your preferences, and track your achievements.</p>
+                <div class="card-action">
+                    <span>View Profile</span>
+                    <i class='bx bx-right-arrow-alt'></i>
+                </div>
+            </a>
         </div>
     </div>
-</footer>
+</main>
+
+<script src="/dashboard.js"></script>
 </body>
 </html>
