@@ -18,11 +18,11 @@ import java.util.*;
 public class AssignTaskToAnnotator {
 
     private final CoupleTextServiceImpl coupleTextServiceImpl;
-    private final TaskRepository taskeRepository;
+    private final TaskRepository taskRepository;
 
     public AssignTaskToAnnotator(CoupleTextServiceImpl coupleTextServiceImpl, TaskRepository taskeRepository) {
         this.coupleTextServiceImpl = coupleTextServiceImpl;
-        this.taskeRepository = taskeRepository;
+        this.taskRepository = taskeRepository;
     }
 
 
@@ -80,7 +80,7 @@ public class AssignTaskToAnnotator {
                 task.setAnnotateur(annotator);
                 task.setDataset(dataset);
                 task.setDateLimite(deadline);
-                taskeRepository.save(task);
+                taskRepository.save(task);
             }
         }
     }
@@ -94,4 +94,17 @@ public class AssignTaskToAnnotator {
                         .flatMap(t -> t.getCouples().stream())
                         .anyMatch(c -> c.getOriginalId().equals(duplicatedPair.getOriginalId()));
     }
+
+    public void unassignAnnotator(Long datasetId, Long annotatorId) {
+        List<Task> tasks = taskRepository.findByDatasetIdAndAnnotateurId(datasetId, annotatorId);
+
+        if (tasks.isEmpty()) {
+            throw new IllegalArgumentException("No task found for this annotator and dataset.");
+        }
+        for (Task task : tasks) {
+            task.setAnnotateur(null);
+            taskRepository.save(task);
+        }
+    }
+
 }

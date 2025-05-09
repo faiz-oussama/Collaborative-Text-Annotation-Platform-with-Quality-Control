@@ -6,7 +6,7 @@
     <title>Admin Dashboard - Statistiques et Suivi</title>
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js " defer></script>
     <link rel="stylesheet" href="/main.css">
     <link rel="stylesheet" href="/custom.css">
     <link rel="stylesheet" href="/statistics.css">
@@ -124,6 +124,7 @@
 </main>
 
 <!-- JavaScript for Charts -->
+<script id="datasets-data" type="application/json" th:utext="${datasetsProgressJson}"></script>
 <script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function() {
         // Set Chart.js defaults for all charts
@@ -133,20 +134,16 @@
         
         // Dataset Progress Chart
         const datasetsProgressCtx = document.getElementById('datasetsProgressChart').getContext('2d');
-        const datasetsProgressData = /*[[${datasetsProgressData}]]*/ {
-            labels: ['Dataset 1', 'Dataset 2', 'Dataset 3', 'Dataset 4', 'Dataset 5'],
-            totalCouples: [120, 80, 200, 150, 90],
-            annotatedCouples: [100, 40, 180, 75, 90]
-        };
-
+        const datasetsProgress = JSON.parse(document.getElementById('datasets-data').textContent);
+        console.log(datasetsProgress);
         new Chart(datasetsProgressCtx, {
             type: 'bar',
             data: {
-                labels: datasetsProgressData.labels,
+                labels: datasetsProgress.labels,
                 datasets: [
                     {
                         label: 'Total Couples',
-                        data: datasetsProgressData.totalCouples,
+                        data: datasetsProgress.totalCouples,
                         backgroundColor: 'rgba(203, 213, 225, 0.7)',
                         borderColor: 'rgb(203, 213, 225)',
                         borderWidth: 1,
@@ -154,7 +151,7 @@
                     },
                     {
                         label: 'Annotated',
-                        data: datasetsProgressData.annotatedCouples,
+                        data: datasetsProgress.annotatedCouples,
                         backgroundColor: 'rgba(79, 70, 229, 0.7)',
                         borderColor: 'rgb(79, 70, 229)',
                         borderWidth: 1,
@@ -233,7 +230,7 @@
 
         // Class Distribution Chart
         const classDistributionCtx = document.getElementById('classDistributionChart').getContext('2d');
-        const classDistributionData = /*[[${classDistributionData}]]*/ {
+        const classDistributionData =  {
             labels: ['Class A', 'Class B', 'Class C', 'Class D'],
             values: [45, 25, 20, 10]
         };
@@ -304,7 +301,7 @@
 
         // Annotator Performance Chart
         const annotatorPerformanceCtx = document.getElementById('annotatorPerformanceChart').getContext('2d');
-        const annotatorPerformanceData = /*[[${annotatorPerformanceData}]]*/ {
+        const annotatorPerformanceData =  {
             annotators: ['John Doe', 'Jane Smith', 'Alex Brown', 'Maria Garcia', 'Tom Wilson'],
             completionRates: [92, 85, 78, 95, 67]
         };

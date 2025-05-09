@@ -1,9 +1,6 @@
 package com.annotations.demo.controller;
 
-import com.annotations.demo.entity.Annotateur;
-import com.annotations.demo.entity.Role;
-import com.annotations.demo.entity.RoleType;
-import com.annotations.demo.entity.User;
+import com.annotations.demo.entity.*;
 import com.annotations.demo.repository.RoleRepository;
 import com.annotations.demo.service.*;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -25,17 +26,19 @@ public class AdminController {
     private final TaskService taskService;
     private final DatasetService datasetService;
     private final AnnotationService annotationService;
+    private final TaskProgressServiceImpl taskProgressService;
     
     @Autowired
     public AdminController(
             UserService userService, AnnotateurService annotateurService,
-            RoleRepository roleRepository, TaskService taskService, DatasetService datasetService, AnnotationService annotationService) {
+            RoleRepository roleRepository, TaskService taskService, DatasetService datasetService, AnnotationService annotationService, TaskProgressService taskProgressService, TaskProgressServiceImpl taskProgressService1) {
         this.userService = userService;
         this.annotateurService = annotateurService;
         this.roleRepository = roleRepository;
         this.taskService = taskService;
         this.datasetService = datasetService;
         this.annotationService = annotationService;
+        this.taskProgressService = taskProgressService1;
     }
     
     @GetMapping("/showAdminHome")
@@ -57,8 +60,20 @@ public class AdminController {
     @GetMapping("/annotateurs")
     public String showUsers(Model model) {
         List<Annotateur> annotateurs = annotateurService.findAllActive();
+        Map<Long, LocalDateTime> lastActivity = new HashMap<>();
+
+        for (Annotateur annotateur : annotateurs) {
+            TaskProgress latestProgress = taskProgressService.getLastAnnotationByUser(annotateur);
+
+            if (latestProgress != null) {
+                lastActivity.put(annotateur.getId(), latestProgress.getUpdatedAt());
+            } else {
+                lastActivity.put(annotateur.getId(), null);
+            }
+        }
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
         model.addAttribute("currentUserName", currentUserName);
+        model.addAttribute("lastActivity", lastActivity);
         model.addAttribute("annotateurs", annotateurs);
         return "admin/annotateur_management/annotateurs";
     }

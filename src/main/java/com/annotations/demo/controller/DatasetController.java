@@ -28,15 +28,17 @@ public class DatasetController {
     private final CoupleTextServiceImpl coupleTextService;
     private final AsyncDatasetParserService asyncDatasetParserService;
     private final UserService userService;
+    private final AssignTaskToAnnotator assignTaskToAnnotator;
 
     // Constructor-based injection for both services
     @Autowired
-    public DatasetController(DatasetServiceImpl datasetService, AnnotateurService annotateurService, CoupleTextServiceImpl coupleTextService, AsyncDatasetParserService asyncDatasetParserService, UserService userService) {
+    public DatasetController(DatasetServiceImpl datasetService, AnnotateurService annotateurService, CoupleTextServiceImpl coupleTextService, AsyncDatasetParserService asyncDatasetParserService, UserService userService, AssignTaskToAnnotator assignTaskToAnnotator) {
         this.datasetService = datasetService;
         this.annotateurService = annotateurService;
         this.coupleTextService = coupleTextService;
         this.asyncDatasetParserService = asyncDatasetParserService;
         this.userService = userService;
+        this.assignTaskToAnnotator = assignTaskToAnnotator;
     }
 
     @GetMapping("/datasets")
@@ -118,12 +120,6 @@ public class DatasetController {
         // Fetch active annotators
         List<Annotateur> annotateurs = annotateurService.findAllActive();
 
-        // Check if at least 3 annotators exist
-        if (annotateurs.size() < 3) {
-            redirectAttributes.addFlashAttribute("error", "Au moins 3 annotateurs actifs sont requis pour l'annotation.");
-            return "redirect:/admin/datasets"; // Redirect to dataset list
-        }
-
         // Proceed normally if enough annotators
         Dataset dataset = datasetService.findDatasetById(id);
 
@@ -149,5 +145,17 @@ public class DatasetController {
         model.addAttribute("annotateurs", annotateurs);
 
         return "admin/datasets_management/annotateur_assignment";
+    }
+    @GetMapping("/datasets/{id}/unassign_annotator")
+    public String unassignAnnotator(@PathVariable Long id,
+                                    @RequestParam Long annotatorId,
+                                    RedirectAttributes redirectAttributes) {
+        try {
+            assignTaskToAnnotator.unassignAnnotator(id, annotatorId);
+            redirectAttributes.addFlashAttribute("success", "Annotator unassigned successfully.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to unassign annotator: " + e.getMessage());
+        }
+        return "redirect:/admin/datasets/details/" + id;
     }
 }

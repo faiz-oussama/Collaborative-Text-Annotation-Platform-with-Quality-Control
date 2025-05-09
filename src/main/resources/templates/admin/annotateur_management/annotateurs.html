@@ -76,7 +76,11 @@
                                     Active
                                 </span>
                     </td>
-                    <td>Today, 10:30 AM</td>
+                    <td>
+                        <span th:text="${lastActivity.containsKey(annotateur.id) and lastActivity[annotateur.id] != null} ? ${#temporals.format(lastActivity[annotateur.id], 'yyyy-MM-dd HH:mm')} : 'No activity yet'">
+                            Last Activity
+                        </span>
+                    </td>
                     <td>
                         <div class="cell-actions">
                             <a th:href="@{'/admin/annotateurs/update/' + ${annotateur.id}}" class="action-icon edit" title="Edit User">

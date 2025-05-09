@@ -44,6 +44,11 @@ public class TaskController {
             return "redirect:/admin/datasets";
         }
 
+        if (annotatorIds.size() < 3) {
+            redirectAttributes.addFlashAttribute("error", "Au moins 3 annotateurs actifs sont requis pour l'annotation.");
+            return "redirect:/admin/datasets/details/" + id; // Redirect to dataset list
+        }
+
         if (annotatorIds == null || annotatorIds.isEmpty()) {
             redirectAttributes.addFlashAttribute("warning", "No annotators were selected");
             return "redirect:/admin/datasets/details/" + id;

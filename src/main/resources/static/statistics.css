@@ -5,6 +5,11 @@
     margin-bottom: 2rem;
 }
 
+.chart-content {
+    position: relative;
+    height: 400px; /* Adjust as needed */
+}
+
 .chart-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));

@@ -5,6 +5,8 @@ import com.annotations.demo.entity.Annotation;
 import com.annotations.demo.entity.Dataset;
 import com.annotations.demo.entity.Task;
 import com.annotations.demo.service.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +41,7 @@ public class StatisticsController {
     }
 
     @GetMapping("/overview")
-    public String showStatistics(Model model) {
+    public String showStatistics(Model model) throws JsonProcessingException {
         // 1. Gather basic statistics
         long totalAnnotations = annotationService.countTotalAnnotations();
         long activeTasks = taskService.countActiveTasks();
@@ -66,33 +68,12 @@ public class StatisticsController {
         datasetsProgressData.put("labels", datasetNames);
         datasetsProgressData.put("totalCouples", totalCouples);
         datasetsProgressData.put("annotatedCouples", annotatedCouples);
-        model.addAttribute("datasetsProgressData", datasetsProgressData);
 
-
-        // 4. Annotator performance data
-        Map<String, Object> performanceData = new HashMap<>();
-        List<String> annotatorNames = new ArrayList<>();
-        List<Double> completionRates = new ArrayList<>();
-        List<Double> annotationsPerDay = new ArrayList<>();
-
-        for (Annotateur annotateur : annotateurService.findAllActive()) {
-            String name = annotateur.getPrenom() + " " + annotateur.getNom();
-            annotatorNames.add(name);
-        }
-
-        performanceData.put("annotators", annotatorNames);
-        performanceData.put("completionRates", completionRates);
-        model.addAttribute("annotatorPerformanceData", performanceData);
-
-        // 5. Inter-annotator agreement data
-        Map<String, Object> agreementData = new HashMap<>();
-        List<String> datasetsWithMultipleAnnotators = new ArrayList<>();
-        List<Double> kappaValues = new ArrayList<>();
-
-
-        agreementData.put("datasets", datasetsWithMultipleAnnotators);
-        agreementData.put("kappaValues", kappaValues);
-        model.addAttribute("agreementData", agreementData);
+        //pass the map as a JSON for the script retrieval
+        ObjectMapper objectMapper = new ObjectMapper();
+        String datasetsProgressJson = objectMapper.writeValueAsString(datasetsProgressData);
+        System.out.println(datasetsProgressJson);
+        model.addAttribute("datasetsProgressJson", datasetsProgressJson);
 
 
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());

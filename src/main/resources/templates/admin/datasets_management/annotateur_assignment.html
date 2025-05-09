@@ -38,7 +38,26 @@
         </a>
     </div>
 
+    <!-- Success/Error Messages Section -->
+    <div class="message-container animate-fadeUp">
+        <!-- Success Message -->
+        <div th:if="${param.success}" class="alert alert-success" role="alert">
+            <!-- Checkmark SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="margin-right: 0.5em; vertical-align: middle;">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="#155724"/>
+            </svg>
+            <span th:text="${param.success}">Success message</span>
+        </div>
 
+        <!-- Error Message -->
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+            <!-- Error SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="margin-right: 0.5em; vertical-align: middle;">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="#721c24"/>
+            </svg>
+            <span th:text="${param.error}">Error message</span>
+        </div>
+    </div>
     <!-- Annotator Selection Form -->
     <div class="user-container">
         <form th:action="@{'/admin/datasets/' + ${dataset.id} + '/assign'}" method="post">
