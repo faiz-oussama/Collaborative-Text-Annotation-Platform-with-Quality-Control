@@ -25,6 +25,10 @@
                 <i class='bx bx-user'></i>
                 <span>Users</span>
             </a>
+            <a href="/admin/tasks" class="menu-item" th:classappend="${activeMenu == 'tasks'} ? 'active' : ''">
+                <i class='bx bx-task'></i>
+                <span>Tasks</span>
+            </a>
             <a href="/admin/datasets" class="menu-item" th:classappend="${activeMenu == 'datasets'} ? 'active' : ''">
                 <i class='bx bx-data'></i>
                 <span>Datasets</span>

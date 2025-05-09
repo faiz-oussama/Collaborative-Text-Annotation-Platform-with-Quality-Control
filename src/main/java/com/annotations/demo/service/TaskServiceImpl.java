@@ -1,6 +1,7 @@
 package com.annotations.demo.service;
 
 
+import com.annotations.demo.entity.Annotateur;
 import com.annotations.demo.entity.Annotation;
 import com.annotations.demo.entity.ClassPossible;
 import com.annotations.demo.entity.Task;
@@ -52,6 +53,16 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public long countActiveTasks(){
         return taskRepository.count();
+    }
+
+    @Override
+    public int countAssignedCouples(Annotateur annotateur){
+        List<Task> tasks = taskRepository.findByAnnotateur(annotateur);
+        int count = 0;
+        for (Task task : tasks) {
+            count += task.getCouples().size();
+        }
+        return count;
     }
 
 

@@ -6,21 +6,30 @@ import com.annotations.demo.entity.Annotation;
 import com.annotations.demo.entity.CoupleText;
 import com.annotations.demo.entity.User;
 import com.annotations.demo.repository.AnnotationRepository;
+import com.annotations.demo.entity.Task;
+import com.annotations.demo.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AnnotationServiceImpl implements AnnotationService {
     private final AnnotationRepository annotationRepository;
     private final AnnotateurService annotateurService;
     private final CoupleTextServiceImpl coupleTextServiceImpl;
+    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
-    public AnnotationServiceImpl(AnnotationRepository annotationRepository, AnnotateurService annotateurService, CoupleTextServiceImpl coupleTextServiceImpl) {
+    public AnnotationServiceImpl(AnnotationRepository annotationRepository, AnnotateurService annotateurService, CoupleTextServiceImpl coupleTextServiceImpl, TaskRepository taskRepository, TaskService taskService) {
         this.annotationRepository = annotationRepository;
         this.annotateurService = annotateurService;
         this.coupleTextServiceImpl = coupleTextServiceImpl;
+        this.taskRepository = taskRepository;
+        this.taskService = taskService;
     }
 
     @Override
@@ -64,4 +73,16 @@ public class AnnotationServiceImpl implements AnnotationService {
         return annotationRepository.findByAnnotateur(user);
     }
 
+    @Override
+    public List<Annotation> findAllAnnotationsByDataset(Long id){
+        return annotationRepository.findByCoupleText_Dataset_Id(id);
+    }
+
+    @Override
+    public List<Annotation> findAnnotationsByTaskId(Long taskId) {
+        // Since we don't have a direct task-to-annotation relationship in the repository,
+        // we'll use the task ID to find the annotator and filter only their annotations
+        // related to couples in the task
+        return annotationRepository.findByAnnotateur_Taches_Id(taskId);
+    }
 }

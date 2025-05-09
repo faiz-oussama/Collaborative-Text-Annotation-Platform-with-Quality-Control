@@ -28,7 +28,7 @@ public class Annotation {
     private Long id;
 
     @Column(name = "class_choisie", nullable = false)
-    private String ChosenClass;
+    private String chosenClass;
 
     @ManyToOne
     @JoinColumn(name="annotateur_id")
@@ -37,4 +37,10 @@ public class Annotation {
     @ManyToOne
     @JoinColumn(name="couple_id")
     private CoupleText coupleText;
+
+
+    //helper
+    public Dataset getDataset() {
+        return coupleText != null ? coupleText.getDataset() : null;
+    }
 }

@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.annotations.demo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.annotations.demo.entity.Annotateur;
@@ -16,5 +18,7 @@ public interface AnnotationRepository extends JpaRepository<Annotation, Long> {
     List<Annotation> findByAnnotateur(User user);
     List<Annotation> findByCoupleText(CoupleText coupleText);
     Optional<Annotation> findByAnnotateurIdAndCoupleTextId(Long annotateurId, Long coupleId);
+    List<Annotation> findByCoupleText_Dataset_Id(Long datasetId);
 
-} 
+    List<Annotation> findByAnnotateur_Taches_Id(Long taskId);
+}

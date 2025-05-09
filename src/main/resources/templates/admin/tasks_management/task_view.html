@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks Overview</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link rel="stylesheet" href="/admin_task_view.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar('tasks')}"></div>
+<div th:replace="~{fragments/navbar :: navbar('Tasks Overview')}"></div>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="content-header">
+        <h2 class="content-title">Annotation Tasks</h2>
+        <p class="content-subtitle">View and manage all your assigned annotation tasks</p>
+    </div>
+
+    <!-- Tasks Grid -->
+    <div class="tasks-container">
+        <div class="tasks-grid">
+            <!-- Task Card -->
+            <div class="task-card" th:each="item : ${tasksWithProgress}">
+                <div class="task-card-header">
+                    <div class="task-id">
+                        <span class="task-badge">Task #<span th:text="${item.task.id}">123</span></span>
+                    </div>
+                    <div class="task-date">
+                        <i class='bx bx-calendar'></i>
+                        <span th:text="${#dates.format(item.task.dateLimite, 'MMM dd, yyyy')}">Oct 15, 2023</span>
+                    </div>
+                </div>
+
+                <div class="task-card-body">
+                    <div class="task-info">
+                        <div class="info-item">
+                            <div class="info-icon"><i class='bx bx-user'></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Annotator</span>
+                                <span class="info-value" th:text="${item.annotatorName}">John Doe</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class='bx bx-data'></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Dataset</span>
+                                <span class="info-value" th:text="${item.task.dataset.name}">Product Dataset</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class='bx bx-file'></i></div>
+                            <div class="info-content">
+                                <span class="info-label">Annotations</span>
+                                <span class="info-value" th:text="${item.done + ' / ' + item.total}">12 / 50</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="task-progress">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" th:style="|width: ${item.percent}%;|">
+                                <span class="progress-label" th:text="${item.percent + '%'}">24%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-card-footer">
+                    <a th:href="@{/admin/annotations/{taskId}(taskId=${item.task.id})}" class="view-details-btn">
+                        <i class='bx bx-right-arrow-alt'></i>
+                        <span>View Details</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" th:if="${#lists.isEmpty(tasksWithProgress)}">
+                <div class="empty-state-icon">
+                    <i class='bx bx-task-x'></i>
+                </div>
+                <h3 class="empty-state-title">No Tasks Found</h3>
+                <p class="empty-state-message">You don't have any annotation tasks assigned yet.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="/dashboard.js"></script>
+</body>
+</html>

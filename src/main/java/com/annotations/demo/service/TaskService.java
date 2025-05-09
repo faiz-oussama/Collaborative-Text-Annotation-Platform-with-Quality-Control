@@ -1,5 +1,6 @@
 package com.annotations.demo.service;
 
+import com.annotations.demo.entity.Annotateur;
 import com.annotations.demo.entity.Task;
 import org.springframework.stereotype.Service;
 
@@ -12,4 +13,5 @@ public interface TaskService {
     List<Task> findAllTasksByAnnotateurId(Long id);
     String getSelectedClassId(Long taskId, Long coupleId, Long annotateurId);
     long countActiveTasks();
+    int countAssignedCouples(Annotateur annotateur);
 }

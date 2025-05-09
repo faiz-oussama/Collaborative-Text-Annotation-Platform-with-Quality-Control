@@ -125,6 +125,8 @@
 
 <!-- JavaScript for Charts -->
 <script id="datasets-data" type="application/json" th:utext="${datasetsProgressJson}"></script>
+<script id="class-data" type="application/json" th:utext="${classDistributionJson}"></script>
+<script id="performance-data" type="application/json" th:utext="${annotatorPerformanceData}"></script>
 <script th:inline="javascript">
     document.addEventListener('DOMContentLoaded', function() {
         // Set Chart.js defaults for all charts
@@ -135,7 +137,6 @@
         // Dataset Progress Chart
         const datasetsProgressCtx = document.getElementById('datasetsProgressChart').getContext('2d');
         const datasetsProgress = JSON.parse(document.getElementById('datasets-data').textContent);
-        console.log(datasetsProgress);
         new Chart(datasetsProgressCtx, {
             type: 'bar',
             data: {
@@ -230,17 +231,13 @@
 
         // Class Distribution Chart
         const classDistributionCtx = document.getElementById('classDistributionChart').getContext('2d');
-        const classDistributionData =  {
-            labels: ['Class A', 'Class B', 'Class C', 'Class D'],
-            values: [45, 25, 20, 10]
-        };
-
+        const classDistributionData =  JSON.parse(document.getElementById('class-data').textContent);
         new Chart(classDistributionCtx, {
             type: 'doughnut',
             data: {
                 labels: classDistributionData.labels,
                 datasets: [{
-                    data: classDistributionData.values,
+                    data: classDistributionData.data,
                     backgroundColor: [
                         'rgba(79, 70, 229, 0.85)', // Primary
                         'rgba(16, 185, 129, 0.85)', // Success
@@ -301,15 +298,12 @@
 
         // Annotator Performance Chart
         const annotatorPerformanceCtx = document.getElementById('annotatorPerformanceChart').getContext('2d');
-        const annotatorPerformanceData =  {
-            annotators: ['John Doe', 'Jane Smith', 'Alex Brown', 'Maria Garcia', 'Tom Wilson'],
-            completionRates: [92, 85, 78, 95, 67]
-        };
+        const annotatorPerformanceData =  JSON.parse(document.getElementById('performance-data').textContent);
 
         new Chart(annotatorPerformanceCtx, {
             type: 'bar',
             data: {
-                labels: annotatorPerformanceData.annotators,
+                labels: annotatorPerformanceData.labels,
                 datasets: [
                     {
                         label: 'Completion Rate (%)',

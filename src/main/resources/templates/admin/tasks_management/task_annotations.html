@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Annotations</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link rel="stylesheet" href="/task_view.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar('tasks')}"></div>
+<div th:replace="~{fragments/navbar :: navbar('Task Annotations')}"></div>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="content-header">
+        <h2 class="content-title">Task #<span th:text="${task.id}">123</span> Annotations</h2>
+        <p class="content-subtitle">All annotations for this task</p>
+    </div>
+
+    <!-- Task Info Card -->
+    <div class="task-info-card">
+        <div class="task-info-header">
+            <div class="header-icon">
+                <i class='bx bx-info-circle'></i>
+            </div>
+            <div class="header-content">
+                <h3>Task Details</h3>
+                <p>View detailed information about this annotation task</p>
+            </div>
+        </div>
+        
+        <div class="task-info-body">
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Annotator</div>
+                    <div class="info-value">
+                        <i class='bx bx-user'></i>
+                        <span th:text="${task.annotateur.login}">John Doe</span>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Dataset</div>
+                    <div class="info-value">
+                        <i class='bx bx-data'></i>
+                        <span th:text="${task.dataset.name}">Product Dataset</span>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Deadline</div>
+                    <div class="info-value">
+                        <i class='bx bx-calendar'></i>
+                        <span th:text="${#dates.format(task.dateLimite, 'MMM dd, yyyy')}">Oct 15, 2023</span>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-label">Progress</div>
+                    <div class="info-value progress-wrapper">
+                        <div class="progress-bar-mini">
+                            <div class="progress-fill" th:style="'width: ' + ${completedCount * 100 / task.couples.size()} + '%'"></div>
+                        </div>
+                        <span th:text="${completedCount + ' / ' + task.couples.size()}">8/10</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Annotations List -->
+    <div class="annotations-section">
+        <div class="section-header">
+            <h3><i class='bx bx-list-check'></i> Annotation List</h3>
+            <div class="section-actions">
+                <div class="filter-dropdown">
+                    <button class="filter-btn">
+                        <i class='bx bx-filter-alt'></i>
+                        <span>Filter</span>
+                    </button>
+                </div>
+                <div class="sort-dropdown">
+                    <button class="sort-btn">
+                        <i class='bx bx-sort'></i>
+                        <span>Sort</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="annotations-grid">
+            <!-- Repeat for each text couple in the task -->
+            <div class="annotation-card" th:each="couple, coupleStat : ${task.couples}">
+                <div class="annotation-header">
+                    <div class="annotation-number">#<span th:text="${coupleStat.count}">1</span></div>
+                    <div class="annotation-status" th:classappend="${couple.isAnnotated} ? 'status-completed' : 'status-pending'">
+                        <i class='bx' th:classappend="${couple.isAnnotated} ? 'bx-check-circle' : 'bx-time'"></i>
+                        <span th:text="${couple.isAnnotated} ? 'Annotated' : 'Pending'">Annotated</span>
+                    </div>
+                </div>
+                
+                <div class="annotation-body">
+                    <div class="text-preview">
+                        <div class="preview-label">Text 1</div>
+                        <div class="preview-content" th:text="${#strings.abbreviate(couple.text_1, 100)}">
+                            This is the first text that needs to be annotated...
+                        </div>
+                    </div>
+                    
+                    <div class="text-preview">
+                        <div class="preview-label">Text 2</div>
+                        <div class="preview-content" th:text="${#strings.abbreviate(couple.text_2, 100)}">
+                            This is the second text that needs to be annotated...
+                        </div>
+                    </div>
+                    
+                    <div class="annotation-result" th:if="${couple.isAnnotated}">
+                        <div class="result-label">Classification:</div>
+                        <div class="result-value" th:text="${couple.annotationClass}">Similar</div>
+                    </div>
+                </div>
+                
+                <div class="annotation-footer">
+                    <a th:href="@{/user/tasks/{id}(id=${task.id}, index=${coupleStat.index})}" class="view-btn">
+                        <i class='bx bx-edit'></i>
+                        <span th:text="${couple.isAnnotated} ? 'Review Annotation' : 'Annotate'">Review Annotation</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Empty state when no couples are available -->
+            <div class="empty-state" th:if="${task.couples.isEmpty()}">
+                <div class="empty-state-icon">
+                    <i class='bx bx-file-blank'></i>
+                </div>
+                <h3 class="empty-state-title">No Text Pairs</h3>
+                <p class="empty-state-message">This task doesn't have any text pairs assigned for annotation yet.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="/dashboard.js"></script>
+</body>
+</html> 

@@ -10,4 +10,10 @@ public interface AnnotationService {
     long countTotalAnnotations();
     Integer countAnnotationsByDataset(Long id);
     List<Annotation> findAllAnnotationsByUser(User user);
+    List<Annotation> findAllAnnotationsByDataset(Long id);
+    
+    /**
+     * Find all annotations for text couples in a specific task
+     */
+    List<Annotation> findAnnotationsByTaskId(Long taskId);
 }

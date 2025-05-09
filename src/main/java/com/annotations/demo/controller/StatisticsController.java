@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -55,6 +56,7 @@ public class StatisticsController {
 
         // 2. Dataset progress data
         Map<String, Object> datasetsProgressData = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
         List<String> datasetNames = new ArrayList<>();
         List<Integer> totalCouples = new ArrayList<>();
         List<Integer> annotatedCouples = new ArrayList<>();
@@ -68,14 +70,61 @@ public class StatisticsController {
         datasetsProgressData.put("labels", datasetNames);
         datasetsProgressData.put("totalCouples", totalCouples);
         datasetsProgressData.put("annotatedCouples", annotatedCouples);
-
         //pass the map as a JSON for the script retrieval
-        ObjectMapper objectMapper = new ObjectMapper();
         String datasetsProgressJson = objectMapper.writeValueAsString(datasetsProgressData);
-        System.out.println(datasetsProgressJson);
         model.addAttribute("datasetsProgressJson", datasetsProgressJson);
 
 
+
+        // 3. Class distribution data
+        Map<String, Integer> classDistributionMap = new HashMap<>();
+
+        for (Dataset dataset : datasetService.findAllDatasets()) {
+            for (Annotation annotation : annotationService.findAllAnnotationsByDataset(dataset.getId())) {
+                String className = annotation.getChosenClass();
+                classDistributionMap.put(className, classDistributionMap.getOrDefault(className, 0) + 1);
+            }
+        }
+
+        // Convert to labels and data arrays
+        List<String> labels = new ArrayList<>(classDistributionMap.keySet());
+        List<Integer> data = labels.stream()
+                .map(classDistributionMap::get)
+                .collect(Collectors.toList());
+
+        // Prepare JSON structure
+        Map<String, Object> classDistributionChartData = new HashMap<>();
+        classDistributionChartData.put("labels", labels);
+        classDistributionChartData.put("data", data);
+
+        String classDistributionJson = objectMapper.writeValueAsString(classDistributionChartData);
+        model.addAttribute("classDistributionJson", classDistributionJson);
+
+
+
+        // 4. Annotator performance data
+        List<Annotateur> annotators = annotateurService.findAllActive();
+        List<String> performanceLabels = new ArrayList<>();
+        List<Integer> completionRates = new ArrayList<>();
+
+        for (Annotateur annotator : annotators) {
+            int totalAssigned = taskService.countAssignedCouples(annotator);
+            int totalAnnotated = annotationService.findAllAnnotationsByUser(annotator).size();
+            int completionRate = (totalAssigned == 0) ? 0 : (int) ((totalAnnotated / (double) totalAssigned) * 100);
+
+            performanceLabels.add(annotator.getNom());
+            completionRates.add(completionRate);
+        }
+
+        Map<String, Object> performanceChartData = new HashMap<>();
+        performanceChartData.put("labels", performanceLabels);
+        performanceChartData.put("completionRates", completionRates);
+
+
+        String performanceMapJson = objectMapper.writeValueAsString(performanceChartData);
+        model.addAttribute("annotatorPerformanceData", performanceMapJson);
+
+        //current user name
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
         model.addAttribute("currentUserName", currentUserName);
 
