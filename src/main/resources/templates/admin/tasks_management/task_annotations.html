@@ -6,7 +6,7 @@
     <title>Task Annotations</title>
     <link rel="stylesheet" href="/main.css">
     <link rel="stylesheet" href="/custom.css">
-    <link rel="stylesheet" href="/task_view.css">
+    <link rel="stylesheet" href="/task_annotations.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
@@ -91,54 +91,56 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="annotations-grid">
-            <!-- Repeat for each text couple in the task -->
-            <div class="annotation-card" th:each="couple, coupleStat : ${task.couples}">
+            <!-- Iterate over annotations -->
+            <div class="annotation-card" th:each="annotation : ${annotations}">
                 <div class="annotation-header">
-                    <div class="annotation-number">#<span th:text="${coupleStat.count}">1</span></div>
-                    <div class="annotation-status" th:classappend="${couple.isAnnotated} ? 'status-completed' : 'status-pending'">
-                        <i class='bx' th:classappend="${couple.isAnnotated} ? 'bx-check-circle' : 'bx-time'"></i>
-                        <span th:text="${couple.isAnnotated} ? 'Annotated' : 'Pending'">Annotated</span>
+                    <div class="annotation-number">#<span th:text="${annotationStat.count}">1</span></div>
+                    <div class="annotation-status status-completed">
+                        <i class='bx bx-check-circle'></i>
+                        <span>Annotated</span>
                     </div>
                 </div>
-                
+
                 <div class="annotation-body">
                     <div class="text-preview">
                         <div class="preview-label">Text 1</div>
-                        <div class="preview-content" th:text="${#strings.abbreviate(couple.text_1, 100)}">
+                        <div class="preview-content" th:text="${#strings.abbreviate(annotation.coupleText.text_1, 100)}">
                             This is the first text that needs to be annotated...
                         </div>
                     </div>
-                    
+
                     <div class="text-preview">
                         <div class="preview-label">Text 2</div>
-                        <div class="preview-content" th:text="${#strings.abbreviate(couple.text_2, 100)}">
+                        <div class="preview-content" th:text="${#strings.abbreviate(annotation.coupleText.text_2, 100)}">
                             This is the second text that needs to be annotated...
                         </div>
                     </div>
-                    
-                    <div class="annotation-result" th:if="${couple.isAnnotated}">
+
+                    <div class="annotation-result">
                         <div class="result-label">Classification:</div>
-                        <div class="result-value" th:text="${couple.annotationClass}">Similar</div>
+                        <div class="result-value" th:text="${annotation.chosenClass}">
+                            Similar
+                        </div>
                     </div>
                 </div>
-                
+
                 <div class="annotation-footer">
-                    <a th:href="@{/user/tasks/{id}(id=${task.id}, index=${coupleStat.index})}" class="view-btn">
+                    <a th:href="@{/admin/tasks/{id}/annotate/{annotationId}/{coupleId}(id=${task.id},annotationId=${annotation.id} ,coupleId=${annotation.coupleText.id})}" class="view-btn">
                         <i class='bx bx-edit'></i>
-                        <span th:text="${couple.isAnnotated} ? 'Review Annotation' : 'Annotate'">Review Annotation</span>
+                        <span>Review Annotation</span>
                     </a>
                 </div>
             </div>
-            
-            <!-- Empty state when no couples are available -->
-            <div class="empty-state" th:if="${task.couples.isEmpty()}">
+
+            <!-- Empty state -->
+            <div class="empty-state" th:if="${annotations.isEmpty()}">
                 <div class="empty-state-icon">
                     <i class='bx bx-file-blank'></i>
                 </div>
-                <h3 class="empty-state-title">No Text Pairs</h3>
-                <p class="empty-state-message">This task doesn't have any text pairs assigned for annotation yet.</p>
+                <h3 class="empty-state-title">No Annotations Found</h3>
+                <p class="empty-state-message">This annotator hasn't annotated any text pairs for this task yet.</p>
             </div>
         </div>
     </div>

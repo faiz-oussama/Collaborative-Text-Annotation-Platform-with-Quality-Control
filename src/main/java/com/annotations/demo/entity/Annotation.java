@@ -38,7 +38,6 @@ public class Annotation {
     @JoinColumn(name="couple_id")
     private CoupleText coupleText;
 
-
     //helper
     public Dataset getDataset() {
         return coupleText != null ? coupleText.getDataset() : null;

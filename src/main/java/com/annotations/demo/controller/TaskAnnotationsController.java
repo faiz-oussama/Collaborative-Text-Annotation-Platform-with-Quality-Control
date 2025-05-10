@@ -16,11 +16,13 @@ public class TaskAnnotationsController {
     private final TaskService taskService;
     private final UserService userService;
     private final TaskProgressServiceImpl taskProgressService;
+    private final AnnotationServiceImpl annotationService;
 
-    public TaskAnnotationsController(TaskService taskService, UserService userService, TaskProgressServiceImpl taskProgressService) {
+    public TaskAnnotationsController(TaskService taskService, UserService userService, TaskProgressServiceImpl taskProgressService, AnnotationServiceImpl annotationService) {
         this.taskService = taskService;
         this.userService = userService;
         this.taskProgressService = taskProgressService;
+        this.annotationService = annotationService;
     }
 
 
@@ -63,17 +65,24 @@ public class TaskAnnotationsController {
     public String viewTaskAnnotations(@PathVariable Long taskId, Model model) {
         // Get the task
         Task task = taskService.findTaskById(taskId);
-        
-        // Add the task to the model
+
+        // Get the annotator
+        Annotateur annotateur = task.getAnnotateur(); // Or get from session/user context
+
+        // Get the annotations done by that annotator on that specific task
+        List<Annotation> annotations = annotationService.findAnnotationsByAnnotatorForTask(taskId, annotateur.getId());
+
+        int completedCount = annotations.size();
+        int totalCouples = task.getCouples().size();
+
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
+
         model.addAttribute("currentUserName", currentUserName);
         model.addAttribute("task", task);
-        
-        // Add placeholder statistics - these would be calculated from real data in a production app
-        model.addAttribute("completedCount", 0);
-        model.addAttribute("totalCouples", 10); // Example value for UI display
-        
-        // Return the annotations view template
+        model.addAttribute("annotations", annotations);
+        model.addAttribute("completedCount", completedCount);
+        model.addAttribute("totalCouples", totalCouples);
+
         return "admin/tasks_management/task_annotations";
     }
 } 

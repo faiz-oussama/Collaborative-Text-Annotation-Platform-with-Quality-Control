@@ -85,4 +85,18 @@ public class AnnotationServiceImpl implements AnnotationService {
         // related to couples in the task
         return annotationRepository.findByAnnotateur_Taches_Id(taskId);
     }
+    @Override
+    public List<Annotation> findAnnotationsByAnnotatorForTask(Long taskId, Long annotateurId) {
+        Task task = taskService.findTaskById(taskId); // Implement or inject accordingly
+        List<Long> coupleIdsInTask = task.getCouples().stream()
+                .map(CoupleText::getId)
+                .collect(Collectors.toList());
+
+        return annotationRepository.findByAnnotateur_IdAndCoupleText_IdIn(annotateurId, coupleIdsInTask);
+    }
+    @Override
+    public Annotation findAnnotationById(Long id) {
+        return annotationRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Annotation not found with ID: " + id));
+    }
 }

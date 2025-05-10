@@ -16,9 +16,10 @@ import com.annotations.demo.entity.CoupleText;
 @Repository
 public interface AnnotationRepository extends JpaRepository<Annotation, Long> {
     List<Annotation> findByAnnotateur(User user);
+    Annotation findAnnotationById(Long id);
     List<Annotation> findByCoupleText(CoupleText coupleText);
     Optional<Annotation> findByAnnotateurIdAndCoupleTextId(Long annotateurId, Long coupleId);
     List<Annotation> findByCoupleText_Dataset_Id(Long datasetId);
-
+    List<Annotation> findByAnnotateur_IdAndCoupleText_IdIn(Long annotateurId, List<Long> coupleIds);
     List<Annotation> findByAnnotateur_Taches_Id(Long taskId);
 }

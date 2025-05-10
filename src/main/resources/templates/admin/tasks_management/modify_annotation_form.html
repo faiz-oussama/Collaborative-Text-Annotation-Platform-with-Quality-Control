@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify Annotation</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/custom.css">
+    <link rel="stylesheet" href="/task_annotations.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar('tasks')}"></div>
+<div th:replace="~{fragments/navbar :: navbar('Modify Annotation')}"></div>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="content-header">
+        <h2 class="content-title">Edit Annotation <span th:text="'(#' + ${annotation.id} + ')'" class="text-secondary"></span></h2>
+        <p class="content-subtitle">Update classification and add comments</p>
+    </div>
+
+    <!-- Annotation Card -->
+    <div class="annotation-card">
+        <div class="annotation-header">
+            <div class="annotation-number">#<span th:text="${annotation.id}">1</span></div>
+            <div class="annotation-status status-completed">
+                <i class='bx bx-edit'></i>
+                <span>Editing</span>
+            </div>
+        </div>
+
+        <div class="annotation-body">
+            <!-- Text Pair -->
+            <div class="text-preview mb-4">
+                <div class="preview-label">Text 1</div>
+                <div class="preview-content" th:text="${annotation.coupleText.text_1}">
+                    First text content...
+                </div>
+            </div>
+
+            <div class="text-preview mb-4">
+                <div class="preview-label">Text 2</div>
+                <div class="preview-content" th:text="${annotation.coupleText.text_2}">
+                    Second text content...
+                </div>
+            </div>
+
+            <!-- Annotation Form -->
+            <form th:action="@{/admin/update-annotation/{taskId}/{id}(taskId=${taskId}, id=${annotation.id})}" method="post" class="annotation-form">
+                <input type="hidden" th:value="${annotation.id}" name="annotationId">
+
+                <div class="form-group mb-4">
+                    <label class="form-label">
+                        <i class='bx bx-category'></i>
+                        Classification
+                    </label>
+                    <select class="form-select" name="chosenClass" required>
+                        <option th:each="classPossible : ${dataset.classesPossibles}"
+                                th:value="${classPossible.textClass}"
+                                th:selected="${classPossible.textClass == annotation.chosenClass}"
+                                th:text="${classPossible.textClass}">
+                              Classification Option
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        <i class='bx bx-save'></i>
+                        Save Changes
+                    </button>
+                    <a th:href="@{/admin/annotations/{taskId}(taskId=${taskId})}" class="btn-outline">
+                        <i class='bx bx-x'></i>
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script src="/dashboard.js"></script>
+</body>
+</html>
