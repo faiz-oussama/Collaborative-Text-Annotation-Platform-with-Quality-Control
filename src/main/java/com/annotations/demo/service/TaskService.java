@@ -14,4 +14,5 @@ public interface TaskService {
     String getSelectedClassId(Long taskId, Long coupleId, Long annotateurId);
     long countActiveTasks();
     int countAssignedCouples(Annotateur annotateur);
+
 }

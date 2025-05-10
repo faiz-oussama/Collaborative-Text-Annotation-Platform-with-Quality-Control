@@ -1,5 +1,6 @@
 package com.annotations.demo.service;
 
+import com.annotations.demo.entity.Annotateur;
 import com.annotations.demo.entity.Annotation;
 import com.annotations.demo.entity.CoupleText;
 import com.annotations.demo.entity.Task;

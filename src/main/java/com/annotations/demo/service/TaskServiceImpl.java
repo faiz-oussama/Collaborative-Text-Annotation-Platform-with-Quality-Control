@@ -1,57 +1,64 @@
 package com.annotations.demo.service;
 
+
 import com.annotations.demo.entity.Annotateur;
-import com.annotations.demo.entity.Task;
 import com.annotations.demo.entity.Annotation;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.annotations.demo.entity.ClassPossible;
+import com.annotations.demo.entity.Task;
+import com.annotations.demo.repository.AnnotationRepository;
+import com.annotations.demo.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
-    
-    @Autowired
-    private TaskRepository taskRepository;
-    
-    @Autowired
-    private InterAnnotatorAgreement interAnnotatorAgreement;
-    
-    @Override
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+
+    private final TaskRepository taskRepository;
+    private final AnnotateurService annotateurService;
+    private final AnnotationRepository annotationRepository;
+    public TaskServiceImpl(TaskRepository taskRepository, AnnotateurService annotateurService, AnnotationRepository annotationRepository) {
+        this.taskRepository = taskRepository;
+        this.annotateurService = annotateurService;
+        this.annotationRepository = annotationRepository;
     }
-    
+
+
     @Override
-    public Task getTaskById(Long id) {
-        return taskRepository.findById(id).orElse(null);
+    public Task findTaskById(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Task not found with ID: " + id));
     }
-    
     @Override
-    public void deleteTaskById(Long id) {
-        taskRepository.deleteById(id);
+    public List<Task> findAllTasks() {
+        return taskRepository.findAll() ;
+
     }
-    
+
     @Override
-    public List<Annotateur> getAnnotateursForTask(Task task) {
-        return task.getCouples().stream()
-            .flatMap(c -> c.getAnnotations().stream())
-            .map(a -> a.getAnnotateur())
-            .distinct()
-            .collect(Collectors.toList());
+    public List<Task> findAllTasksByAnnotateurId(Long id) {
+        return taskRepository.findByAnnotateur(annotateurService.findAnnotateurById(id));
     }
-    
     @Override
-    public double getInterAnnotatorAgreement(Task task) {
-        List<Annotation> allAnnotations = task.getCouples().stream()
-            .flatMap(c -> c.getAnnotations().stream())
-            .collect(Collectors.toList());
-        
-        return interAnnotatorAgreement.calculateFleissKappa(allAnnotations);
+    public String getSelectedClassId(Long taskId, Long coupleId, Long annotateurId) {
+        // Find the annotation for this task, couple, and annotateur
+        Optional<Annotation> existingAnnotation = annotationRepository.findByAnnotateurIdAndCoupleTextId(
+                annotateurId, coupleId);
+
+        // If an annotation exists, return the chosen class string
+        return existingAnnotation.map(Annotation::getChosenClass).orElse(null);
     }
-    
+
     @Override
-    public List<Annotateur> identifySpamAnnotators(Task task) {
-        return interAnnotatorAgreement.identifySpamAnnotators(task);
+    public long countActiveTasks(){
+        return taskRepository.count();
     }
+    @Override
+    public int countAssignedCouples(Annotateur annotateur) {
+        return taskRepository.countAllCoupeTextByAnnotateur(annotateur);
+    }
+
+
+
 }
