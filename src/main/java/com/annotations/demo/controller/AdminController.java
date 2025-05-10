@@ -141,9 +141,8 @@ public class AdminController {
                 // Preserve role and deleted status
                 user.setRole(existingAnnotateur.getRole());
                 user.setDeleted(existingAnnotateur.isDeleted());
+                annotateurService.save(user);
             }
-
-            annotateurService.save(user);
 
             String successMessage = isUpdate ? "Annotateur updated successfully" : "Annotateur added successfully";
             redirectAttributes.addFlashAttribute("successMessage", successMessage);

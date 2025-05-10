@@ -73,6 +73,7 @@ public class AnnotateurService extends GenericUserService {
             existingAnnotateur.setPrenom(user.getPrenom());
             existingAnnotateur.setLogin(user.getLogin());
             existingAnnotateur.setRole(user.getRole());
+            existingAnnotateur.setEmail(user.getEmail());
             existingAnnotateur.setDeleted(user.isDeleted());
             
             // Handle password encoding if needed
@@ -81,6 +82,7 @@ public class AnnotateurService extends GenericUserService {
             return annotateurRepository.save(existingAnnotateur);
         } else {
             // For new users, encode the password
+
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return annotateurRepository.save((Annotateur) user);
         }

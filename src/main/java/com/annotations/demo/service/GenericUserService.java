@@ -69,6 +69,7 @@ public abstract class GenericUserService {
         target.setPrenom(source.getPrenom());
         target.setLogin(source.getLogin());
         target.setPassword(source.getPassword());
+        target.setEmail(source.getEmail());
         target.setRole(source.getRole());
         target.setDeleted(source.isDeleted());
     }
