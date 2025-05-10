@@ -27,11 +27,12 @@ public class AdminController {
     private final DatasetService datasetService;
     private final AnnotationService annotationService;
     private final TaskProgressServiceImpl taskProgressService;
+    private final PasswordService passwordService;
     
     @Autowired
     public AdminController(
             UserService userService, AnnotateurService annotateurService,
-            RoleRepository roleRepository, TaskService taskService, DatasetService datasetService, AnnotationService annotationService, TaskProgressService taskProgressService, TaskProgressServiceImpl taskProgressService1) {
+            RoleRepository roleRepository, TaskService taskService, DatasetService datasetService, AnnotationService annotationService, TaskProgressService taskProgressService, TaskProgressServiceImpl taskProgressService1, PasswordService passwordService) {
         this.userService = userService;
         this.annotateurService = annotateurService;
         this.roleRepository = roleRepository;
@@ -39,6 +40,7 @@ public class AdminController {
         this.datasetService = datasetService;
         this.annotationService = annotationService;
         this.taskProgressService = taskProgressService1;
+        this.passwordService = passwordService;
     }
     
     @GetMapping("/showAdminHome")
@@ -106,7 +108,14 @@ public class AdminController {
         boolean isUpdate = false;
         try {
             isUpdate = user.getId() != null;
+
             if (!isUpdate) {
+                // Generate random password for new users
+                String rawPassword = passwordService.generateRandomPassword(12);
+
+                // Set the password in encoded form
+                user.setPassword(rawPassword); // This will be encoded by UserServiceImpl
+
                 Role annotateurRole = roleRepository.findByRole(RoleType.USER_ROLE);
                 if (annotateurRole == null) {
                     annotateurRole = roleRepository.findByRole(RoleType.USER_ROLE);
@@ -116,6 +125,12 @@ public class AdminController {
                 }
                 user.setRole(annotateurRole);
                 user.setDeleted(false);
+
+                // Save the user first to get the ID
+                annotateurService.save(user);
+
+                // Now send the welcome email with login details
+                passwordService.sendWelcomeEmail(user.getEmail(), user.getLogin(), rawPassword);
             } else {
                 // For updates, retrieve existing user to preserve role and other fields
                 Annotateur existingAnnotateur = annotateurService.findAnnotateurById(user.getId());
@@ -126,12 +141,10 @@ public class AdminController {
                 // Preserve role and deleted status
                 user.setRole(existingAnnotateur.getRole());
                 user.setDeleted(existingAnnotateur.isDeleted());
-
-                // Note: We no longer need to handle password here as it will be done in UserServiceImpl
             }
-    
+
             annotateurService.save(user);
-    
+
             String successMessage = isUpdate ? "Annotateur updated successfully" : "Annotateur added successfully";
             redirectAttributes.addFlashAttribute("successMessage", successMessage);
             return "redirect:/admin/annotateurs";
@@ -139,8 +152,7 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("errorMessage", "Error " + (isUpdate ? "updating" : "adding") + " annotateur: " + e.getMessage());
             if (isUpdate) {
                 return "redirect:/admin/annotateurs/update/" + user.getId();
-            }
-            else {
+            } else {
                 return "redirect:/admin/annotateurs/add";
             }
         }
