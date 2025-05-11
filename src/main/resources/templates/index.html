@@ -1,45 +1,390 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/main.css">
-    <title>Home - Annotations App</title>
+    <title>Annotations App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3B82F6;
+            --secondary-color: #6366F1;
+            --light-bg: #F3F4F6;
+            --dark-text: #1F2937;
+            --light-text: #F9FAFB;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
+
+        /* Dark mode variables */
+        :root[data-theme="dark"] {
+            --primary-color: #60A5FA;
+            --secondary-color: #818CF8;
+            --light-bg: #1F2937;
+            --dark-text: #F9FAFB;
+            --light-text: #E5E7EB;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 10%;
+            background-color: white;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .navbar.dark-mode {
+            background-color: #1F2937;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 600;
+            transition: color var(--transition-speed) ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            visibility: hidden;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav-link:hover::after {
+            visibility: visible;
+            width: 100%;
+        }
+
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--dark-text);
+            font-size: 1.2rem;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .dark-mode-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        .hero {
+            padding: 5rem 10%;
+            background: linear-gradient(to right, #BFDBFE, #E0E7FF);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+            transform: rotate(25deg);
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .feature-card {
+            background-color: var(--light-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(25deg);
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 10%;
+            background-color: #1F2937;
+            color: var(--light-text);
+            text-align: center;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .footer a {
+            color: var(--light-text);
+            text-decoration: underline;
+            margin-left: 1rem;
+        }
+
+        .footer a:hover {
+            color: var(--primary-color);
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            border: none;
+            border-radius: 999px;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-speed) ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background-color: #2563EB;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <nav class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
-                    <div class="flex-shrink-0 flex items-center">
-                        <h1 class="text-xl font-bold text-indigo-600">Annotations App</h1>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <div class="flex items-center">
-                            <span class="text-gray-700 mr-2" sec:authentication="name">Username</span>
-                            <form th:action="@{/logout}" method="post">
-                                <button type="submit" class="px-3 py-1 rounded bg-indigo-100 text-indigo-700 hover:bg-indigo-200 text-sm">
-                                    Logout
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+<body>
+    <button class="scroll-to-top" id="scrollTopBtn">↑</button>
+    
+    <header class="navbar">
+        <div class="logo">AnnotateAI</div>
+        <nav class="nav-links">
+            <a th:href="@{/}" class="nav-link">Home</a>
+            <a th:href="@{/features}" class="nav-link">Features</a>
+            <a th:href="@{/pricing}" class="nav-link">Pricing</a>
+            <a th:href="@{/contact}" class="nav-link">Contact</a>
+            <button class="dark-mode-toggle" id="darkModeToggle">🌙</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Revolutionize Your Text Annotation Process</h1>
+            <p class="hero-subtitle">Powerful, intuitive annotation tools for NLP projects, research, and data labeling.</p>
+            <a th:href="@{/login}" class="cta-button">Get Started Free</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1677442136019-2e0f0a1d3b4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Annotation Interface" style="border-radius: 1rem; max-width: 100%; height: auto;">
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 style="font-size: 2rem; font-weight: 700; text-align: center;">Powerful Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Smart Labeling</h3>
+                <p>Advanced AI-assisted annotation tools that learn from your patterns and suggest intelligent labels.</p>
+            </div>
+            <div class="feature-card">
+                <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Collaborative Workspaces</h3>
+                <p>Work with your team in real-time with role-based access control and comprehensive project management.</p>
+            </div>
+            <div class="feature-card">
+                <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Data Security</h3>
+                <p>Enterprise-grade security with encryption at rest and in transit, ensuring your data stays protected.</p>
+            </div>
+            <div class="feature-card">
+                <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Analytics Dashboard</h3>
+                <p>Track progress, monitor team performance, and gain insights with our comprehensive analytics tools.</p>
             </div>
         </div>
-    </nav>
+    </section>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">Welcome to Annotations App</h2>
-            <p class="text-gray-600">This is a secure page that requires authentication.</p>
-            <p class="text-gray-600 mt-2">Your roles:
-                <span class="font-medium text-indigo-600" sec:authorize="isAuthenticated()" sec:authentication="principal.authorities">Roles</span>
-                <span class="font-medium text-red-600" sec:authorize="isAnonymous()">Not authenticated</span>
-            </p>
-        </div>
-    </main>
+    <footer class="footer">
+        <p>&copy; 2025 AnnotateAI. All rights reserved.</p>
+    </footer>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Scroll animation for features section
+        const features = document.querySelector('.features');
+        const featureCards = document.querySelectorAll('.feature-card');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        featureCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            observer.observe(card);
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        // Check for saved user preference
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            darkModeToggle.textContent = '☀️';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                body.removeAttribute('data-theme');
+                darkModeToggle.textContent = '🌙';
+                localStorage.removeItem('theme');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                darkModeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Scroll to top button
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Animate counters on scroll
+        const counters = document.querySelectorAll('.counter');
+        function animateCounters() {
+            counters.forEach(counter => {
+                if (window.scrollY + window.innerHeight > counter.offsetTop + counter.offsetHeight / 2 && 
+                    !counter.dataset.animated) {
+                        
+                        const updateCount = () => {
+                            const target = +counter.getAttribute('data-target');
+                            const count = +counter.innerText;
+                            const increment = Math.ceil(target / 100);
+                            
+                            if (count < target) {
+                                counter.innerText = count + increment;
+                                setTimeout(updateCount, 20);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+                        
+                        updateCount();
+                        counter.dataset.animated = true;
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', animateCounters);
+            
+            // Initialize counters on load
+            animateCounters();
+        </script>
 </body>
 </html>
