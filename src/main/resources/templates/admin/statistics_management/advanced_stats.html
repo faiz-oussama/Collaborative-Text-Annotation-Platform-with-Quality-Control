@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Advanced Statistics</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts" defer></script>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/custom.css">
+    <style>
+        :root {
+            --primary-color: #4F46E5;
+            --primary-light: #818CF8;
+            --primary-dark: #3730A3;
+            --secondary-color: #EC4899;
+            --secondary-light: #F472B6;
+            --accent-color: #10B981;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --info-color: #3B82F6;
+            --light-bg: #F9FAFB;
+            --light-bg-alt: #F3F4F6;
+            --dark-bg: #111827;
+            --dark-bg-alt: #1F2937;
+            --dark-text: #1F2937;
+            --light-text: #F9FAFB;
+            --gray-text: #6B7280;
+            --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --border-radius: 0.75rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--dark-text);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark-text);
+            position: relative;
+            display: inline-block;
+        }
+
+        .dashboard-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.75rem;
+            background: linear-gradient(to right, rgba(79, 70, 229, 0.1), rgba(236, 72, 153, 0.1));
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-content {
+            padding: 1.75rem;
+        }
+        
+        .chart-container {
+            margin: 1.5rem 0;
+            position: relative;
+            height: 300px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background: linear-gradient(to right, rgba(79, 70, 229, 0.05), rgba(236, 72, 153, 0.05));
+            padding: 1rem;
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        
+        .metrics-table,
+        .history-table {
+            margin-top: 1.5rem;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .metrics-table table,
+        .history-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        
+        .metrics-table th,
+        .history-table th {
+            background-color: var(--light-bg-alt);
+            color: var(--dark-text);
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid rgba(229, 231, 235, 0.8);
+        }
+        
+        .metrics-table td,
+        .history-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        
+        /* Removed table row hover effect */
+        
+        .score {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-light);
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, var(--success-color), #059669);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(to right, var(--danger-color), #B91C1C);
+            color: white;
+        }
+        
+        .btn-info {
+            background: linear-gradient(to right, var(--info-color), #1D4ED8);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: linear-gradient(to right, var(--warning-color), #D97706);
+            color: white;
+        }
+
+        .hyperparameters-form {
+            margin: 2rem 0;
+            background-color: var(--light-bg-alt);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        
+        .form-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--dark-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-title i {
+            color: var(--primary-color);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-text);
+            font-size: 0.95rem;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(209, 213, 219, 0.8);
+            border-radius: 0.5rem;
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .form-group input[type="file"] {
+            padding: 0.5rem;
+            background-color: white;
+            border: 1px dashed rgba(209, 213, 219, 0.8);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .training-logs {
+            margin-top: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-title i {
+            color: var(--primary-color);
+        }
+        
+        .training-logs pre {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            height: 250px;
+            overflow-y: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(31, 41, 55, 0.5);
+        }
+
+        .evaluation-results {
+            margin-top: 2rem;
+        }
+        
+        .evaluation-results .metrics-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        }
+        
+        .metric-card h4 {
+            color: var(--gray-text);
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+        
+        .confusion-matrix {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-bg-alt);
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            padding: 1rem;
+        }
+        
+        .confusion-matrix-container {
+            margin-top: 2rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        
+        /* Status badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-excellent {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+        
+        .status-good {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #2563EB;
+        }
+        
+        .status-fair {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #D97706;
+        }
+        
+        .status-poor {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #DC2626;
+        }
+        
+        /* Card actions */
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .model-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .text-success {
+            color: var(--success-color);
+        }
+        
+        .text-warning {
+            color: var(--warning-color);
+        }
+        
+        .text-danger {
+            color: var(--danger-color);
+        }
+        
+        .text-info {
+            color: var(--info-color);
+        }
+        
+        .text-primary {
+            color: var(--primary-color);
+        }
+        
+        /* Table actions */
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-bg-alt);
+            border: none;
+            color: var(--gray-text);
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Time range selector */
+        .time-range-selector {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(209, 213, 219, 0.8);
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        
+        .time-range-selector:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        /* Dashboard header */
+        .dashboard-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dashboard-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* Dataset Selection Styles */
+        .dataset-selection {
+            margin-bottom: 2rem;
+        }
+        
+        .dataset-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-text);
+            font-size: 0.95rem;
+        }
+        
+        .dataset-select,
+        .time-select,
+        .annotator-select,
+        .category-select,
+        .status-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(209, 213, 219, 0.8);
+            border-radius: 0.5rem;
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+        }
+        
+        .date-inputs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .date-input {
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(209, 213, 219, 0.8);
+            border-radius: 0.5rem;
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+        
+        .date-separator {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+        }
+        
+        .dataset-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background-color: var(--light-bg-alt);
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            margin-top: 1.5rem;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--gray-text);
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+        
+        /* Metric trend */
+        .metric-trend {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+    </style>
+
+</head>
+<body>
+<div th:replace="~{fragments/sidebar :: sidebar('advanced-stats')}"></div>
+<div th:replace="~{fragments/navbar :: navbar('Advanced Statistics')}"></div>
+
+<!-- Main content container -->
+<div class="main-content">
+    <div class="content-header">
+        <h2 class="content-title">Advanced Statistics</h2>
+        <p class="content-subtitle">Monitor and analyze annotation data and performance metrics</p>
+    </div>
+    
+    <!-- Dataset Selection Section -->
+    <section class="dataset-selection">
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-database"></i> Dataset Selection</h2>
+                <div class="card-actions">
+                    <button class="btn btn-primary" id="applyDatasetBtn"><i class="fas fa-check"></i> Apply</button>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="dataset-filters">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="datasetSelect">Select Dataset:</label>
+                            <select id="datasetSelect" class="dataset-select">
+                                <option value="">-- Select a dataset --</option>
+                                <option value="dataset1">Medical Annotations (15,432 items)</option>
+                                <option value="dataset2">Legal Document Annotations (8,721 items)</option>
+                                <option value="dataset3">News Article Annotations (12,543 items)</option>
+                                <option value="dataset4">Scientific Literature (9,876 items)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="timeRangeSelect">Time Range:</label>
+                            <select id="timeRangeSelect" class="time-select">
+                                <option value="all">All Time</option>
+                                <option value="last7">Last 7 Days</option>
+                                <option value="last30" selected>Last 30 Days</option>
+                                <option value="last90">Last 90 Days</option>
+                                <option value="custom">Custom Range</option>
+                            </select>
+                        </div>
+                        <div class="filter-group" id="customDateRange" style="display: none;">
+                            <label>Custom Range:</label>
+                            <div class="date-inputs">
+                                <input type="date" id="startDate" class="date-input">
+                                <span class="date-separator">to</span>
+                                <input type="date" id="endDate" class="date-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="annotatorSelect">Annotator:</label>
+                            <select id="annotatorSelect" class="annotator-select">
+                                <option value="all">All Annotators</option>
+                                <option value="user1">John Doe</option>
+                                <option value="user2">Jane Smith</option>
+                                <option value="user3">Robert Johnson</option>
+                                <option value="user4">Emily Davis</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="categorySelect">Category:</label>
+                            <select id="categorySelect" class="category-select">
+                                <option value="all">All Categories</option>
+                                <option value="cat1">Named Entities</option>
+                                <option value="cat2">Sentiment</option>
+                                <option value="cat3">Relations</option>
+                                <option value="cat4">Classification</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="statusSelect">Status:</label>
+                            <select id="statusSelect" class="status-select">
+                                <option value="all">All Statuses</option>
+                                <option value="completed">Completed</option>
+                                <option value="inprogress">In Progress</option>
+                                <option value="verified">Verified</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="dataset-info">
+                    <div class="info-item">
+                        <span class="info-label">Selected Dataset:</span>
+                        <span class="info-value" id="selectedDatasetInfo">Medical Annotations</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Total Items:</span>
+                        <span class="info-value" id="totalItemsInfo">15,432</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Completed:</span>
+                        <span class="info-value" id="completedItemsInfo">12,345 (80%)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Annotators:</span>
+                        <span class="info-value" id="annotatorsInfo">24</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Kappa Metrics Section -->
+    <section class="kappa-metrics">
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-handshake"></i> Inter-Annotator Agreement Metrics</h2>
+                <div class="card-actions">
+                    <button class="btn btn-secondary"><i class="fas fa-sync-alt"></i> Refresh</button>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="chart-container">
+                    <canvas id="kappaChart"></canvas>
+                </div>
+                <div class="metrics-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Metric Type</th>
+                            <th>Score</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><i class="fas fa-chart-line text-primary"></i> Cohen's Kappa</td>
+                            <td class="score">0.82</td>
+                            <td><span class="status-badge status-excellent">Excellent</span></td>
+                            <td>Measure of agreement between two annotators</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-chart-bar text-primary"></i> Fleiss' Kappa</td>
+                            <td class="score">0.75</td>
+                            <td><span class="status-badge status-good">Good</span></td>
+                            <td>Measure of agreement between multiple annotators</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-percentage text-primary"></i> Percent Agreement</td>
+                            <td class="score">0.88</td>
+                            <td><span class="status-badge status-excellent">Excellent</span></td>
+                            <td>Raw percentage of annotations that match</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Training Section -->
+    <section class="model-training">
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-brain"></i> NLP Model Training & Evaluation</h2>
+                <div class="card-actions">
+                    <span class="model-status"><i class="fas fa-circle text-success"></i> Model Ready</span>
+                </div>
+            </div>
+            <div class="card-content">
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="triggerTraining()"><i class="fas fa-play-circle"></i> Train Model</button>
+                    <button class="btn btn-info" onclick="triggerEvaluation()"><i class="fas fa-chart-pie"></i> Evaluate Model</button>
+                    <button class="btn btn-secondary"><i class="fas fa-save"></i> Save Model</button>
+                </div>
+
+                <!-- Hyperparameters Form -->
+                <div class="hyperparameters-form">
+                    <div class="form-title"><i class="fas fa-sliders-h"></i> Model Hyperparameters</div>
+                    <form>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="epochs">Epochs:</label>
+                                <input type="number" id="epochs" value="10" min="1" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="batch-size">Batch Size:</label>
+                                <input type="number" id="batch-size" value="32" min="1" max="256">
+                            </div>
+                            <div class="form-group">
+                                <label for="learning-rate">Learning Rate:</label>
+                                <input type="number" id="learning-rate" step="0.001" value="0.001" min="0.0001" max="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="model-type">Model Type:</label>
+                                <select id="model-type">
+                                    <option value="bert">BERT</option>
+                                    <option value="lstm">LSTM</option>
+                                    <option value="transformer">Transformer</option>
+                                    <option value="roberta">RoBERTa</option>
+                                    <option value="distilbert">DistilBERT</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="config-file">Config File (Optional):</label>
+                            <input type="file" id="config-file">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary">Reset</button>
+                            <button type="button" class="btn btn-primary">Apply</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Training Logs -->
+                <div class="training-logs">
+                    <div class="section-title"><i class="fas fa-terminal"></i> Training Logs</div>
+                    <pre id="log-output">[2025-05-12 17:45:23] INFO: Initializing model with batch_size=32, epochs=10
+[2025-05-12 17:45:24] INFO: Loading training data...
+[2025-05-12 17:45:26] INFO: Found 15,432 training examples
+[2025-05-12 17:45:27] INFO: Starting training...
+[2025-05-12 17:45:30] INFO: Epoch 1/10, Loss: 0.8245, Accuracy: 0.7123
+[2025-05-12 17:45:35] INFO: Epoch 2/10, Loss: 0.5672, Accuracy: 0.8245
+[2025-05-12 17:45:40] INFO: Epoch 3/10, Loss: 0.3421, Accuracy: 0.8934
+[2025-05-12 17:45:45] INFO: Epoch 4/10, Loss: 0.2876, Accuracy: 0.9123
+[2025-05-12 17:45:50] INFO: Training complete!
+[2025-05-12 17:45:51] INFO: Model saved to /models/annotation_model_v1.2.h5</pre>
+                </div>
+
+                <!-- Evaluation Results -->
+                <div class="evaluation-results">
+                    <div class="section-title"><i class="fas fa-chart-pie"></i> Evaluation Metrics</div>
+                    <div class="metrics-display">
+                        <div class="metric-card">
+                            <h4>Accuracy</h4>
+                            <div class="metric-value">92.4%</div>
+                            <div class="metric-trend"><i class="fas fa-arrow-up text-success"></i> +2.1%</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>F1 Score</h4>
+                            <div class="metric-value">0.89</div>
+                            <div class="metric-trend"><i class="fas fa-arrow-up text-success"></i> +0.05</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Precision</h4>
+                            <div class="metric-value">0.91</div>
+                            <div class="metric-trend"><i class="fas fa-arrow-up text-success"></i> +0.03</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Recall</h4>
+                            <div class="metric-value">0.87</div>
+                            <div class="metric-trend"><i class="fas fa-arrow-up text-success"></i> +0.04</div>
+                        </div>
+                    </div>
+                    
+                    <div class="confusion-matrix-container">
+                        <div class="section-title"><i class="fas fa-table"></i> Confusion Matrix</div>
+                        <div class="confusion-matrix">
+                            <div id="confusionMatrixChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Training History Section Removed -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Additional Metrics Section -->
+    <section class="additional-metrics">
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-chart-line"></i> Performance Trends</h2>
+                <div class="card-actions">
+                    <select class="time-range-selector">
+                        <option value="week">Last Week</option>
+                        <option value="month" selected>Last Month</option>
+                        <option value="quarter">Last Quarter</option>
+                        <option value="year">Last Year</option>
+                    </select>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="chart-container">
+                    <div id="performanceTrendChart"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Initialize charts and handle dataset selection when the DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle dataset selection and filters
+        initializeDatasetFilters();
+        // Initialize Kappa Chart
+        const kappaCtx = document.getElementById('kappaChart').getContext('2d');
+        const kappaChart = new Chart(kappaCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cohen\'s Kappa', 'Fleiss\' Kappa', 'Percent Agreement'],
+                datasets: [{
+                    label: 'Agreement Score',
+                    data: [0.82, 0.75, 0.88],
+                    backgroundColor: [
+                        'rgba(79, 70, 229, 0.7)',
+                        'rgba(79, 70, 229, 0.5)',
+                        'rgba(79, 70, 229, 0.3)'
+                    ],
+                    borderColor: [
+                        'rgba(79, 70, 229, 1)',
+                        'rgba(79, 70, 229, 1)',
+                        'rgba(79, 70, 229, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1
+                    }
+                }
+            }
+        });
+        
+        // Initialize Performance Trend Chart with ApexCharts
+        if (typeof ApexCharts !== 'undefined') {
+            const performanceOptions = {
+                series: [{
+                    name: 'Accuracy',
+                    data: [88, 89, 87, 90, 91, 92, 92.4]
+                }, {
+                    name: 'F1 Score',
+                    data: [0.82, 0.83, 0.81, 0.85, 0.87, 0.88, 0.89]
+                }],
+                chart: {
+                    height: 280,
+                    type: 'line',
+                    toolbar: {
+                        show: true
+                    },
+                    zoom: {
+                        enabled: true
+                    }
+                },
+                colors: ['#4F46E5', '#EC4899'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
+                },
+                grid: {
+                    borderColor: '#e0e0e0',
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'],
+                        opacity: 0.5
+                    },
+                },
+                markers: {
+                    size: 5
+                },
+                xaxis: {
+                    categories: ['Apr 10', 'Apr 15', 'Apr 20', 'Apr 25', 'May 1', 'May 5', 'May 12'],
+                },
+                yaxis: [
+                    {
+                        title: {
+                            text: 'Accuracy (%)',
+                        },
+                        min: 80,
+                        max: 100
+                    },
+                    {
+                        opposite: true,
+                        title: {
+                            text: 'F1 Score',
+                        },
+                        min: 0.7,
+                        max: 1
+                    }
+                ],
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'right',
+                }
+            };
+
+            const performanceChart = new ApexCharts(document.querySelector("#performanceTrendChart"), performanceOptions);
+            performanceChart.render();
+            
+            // Initialize Confusion Matrix
+            const confusionMatrixOptions = {
+                series: [{
+                    name: 'Confusion Matrix',
+                    data: [
+                        { x: 'True Positive', y: 85 },
+                        { x: 'False Positive', y: 7 },
+                        { x: 'False Negative', y: 8 },
+                        { x: 'True Negative', y: 90 }
+                    ]
+                }],
+                chart: {
+                    height: 240,
+                    type: 'heatmap',
+                },
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        colors: ['#fff']
+                    }
+                },
+                colors: ['#4F46E5'],
+                title: {
+                    text: 'Confusion Matrix',
+                    align: 'center'
+                },
+                plotOptions: {
+                    heatmap: {
+                        shadeIntensity: 0.5,
+                        radius: 0,
+                        colorScale: {
+                            ranges: [
+                                { from: 0, to: 20, color: '#BFDBFE' },
+                                { from: 21, to: 50, color: '#93C5FD' },
+                                { from: 51, to: 80, color: '#60A5FA' },
+                                { from: 81, to: 100, color: '#3B82F6' }
+                            ]
+                        }
+                    }
+                }
+            };
+
+            const confusionMatrix = new ApexCharts(document.querySelector("#confusionMatrixChart"), confusionMatrixOptions);
+            confusionMatrix.render();
+        }
+    });
+    
+    // Function to trigger model training
+    function triggerTraining() {
+        const logOutput = document.getElementById('log-output');
+        logOutput.textContent = 'Starting training process...';
+        
+        // Simulate training process with timed updates
+        setTimeout(() => {
+            logOutput.textContent += '\n[' + new Date().toLocaleTimeString() + '] INFO: Initializing model...';
+        }, 500);
+        
+        setTimeout(() => {
+            logOutput.textContent += '\n[' + new Date().toLocaleTimeString() + '] INFO: Loading training data...';
+        }, 1500);
+        
+        setTimeout(() => {
+            logOutput.textContent += '\n[' + new Date().toLocaleTimeString() + '] INFO: Starting training...';
+        }, 2500);
+        
+        // Add more simulated log updates as needed
+    }
+    
+    // Function to trigger model evaluation
+    function triggerEvaluation() {
+        alert('Evaluating model with current settings...');
+        // Implementation would go here
+    }
+    
+    // Initialize dataset filters and handle events
+    function initializeDatasetFilters() {
+        const timeRangeSelect = document.getElementById('timeRangeSelect');
+        const customDateRange = document.getElementById('customDateRange');
+        const datasetSelect = document.getElementById('datasetSelect');
+        const applyDatasetBtn = document.getElementById('applyDatasetBtn');
+        
+        // Show/hide custom date range based on selection
+        timeRangeSelect.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customDateRange.style.display = 'block';
+            } else {
+                customDateRange.style.display = 'none';
+            }
+        });
+        
+        // Handle dataset selection change
+        datasetSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption.value) {
+                // Update dataset info based on selection
+                updateDatasetInfo(selectedOption.value, selectedOption.text);
+            }
+        });
+        
+        // Handle apply button click
+        applyDatasetBtn.addEventListener('click', function() {
+            const datasetId = datasetSelect.value;
+            if (!datasetId) {
+                alert('Please select a dataset first');
+                return;
+            }
+            
+            // Collect all filter values
+            const filters = {
+                datasetId: datasetId,
+                timeRange: timeRangeSelect.value,
+                annotator: document.getElementById('annotatorSelect').value,
+                category: document.getElementById('categorySelect').value,
+                status: document.getElementById('statusSelect').value
+            };
+            
+            // If custom date range is selected, add date values
+            if (timeRangeSelect.value === 'custom') {
+                filters.startDate = document.getElementById('startDate').value;
+                filters.endDate = document.getElementById('endDate').value;
+                
+                if (!filters.startDate || !filters.endDate) {
+                    alert('Please select both start and end dates');
+                    return;
+                }
+            }
+            
+            // Apply filters and fetch data from backend
+            fetchDatasetStatistics(filters);
+        });
+    }
+    
+    // Update dataset info display
+    function updateDatasetInfo(datasetId, datasetName) {
+        // Extract just the dataset name without the count
+        const nameOnly = datasetName.split('(')[0].trim();
+        document.getElementById('selectedDatasetInfo').textContent = nameOnly;
+        
+        // Simulate fetching basic dataset info
+        // In a real implementation, this would be an API call
+        let totalItems, completedItems, annotators;
+        
+        switch(datasetId) {
+            case 'dataset1':
+                totalItems = '15,432';
+                completedItems = '12,345 (80%)';
+                annotators = '24';
+                break;
+            case 'dataset2':
+                totalItems = '8,721';
+                completedItems = '7,890 (90%)';
+                annotators = '18';
+                break;
+            case 'dataset3':
+                totalItems = '12,543';
+                completedItems = '9,876 (79%)';
+                annotators = '22';
+                break;
+            case 'dataset4':
+                totalItems = '9,876';
+                completedItems = '5,432 (55%)';
+                annotators = '15';
+                break;
+            default:
+                totalItems = '0';
+                completedItems = '0 (0%)';
+                annotators = '0';
+        }
+        
+        document.getElementById('totalItemsInfo').textContent = totalItems;
+        document.getElementById('completedItemsInfo').textContent = completedItems;
+        document.getElementById('annotatorsInfo').textContent = annotators;
+    }
+    
+    // Fetch dataset statistics from backend
+    function fetchDatasetStatistics(filters) {
+        // Show loading state
+        document.getElementById('applyDatasetBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+        
+        // In a real implementation, this would be an API call to the backend
+        // For demonstration, we'll simulate an API call with setTimeout
+        setTimeout(() => {
+            console.log('Fetching statistics with filters:', filters);
+            
+            // This is where you would make an actual fetch call to your backend
+            // Example:
+            // fetch('/api/statistics', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(filters)
+            // })
+            // .then(response => response.json())
+            // .then(data => {
+            //     updateCharts(data);
+            // })
+            // .catch(error => {
+            //     console.error('Error fetching statistics:', error);
+            //     alert('Error fetching statistics. Please try again.');
+            // });
+            
+            // For demo, simulate successful data fetch
+            updateCharts(getSimulatedData(filters));
+            
+            // Reset button state
+            document.getElementById('applyDatasetBtn').innerHTML = '<i class="fas fa-check"></i> Apply';
+            
+            // Show success message
+            alert('Statistics updated successfully for ' + 
+                  document.getElementById('selectedDatasetInfo').textContent);
+            
+        }, 1500); // Simulate network delay
+    }
+    
+    // Update charts with new data
+    function updateCharts(data) {
+        // Update Kappa Chart
+        if (window.kappaChart) {
+            window.kappaChart.data.datasets[0].data = [
+                data.cohensKappa,
+                data.fleissKappa,
+                data.percentAgreement
+            ];
+            window.kappaChart.update();
+        }
+        
+        // Update other metrics and charts
+        document.querySelectorAll('.score').forEach((el, index) => {
+            if (index === 0) el.textContent = data.cohensKappa.toFixed(2);
+            if (index === 1) el.textContent = data.fleissKappa.toFixed(2);
+        });
+        
+        // Update performance chart if it exists
+        if (window.performanceChart) {
+            window.performanceChart.updateSeries([
+                {
+                    name: 'Accuracy',
+                    data: data.accuracyTrend
+                },
+                {
+                    name: 'F1 Score',
+                    data: data.f1ScoreTrend
+                }
+            ]);
+        }
+        
+        // Update evaluation metrics
+        document.querySelectorAll('.metric-value').forEach((el, index) => {
+            if (index === 0) el.textContent = data.accuracy + '%';
+            if (index === 1) el.textContent = data.f1Score.toFixed(2);
+            if (index === 2) el.textContent = data.precision.toFixed(2);
+            if (index === 3) el.textContent = data.recall.toFixed(2);
+        });
+    }
+    
+    // Generate simulated data for demo purposes
+    function getSimulatedData(filters) {
+        // In a real app, this would come from the backend
+        const baseData = {
+            cohensKappa: 0.82,
+            fleissKappa: 0.75,
+            percentAgreement: 0.88,
+            accuracy: 92.4,
+            f1Score: 0.89,
+            precision: 0.91,
+            recall: 0.87,
+            accuracyTrend: [88, 89, 87, 90, 91, 92, 92.4],
+            f1ScoreTrend: [0.82, 0.83, 0.81, 0.85, 0.87, 0.88, 0.89]
+        };
+        
+        // Simulate different values based on selected dataset
+        const variance = 0.05; // 5% variance
+        const randomFactor = (Math.random() * variance * 2) - variance; // Between -5% and +5%
+        
+        return {
+            cohensKappa: Math.min(1, Math.max(0, baseData.cohensKappa * (1 + randomFactor))),
+            fleissKappa: Math.min(1, Math.max(0, baseData.fleissKappa * (1 + randomFactor))),
+            percentAgreement: Math.min(1, Math.max(0, baseData.percentAgreement * (1 + randomFactor))),
+            accuracy: Math.min(100, Math.max(0, baseData.accuracy * (1 + randomFactor))),
+            f1Score: Math.min(1, Math.max(0, baseData.f1Score * (1 + randomFactor))),
+            precision: Math.min(1, Math.max(0, baseData.precision * (1 + randomFactor))),
+            recall: Math.min(1, Math.max(0, baseData.recall * (1 + randomFactor))),
+            accuracyTrend: baseData.accuracyTrend.map(val => Math.min(100, Math.max(0, val * (1 + randomFactor)))),
+            f1ScoreTrend: baseData.f1ScoreTrend.map(val => Math.min(1, Math.max(0, val * (1 + randomFactor))))
+        };
+    }
+</script>
+
+</body>
+</html>

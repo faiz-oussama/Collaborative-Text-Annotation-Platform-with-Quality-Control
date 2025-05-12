@@ -48,7 +48,7 @@ public class AdminController {
         long totalAnnotations = annotationService.countTotalAnnotations();
         long activeTasks = taskService.countActiveTasks();
         long totalDatasets = datasetService.countDatasets();
-        long totalAnnotateurs = annotateurService.countActiveAnnotateurs();
+        long totalAnnotateurs = annotateurService.findAllActive().size();
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
         model.addAttribute("currentUserName", currentUserName);
         model.addAttribute("totalAnnotations", totalAnnotations);

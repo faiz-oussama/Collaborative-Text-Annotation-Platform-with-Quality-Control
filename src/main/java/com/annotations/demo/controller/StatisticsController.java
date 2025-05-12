@@ -33,7 +33,7 @@ public class StatisticsController {
     public StatisticsController(TaskService taskService,
                                 AnnotateurService annotateurService,
                                 DatasetService datasetService,
-                                AnnotationService annotationService, UserService userService) {
+                                AnnotationService annotationService, UserService userService, InterAnnotatorAgreement interAnnotatorAgreement) {
         this.taskService = taskService;
         this.annotateurService = annotateurService;
         this.datasetService = datasetService;

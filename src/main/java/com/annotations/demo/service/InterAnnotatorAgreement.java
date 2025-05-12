@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 public class InterAnnotatorAgreement {
     
     // Calculate Fleiss' Kappa for inter-annotator agreement
+
+
     public double calculateFleissKappa(List<Annotation> annotations) {
         if (annotations == null || annotations.isEmpty()) return 0.0;
         
@@ -80,6 +82,10 @@ public class InterAnnotatorAgreement {
         // Fleiss' Kappa formula
         return (observedAgreement - expectedAgreement) / (1 - expectedAgreement);
     }
+
+
+
+
     
     // Identify potential spam annotators
     public List<Annotateur> identifySpamAnnotators(Task task) {
