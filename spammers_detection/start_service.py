@@ -6,7 +6,6 @@ import requests
 import logging
 import signal
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -17,13 +16,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Constants
 SERVICE_URL = "http://localhost:5001"
 MAX_RETRIES = 5
-RETRY_INTERVAL = 2  # seconds
+RETRY_INTERVAL = 2
 
 def check_service_health():
-    """Check if the service is already running and healthy"""
     try:
         response = requests.get(f"{SERVICE_URL}/health", timeout=5)
         if response.status_code == 200:
@@ -33,17 +30,14 @@ def check_service_health():
     return False
 
 def start_service():
-    """Start the spam detection service"""
     if check_service_health():
         logger.info("Spam detection service is already running")
         return True
 
     logger.info("Starting spam detection service...")
     
-    # Get the directory of the current script
     script_dir = os.path.dirname(os.path.abspath(__file__))
     
-    # Start the service as a subprocess
     try:
         process = subprocess.Popen(
             [sys.executable, os.path.join(script_dir, "__init__.py")],
@@ -52,7 +46,6 @@ def start_service():
             cwd=script_dir
         )
         
-        # Wait for the service to start
         for attempt in range(MAX_RETRIES):
             logger.info(f"Waiting for service to start (attempt {attempt+1}/{MAX_RETRIES})...")
             time.sleep(RETRY_INTERVAL)
@@ -69,17 +62,18 @@ def start_service():
         return False
 
 def stop_service():
-    """Stop the spam detection service if it's running"""
     import psutil
     
     for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
         try:
             cmdline = proc.info.get('cmdline', [])
-            if len(cmdline) > 1 and '__init__.py' in cmdline[1] and 'python' in proc.info['name'].lower():
+            # Check if cmdline is not None and has at least 2 elements
+            if cmdline and len(cmdline) > 1 and '__init__.py' in cmdline[1] and 'python' in proc.info.get('name', '').lower():
                 logger.info(f"Stopping spam detection service (PID: {proc.info['pid']})")
                 os.kill(proc.info['pid'], signal.SIGTERM)
                 return True
-        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess, AttributeError, TypeError):
+            # Added more exception types to handle potential errors
             pass
     
     logger.info("No running spam detection service found")

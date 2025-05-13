@@ -1,437 +1,190 @@
-2025-05-13 18:46:01,524 - __main__ - INFO - Starting simplified spam detection service (mock version)
-2025-05-13 18:46:01,526 - __main__ - INFO - Starting spam detection service on port 5001
-2025-05-13 18:46:03,152 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2025-05-13 20:10:09,935 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:09] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:19,679 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:19] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:20,185 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:20,203 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:10:20,204 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:10:20,208 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:10:20,349 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:20,355 - __main__ - INFO - Received prediction request with 116 examples
+2025-05-13 20:10:20,355 - __main__ - INFO - Processed 116 mock predictions
+2025-05-13 20:10:20,358 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:10:20,545 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:20,550 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:10:20,551 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:10:20,552 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:10:20,670 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:20,678 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:10:20,678 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:10:20,681 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:10:20,803 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:20,816 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:10:20,817 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:10:20,819 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:10:20,920 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:20,927 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:10:20,927 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:10:20,929 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:20] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:10:21,021 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:21] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:21,027 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:10:21,028 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:10:21,028 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:21] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:10:21,120 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:21] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:21,128 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:10:21,128 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:10:21,131 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:21] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:10:21,228 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:21] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:10:21,234 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:10:21,234 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:10:21,235 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:21] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:10:21,749 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:10:21] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:14:51,840 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:14:51] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:08,459 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:08] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:18,879 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:18] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:21,351 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:21] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:21,874 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:21] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:21,879 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:15:21,879 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:15:21,881 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:21] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:15:21,937 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:21] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:21,940 - __main__ - INFO - Received prediction request with 116 examples
+2025-05-13 20:15:21,941 - __main__ - INFO - Processed 116 mock predictions
+2025-05-13 20:15:21,942 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:21] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:15:22,003 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:22,007 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:15:22,007 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:15:22,009 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:15:22,101 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:22,106 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:15:22,106 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:15:22,107 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:15:22,190 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:22,196 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:15:22,196 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:15:22,198 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:15:22,292 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:22,299 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:15:22,300 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:15:22,302 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:15:22,428 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:22,434 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:15:22,435 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:15:22,438 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:15:22,502 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:22,506 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:15:22,507 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:15:22,508 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:15:22,561 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:22,566 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:15:22,567 - __main__ - INFO - Processed 115 mock predictions
+2025-05-13 20:15:22,568 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:15:22,995 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:22] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:15:51,187 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:15:51] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:16:09,875 - __main__ - INFO - Received prediction request with 1 examples
+2025-05-13 20:16:09,875 - __main__ - INFO - Processed 1 mock predictions
+2025-05-13 20:16:09,876 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:16:09] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:16:41,184 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:16:41] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:18:31,882 - __main__ - INFO - Loading NLI model...
+2025-05-13 20:18:45,866 - __main__ - INFO - Using device: CPU
+2025-05-13 20:18:47,101 - __main__ - INFO - NLI model loaded successfully
+2025-05-13 20:18:48,793 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5001
  * Running on http://192.168.1.147:5001
-2025-05-13 18:46:03,152 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-05-13 18:51:38,303 - __main__ - INFO - Loading NLI model...
-2025-05-13 18:51:59,940 - __main__ - INFO - Using distilbert-base-uncased-mnli model instead of roberta-large-mnli for faster loading
-2025-05-13 18:52:00,690 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
-2025-05-13 18:53:41,307 - __main__ - INFO - Model loaded successfully
-2025-05-13 18:53:41,308 - __main__ - INFO - Starting spam detection service on port 5001
-2025-05-13 18:53:42,826 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+2025-05-13 20:18:48,793 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-13 20:18:49,018 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:18:49] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:18:49,058 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:18:49] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:18:51,125 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:18:51] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:18:58,443 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:18:58] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:18:59,797 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:18:59] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:18:59,835 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:21:41,605 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:21:41,658 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:21:41] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:21:44,093 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:21:44] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:21:44,104 - __main__ - INFO - Received prediction request with 116 examples
+2025-05-13 20:24:28,732 - __main__ - INFO - Processed 116 real predictions
+2025-05-13 20:24:28,744 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:24:28] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:24:29,038 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:24:29] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:24:29,051 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:24:48,451 - __main__ - INFO - Loading NLI model...
+2025-05-13 20:24:49,668 - __main__ - INFO - Loading NLI model...
+2025-05-13 20:25:07,255 - __main__ - INFO - Using device: CPU
+2025-05-13 20:25:07,256 - __main__ - INFO - Using smaller, faster model: distilbert-base-uncased-finetuned-sst-2-english
+2025-05-13 20:25:08,960 - __main__ - INFO - Loading NLI model...
+2025-05-13 20:25:11,067 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-05-13 20:25:21,017 - __main__ - INFO - Loading NLI model...
+2025-05-13 20:25:22,214 - __main__ - INFO - Using device: CPU
+2025-05-13 20:25:22,214 - __main__ - INFO - Using smaller, faster model: distilbert-base-uncased-finetuned-sst-2-english
+2025-05-13 20:25:27,193 - __main__ - INFO - NLI model loaded successfully
+2025-05-13 20:25:27,193 - __main__ - INFO - NLI model loaded successfully
+2025-05-13 20:25:28,769 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5001
  * Running on http://192.168.1.147:5001
-2025-05-13 18:53:42,826 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
-2025-05-13 18:54:45,485 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:45] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:54,515 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:54] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:55,052 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:55,087 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:54:55,087 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:54:55,088 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:54:55,308 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:55,315 - __main__ - INFO - Received prediction request with 116 examples
-2025-05-13 18:54:55,316 - __main__ - INFO - Processed 116 mock predictions
-2025-05-13 18:54:55,317 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:54:55,495 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:55,502 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:54:55,502 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:54:55,504 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:54:55,675 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:55,683 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:54:55,683 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:54:55,685 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:54:55,827 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:55,833 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:54:55,833 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:54:55,834 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:54:55,951 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:55,956 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:54:55,957 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:54:55,958 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:55] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:54:56,177 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:56] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:56,181 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:54:56,182 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:54:56,182 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:56] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:54:56,257 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:56] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:56,262 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:54:56,263 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:54:56,264 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:56] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:54:56,274 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:56] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:54:56,283 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:54:56,284 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:54:56,285 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:54:56] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:58:09,011 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:09] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:10,990 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:12,859 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:13,446 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:13] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:13,508 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:58:13,509 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:58:13,510 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:13] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:58:13,746 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:13] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:13,754 - __main__ - INFO - Received prediction request with 116 examples
-2025-05-13 18:58:13,755 - __main__ - INFO - Processed 116 mock predictions
-2025-05-13 18:58:13,757 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:13] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:58:13,935 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:13] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:13,943 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:58:13,944 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:58:13,945 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:13] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:58:14,104 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:14,113 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:58:14,114 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:58:14,115 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:58:14,279 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:14,287 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:58:14,287 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:58:14,288 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:58:14,411 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:14,418 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:58:14,418 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:58:14,420 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:58:14,548 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:14,556 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:58:14,559 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:58:14,561 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:58:14,688 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:14,697 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:58:14,698 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:58:14,699 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 18:58:14,712 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 18:58:14,719 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 18:58:14,719 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 18:58:14,720 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 18:58:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:39,236 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:39] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:40,172 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:40] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:45,546 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:45] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:46,140 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:46,149 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:00:46,150 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:00:46,151 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:46,317 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:46,326 - __main__ - INFO - Received prediction request with 116 examples
-2025-05-13 19:00:46,327 - __main__ - INFO - Processed 116 mock predictions
-2025-05-13 19:00:46,328 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:46,502 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:46,511 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:00:46,512 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:00:46,514 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:46,691 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:46,700 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:00:46,701 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:00:46,703 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:46,857 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:46,865 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:00:46,865 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:00:46,867 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:46] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:47,014 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:47] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:47,021 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:00:47,022 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:00:47,024 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:47] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:47,202 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:47] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:47,209 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:00:47,210 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:00:47,213 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:47] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:47,368 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:47] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:47,377 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:00:47,378 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:00:47,380 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:47] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:47,395 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:47] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:00:47,402 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:00:47,403 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:00:47,404 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:47] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:00:47,921 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:00:47] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:11,634 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:11] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:11,886 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:11] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:11,893 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:01:11,894 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:01:11,897 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:11] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:01:11,989 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:11] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:11,997 - __main__ - INFO - Received prediction request with 116 examples
-2025-05-13 19:01:11,997 - __main__ - INFO - Processed 116 mock predictions
-2025-05-13 19:01:11,999 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:11] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:01:12,089 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:12,096 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:01:12,096 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:01:12,098 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:01:12,187 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:12,193 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:01:12,194 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:01:12,198 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:01:12,283 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:12,289 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:01:12,289 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:01:12,290 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:01:12,372 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:12,379 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:01:12,380 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:01:12,381 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:01:12,455 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:12,459 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:01:12,460 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:01:12,461 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:01:12,543 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:12,554 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:01:12,555 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:01:12,557 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:01:12,569 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:01:12,580 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:01:12,581 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:01:12,583 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:01:12,940 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:01:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:12:04,922 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:12:04] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:13:04,807 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:13:04] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:03,362 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:09,195 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:09] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,455 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,524 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:14:10,525 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:14:10,526 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:14:10,576 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,582 - __main__ - INFO - Received prediction request with 116 examples
-2025-05-13 19:14:10,604 - __main__ - INFO - Processed 116 mock predictions
-2025-05-13 19:14:10,605 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:14:10,617 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,623 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:14:10,624 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:14:10,625 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:14:10,632 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,640 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:14:10,640 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:14:10,641 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:14:10,648 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,655 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:14:10,656 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:14:10,657 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:14:10,663 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,668 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:14:10,668 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:14:10,670 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:14:10,678 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,683 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:14:10,683 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:14:10,684 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:14:10,691 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,698 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:14:10,698 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:14:10,699 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:14:10,708 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:14:10,714 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:14:10,715 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:14:10,716 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:10] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:14:12,404 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:14:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:15:44,079 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:15:44] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:15:44,331 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:15:44] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:15:47,584 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:15:47] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:15:47,917 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:15:47] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:16:11,755 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:16:11] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:16:38,938 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:16:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:16:56,333 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:16:56] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:16:59,899 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:16:59] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:17:09,925 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:17:09] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:17:32,120 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:17:32] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:02,191 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:02] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,342 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,354 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:03,355 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:03,355 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:03,370 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,379 - __main__ - INFO - Received prediction request with 116 examples
-2025-05-13 19:19:03,381 - __main__ - INFO - Processed 116 mock predictions
-2025-05-13 19:19:03,384 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:03,391 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,402 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:03,403 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:03,404 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:03,419 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,426 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:03,426 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:03,435 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:03,442 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,456 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:03,456 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:03,457 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:03,467 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,473 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:03,474 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:03,481 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:03,492 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,509 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:03,516 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:03,518 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:03,529 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,538 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:03,539 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:03,541 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:03,553 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:03,564 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:03,565 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:03,567 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:03] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:22,971 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:22] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:37,824 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:37] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,535 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,539 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:38,540 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:38,541 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:38,549 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,555 - __main__ - INFO - Received prediction request with 116 examples
-2025-05-13 19:19:38,555 - __main__ - INFO - Processed 116 mock predictions
-2025-05-13 19:19:38,557 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:38,563 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,569 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:38,570 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:38,572 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:38,582 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,594 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:38,595 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:38,597 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:38,604 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,612 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:38,613 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:38,614 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:38,623 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,628 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:38,629 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:38,630 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:38,641 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,648 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:38,648 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:38,649 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:38,660 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,665 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:38,665 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:38,667 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:38,677 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:38,682 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:19:38,682 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:19:38,684 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:38] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:19:39,099 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:39] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:19:44,483 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:19:44] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:20:12,626 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:20:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:20:28,529 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:20:28] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:21:23,059 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:21:23] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:23:32,891 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:23:32] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:25:18,376 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:25:18] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:09,821 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:09] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:13,223 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:13] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,101 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,108 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:14,109 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:14,110 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:14,117 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,122 - __main__ - INFO - Received prediction request with 116 examples
-2025-05-13 19:26:14,122 - __main__ - INFO - Processed 116 mock predictions
-2025-05-13 19:26:14,123 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:14,131 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,137 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:14,138 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:14,139 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:14,147 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,153 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:14,154 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:14,155 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:14,160 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,168 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:14,168 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:14,169 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:14,175 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,183 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:14,183 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:14,184 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:14,191 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,199 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:14,200 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:14,201 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:14,206 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,215 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:14,216 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:14,217 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:14,223 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:14,232 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:14,233 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:14,234 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:14,696 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:41,804 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:41] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,638 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,644 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:42,646 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:42,648 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:42,656 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,665 - __main__ - INFO - Received prediction request with 116 examples
-2025-05-13 19:26:42,667 - __main__ - INFO - Processed 116 mock predictions
-2025-05-13 19:26:42,670 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:42,680 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,688 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:42,689 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:42,690 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:42,700 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,706 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:42,707 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:42,709 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:42,718 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,724 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:42,724 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:42,727 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:42,735 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,742 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:42,743 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:42,744 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:42,752 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,758 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:42,758 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:42,760 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:42,767 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,773 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:42,773 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:42,774 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:42,782 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:26:42,788 - __main__ - INFO - Received prediction request with 115 examples
-2025-05-13 19:26:42,789 - __main__ - INFO - Processed 115 mock predictions
-2025-05-13 19:26:42,790 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:42] "POST /predict HTTP/1.1" 200 -
-2025-05-13 19:26:43,168 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:26:43] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:28:23,544 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:28:23] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:28:43,890 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:28:43] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:30:00,032 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:30:00] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:30:32,790 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:30:32] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:30:45,285 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:30:45] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:30:48,657 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:30:48] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:30:58,197 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:30:58] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:31:11,127 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:31:11] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:31:23,187 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:31:23] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:31:35,499 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:31:35] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:31:46,261 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:31:46] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:32:19,607 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:32:19] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:32:34,192 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:32:34] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:32:52,339 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:32:52] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:33:12,452 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:33:12] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:33:26,073 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:33:26] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:33:41,496 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:33:41] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:33:48,115 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:33:48] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:33:57,254 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:33:57] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:34:13,566 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:34:13] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:34:51,130 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:34:51] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:35:05,753 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:35:05] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:35:07,293 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:35:07] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:36:25,052 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:36:25] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:36:40,090 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:36:40] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:36:50,338 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:36:50] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:37:01,792 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:37:01] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:37:14,099 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:37:14] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:37:25,431 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:37:25] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:37:37,919 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:37:37] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:37:48,697 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:37:48] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:38:02,764 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:38:02] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:39:50,860 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:39:50] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:40:01,101 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:40:01] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:40:08,370 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:40:08] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:40:18,208 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:40:18] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:40:31,453 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:40:31] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:42:32,759 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:42:32] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:42:34,177 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:42:34] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:42:49,537 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:42:49] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:42:57,963 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:42:57] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:43:58,326 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:43:58] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:44:09,719 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:44:09] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:45:15,560 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:45:15] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:45:31,622 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:45:31] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:46:57,921 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:46:57] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:47:01,009 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:47:01] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:47:05,214 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:47:05] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:52:02,089 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:52:02] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:52:54,761 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:52:54] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:53:08,407 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:53:08] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:54:11,047 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:54:11] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:54:23,170 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:54:23] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:54:31,835 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:54:31] "GET /health HTTP/1.1" 200 -
-2025-05-13 19:54:40,495 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 19:54:40] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:28,769 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-13 20:25:29,002 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:29] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:29,092 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:29] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:29,103 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:25:30,104 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:30] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:30,211 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:30] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:30,807 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:30] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:30,892 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:30] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:32,239 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:32] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:35,648 - __main__ - INFO - Using device: CPU
+2025-05-13 20:25:35,649 - __main__ - INFO - Using smaller, faster model: distilbert-base-uncased-finetuned-sst-2-english
+2025-05-13 20:25:35,990 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:35] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:36,992 - __main__ - INFO - NLI model loaded successfully
+2025-05-13 20:25:37,882 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:25:37,884 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:37] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:25:38,153 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:38] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:38,167 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:25:38,311 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:38] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:38,320 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:25:51,043 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:25:51,045 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:51] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:25:51,213 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:25:51,214 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:51] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:25:51,319 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:51] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:51,328 - __main__ - INFO - Received prediction request with 116 examples
+2025-05-13 20:25:51,448 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:25:51] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:25:51,458 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:26:02,517 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:26:02,519 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:02] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:02,713 - __main__ - INFO - Processed 116 real predictions
+2025-05-13 20:26:02,714 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:02] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:02,770 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:02] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:26:02,780 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:26:02,988 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:02] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:26:03,002 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:26:14,360 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:26:14,362 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:14] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:14,560 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:14] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:26:14,581 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:26:14,942 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:26:14,943 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:14] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:15,192 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:15] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:26:15,202 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:26:27,078 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:26:27,079 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:27] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:27,295 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:26:27,297 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:27] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:27,463 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:27] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:26:27,474 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:26:35,753 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:26:35,754 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:35] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:35,944 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:35] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:26:35,952 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:26:42,380 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:26:42,381 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:42] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:42,482 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:42] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:26:42,487 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:26:49,896 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:26:49,897 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:49] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:49,979 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:49] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:26:49,985 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:26:57,031 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:26:57,032 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:57] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:26:57,132 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:26:57] "GET /health HTTP/1.1" 200 -
+2025-05-13 20:26:57,140 - __main__ - INFO - Received prediction request with 115 examples
+2025-05-13 20:27:03,917 - __main__ - INFO - Processed 115 real predictions
+2025-05-13 20:27:03,918 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:27:03] "POST /predict HTTP/1.1" 200 -
+2025-05-13 20:27:04,532 - werkzeug - INFO - 127.0.0.1 - - [13/May/2025 20:27:04] "GET /health HTTP/1.1" 200 -

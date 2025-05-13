@@ -23,10 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Controller for spam detection functionality
- * Provides endpoints for running spam detection and viewing results
- */
 @Controller
 @RequestMapping("/admin")
 public class SpamDetectionController {
@@ -47,9 +43,6 @@ public class SpamDetectionController {
     @Value("${spam.detection.threshold:0.3}")
     private double defaultThreshold;
     
-    /**
-     * Shows the spam detection configuration page
-     */
     @GetMapping("/spam/configure")
     public String showConfigurationPage(Model model) {
         model.addAttribute("threshold", defaultThreshold);
@@ -58,9 +51,6 @@ public class SpamDetectionController {
         return "admin/spam_detection/configure";
     }
 
-    /**
-     * Runs the spam detection process and redirects to results
-     */
     @PostMapping("/spam/detect")
     public String runSpamDetection(
             @RequestParam(required = false, defaultValue = "0") double threshold,
@@ -71,7 +61,6 @@ public class SpamDetectionController {
             logger.info("Starting spam detection with threshold: {}", threshold);
             logger.info("Annotateur IDs provided in request: {}", annotateurIds != null ? annotateurIds : "none");
             
-            // Check if Python service is running
             boolean serviceHealthy = pythonService.isServiceHealthy();
             logger.info("Python service health check result: {}", serviceHealthy ? "HEALTHY" : "UNHEALTHY");
             
@@ -88,7 +77,6 @@ public class SpamDetectionController {
                 }
             }
             
-            // Get annotateurs to evaluate
             List<Annotateur> annotateurs;
             if (annotateurIds != null && !annotateurIds.isEmpty()) {
                 annotateurs = annotateurRepository.findAllById(annotateurIds);
@@ -98,10 +86,8 @@ public class SpamDetectionController {
                 logger.info("Evaluating all {} annotateurs", annotateurs.size());
             }
             
-            // Run detection process
             spamDetectorService.runDetectionProcess(threshold, annotateurs);
             
-            // Add timestamp to track when this was run
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             redirectAttributes.addFlashAttribute("timestamp", timestamp);
             redirectAttributes.addFlashAttribute("success", 
@@ -117,24 +103,17 @@ public class SpamDetectionController {
         }
     }
 
-    /**
-     * Shows the spam detection results page
-     */
     @GetMapping("/spam/results")
     public String showResults(RedirectAttributes redirectAttributes) {
         List<SpamDetectionResults> results = spamResultsRepository.findAll();
         redirectAttributes.addFlashAttribute("results", results);
         
-        // Count flagged annotators
         long flaggedCount = results.stream().filter(SpamDetectionResults::isFlagged).count();
         redirectAttributes.addFlashAttribute("flaggedCount", flaggedCount);
         
         return "redirect:/admin/advanced-stats";
     }
     
-    /**
-     * REST endpoint to check Python service status
-     */
     @GetMapping("/spam/service-status")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> checkServiceStatus() {
@@ -147,9 +126,6 @@ public class SpamDetectionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    /**
-     * REST endpoint to start the Python service
-     */
     @PostMapping("/spam/start-service")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> startPythonService() {

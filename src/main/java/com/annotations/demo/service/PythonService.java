@@ -2,8 +2,10 @@ package com.annotations.demo.service;
 
 import com.annotations.demo.entity.CoupleText;
 import com.annotations.demo.entity.NliPrediction;
+import com.annotations.demo.repository.NliPredictionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,6 +32,9 @@ import java.util.concurrent.TimeUnit;
 public class PythonService {
     private static final Logger logger = LoggerFactory.getLogger(PythonService.class);
     private final RestTemplate restTemplate = new RestTemplate();
+    
+    @Autowired
+    private NliPredictionRepository nliPredictionRepository;
     
     @Value("${python.api.base-url:http://localhost:5001}")
     private String pythonApiBaseUrl;
@@ -174,7 +179,19 @@ public class PythonService {
             }
             
             logger.info("Received {} predictions from Python model", response.getBody().length);
-            return Arrays.asList(response.getBody());
+            List<NliPrediction> predictions = Arrays.asList(response.getBody());
+            
+            // Save predictions to database
+            try {
+                logger.info("Saving {} NLI predictions to database", predictions.size());
+                nliPredictionRepository.saveAll(predictions);
+                logger.info("Successfully saved predictions to database");
+            } catch (Exception ex) {
+                logger.error("Error saving NLI predictions to database: {}", ex.getMessage());
+                // Continue even if saving fails
+            }
+            
+            return predictions;
             
         } catch (RestClientException e) {
             logger.error("Error communicating with Python service: {}", e.getMessage());
