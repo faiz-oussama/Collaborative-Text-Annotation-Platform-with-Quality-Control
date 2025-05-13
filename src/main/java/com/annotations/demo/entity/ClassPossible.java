@@ -24,10 +24,10 @@ public class ClassPossible {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String textClass;
-
     @ManyToOne
     @JoinColumn(name="dataset_id")
     private Dataset dataset;
+
+
 }

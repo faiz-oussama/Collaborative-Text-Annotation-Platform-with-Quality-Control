@@ -61,6 +61,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/admin/spam/**", "/admin/metrics-calculate", "/admin/model/**")
+            )
             .authenticationProvider(authProvider()) // Use the custom AuthenticationProvider
             .authorizeHttpRequests(authz -> authz // Configure authorization for different URL patterns
                 .requestMatchers("/user/**").hasRole("USER_ROLE") // Only allow users with the USER role for /user/** paths

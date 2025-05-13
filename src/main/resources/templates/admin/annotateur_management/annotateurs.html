@@ -49,9 +49,8 @@
             <table class="users-table">
                 <thead>
                 <tr>
-                    <th>User</th>
-                    <th>Role</th>
-                    <th>Status</th>
+                    <th>Name</th>
+                    <th>Email</th>
                     <th>Last Activity</th>
                     <th>Actions</th>
                 </tr>
@@ -63,18 +62,11 @@
                             <div class="cell-avatar" th:text="${#strings.substring(annotateur.prenom, 0, 1) + #strings.substring(annotateur.nom, 0, 1)}">JD</div>
                             <div class="cell-info">
                                 <div class="cell-name" th:text="${annotateur.prenom + ' ' + annotateur.nom}">John Doe</div>
-                                <div class="cell-email" th:text="${annotateur.prenom.toLowerCase() + '.' + annotateur.nom.toLowerCase() + '@example.com'}">john.doe@example.com</div>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <span class="cell-role">Annotator</span>
-                    </td>
-                    <td>
-                                <span class="status-pill status-active">
-                                    <span class="status-dot"></span>
-                                    Active
-                                </span>
+                        <div class="cell-email" th:text="${annotateur.email}">john.doe@example.com</div>
                     </td>
                     <td>
                         <span th:text="${lastActivity.containsKey(annotateur.id) and lastActivity[annotateur.id] != null} ? ${#temporals.format(lastActivity[annotateur.id], 'yyyy-MM-dd HH:mm')} : 'No activity yet'">
@@ -154,21 +146,34 @@
         </div>
 
         <!-- Pagination -->
-        <div class="pagination" th:if="${!#lists.isEmpty(annotateurs)}">
-            <div class="pagination-info">
-                Showing <span class="font-semibold">1-10</span> of <span class="font-semibold" th:text="${#lists.size(annotateurs)}">24</span> users
+        <div class="pagination">
+            <div class="pagination-info" th:text="|Showing page ${currentPage + 1} of ${totalPages} (Total: ${totalItems} users)|">
+                Showing page 1 of 5 (Total: 100 users)
             </div>
 
             <div class="pagination-controls">
-                <button class="page-btn" disabled>
+                <!-- Previous Button -->
+                <a class="page-btn"
+                   th:classappend="${currentPage == 0} ? 'disabled'"
+                   th:href="${currentPage == 0 ? '#' : '/admin/annotateurs?page=' + (currentPage - 1) + '&size=' + pageSize}"
+                   aria-label="Previous">
                     <i class='bx bx-chevron-left'></i>
-                </button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <button class="page-btn">
+                </a>
+
+                <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                   th:href="@{/admin/annotateurs(page=${i}, size=${pageSize})}"
+                   class="page-btn"
+                   th:classappend="${currentPage == i} ? 'active' : ''"
+                   th:text="${i + 1}">
+                </a>
+
+                <!-- Next Button -->
+                <a class="page-btn"
+                   th:classappend="${currentPage >= totalPages - 1} ? 'disabled'"
+                   th:href="${currentPage >= totalPages - 1 ? '#' : '/admin/annotateurs?page=' + (currentPage + 1) + '&size=' + pageSize}"
+                   aria-label="Next">
                     <i class='bx bx-chevron-right'></i>
-                </button>
+                </a>
             </div>
         </div>
     </div>

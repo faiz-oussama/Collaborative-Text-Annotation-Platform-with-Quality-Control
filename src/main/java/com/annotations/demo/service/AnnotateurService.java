@@ -7,6 +7,8 @@ import com.annotations.demo.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,9 @@ public class AnnotateurService extends GenericUserService {
         return annotateurRepository.findAllByDeleted(false);
     }
 
+    public Page<Annotateur> findAllActive(int page, int size) {
+        return annotateurRepository.findAllByDeletedFalse(PageRequest.of(page, size));
+    }
 
     public List<Annotateur> findAllByIds(List<Long> ids) {
         return annotateurRepository.findAllById(ids);

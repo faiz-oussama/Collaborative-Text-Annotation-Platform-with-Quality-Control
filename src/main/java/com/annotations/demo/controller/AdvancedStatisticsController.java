@@ -3,6 +3,8 @@ package com.annotations.demo.controller;
 
 import com.annotations.demo.entity.Annotation;
 import com.annotations.demo.entity.Dataset;
+import com.annotations.demo.entity.SpamDetectionResults;
+import com.annotations.demo.repository.SpamDetectionResultsRepository;
 import com.annotations.demo.service.AnnotationService;
 import com.annotations.demo.service.DatasetService;
 import com.annotations.demo.service.InterAnnotatorAgreement;
@@ -23,13 +25,19 @@ public class AdvancedStatisticsController {
     private final AnnotationService annotationService;
     private final UserService userService;
     private final DatasetService datasetService;
+    private final SpamDetectionResultsRepository spamResultsRepository;
 
 
-    public AdvancedStatisticsController(InterAnnotatorAgreement interAnnotatorAgreement , AnnotationService annotationService, UserService userService, DatasetService datasetService) {
+    public AdvancedStatisticsController(InterAnnotatorAgreement interAnnotatorAgreement, 
+                                    AnnotationService annotationService, 
+                                    UserService userService, 
+                                    DatasetService datasetService,
+                                    SpamDetectionResultsRepository spamResultsRepository) {
         this.interAnnotatorAgreement = interAnnotatorAgreement;
         this.annotationService = annotationService;
         this.userService = userService;
         this.datasetService = datasetService;
+        this.spamResultsRepository = spamResultsRepository;
     }
 
     @GetMapping("/advanced-stats")
@@ -38,6 +46,15 @@ public class AdvancedStatisticsController {
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
         model.addAttribute("datasets", datasets);
         model.addAttribute("currentUserName", currentUserName);
+        
+        // Load spam detection results to display
+        List<SpamDetectionResults> spamResults = spamResultsRepository.findAll();
+        model.addAttribute("results", spamResults);
+        
+        // Count flagged annotators
+        long flaggedCount = spamResults.stream().filter(SpamDetectionResults::isFlagged).count();
+        model.addAttribute("flaggedCount", flaggedCount);
+        
         return "admin/statistics_management/advanced_stats";
     }
 

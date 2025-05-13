@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="/main.css">
     <link rel="stylesheet" href="/custom.css">
     <link rel="stylesheet" href="/advanced_stats.css">
+    <link rel="stylesheet" href="/css/spam_detection.css">
     <script src="/advanced_stats.js" defer></script>
-
+    <script src="/js/spam_detection.js" defer></script>
 
 </head>
 <body>
@@ -134,141 +135,130 @@
             </div>
         </div>
     </section>
-
-
-    <!-- Model Training Section -->
-    <section class="model-training">
+    <!-- Spam Detection Section -->
+    <section class="spam-detection">
         <div class="card">
             <div class="card-header">
-                <h2><i class="fas fa-brain"></i> NLP Model Training & Evaluation</h2>
-                <div class="card-actions">
-                    <span class="model-status"><i class="fas fa-circle text-success"></i> Model Ready</span>
-                </div>
+                <h2><i class="fas fa-shield-alt"></i> Spam Detection System</h2>
             </div>
             <div class="card-content">
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="triggerTraining()"><i class="fas fa-play-circle"></i> Train Model</button>
-                    <button class="btn btn-info" onclick="triggerEvaluation()"><i class="fas fa-chart-pie"></i> Evaluate Model</button>
-                    <button class="btn btn-secondary"><i class="fas fa-save"></i> Save Model</button>
+                <!-- Service Status -->
+                <div class="service-status-container mb-4">
+                    <h4>Python Service Status</h4>
+                    <div id="pythonServiceStatus" class="service-status">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span>Checking service status...</span>
+                    </div>
+                    <div id="serviceControls" class="mt-2" style="display: none;">
+                        <button id="startServiceBtn" class="btn btn-warning">
+                            <i class="fas fa-play"></i> Start Python Service
+                        </button>
+                        <span id="serviceStartStatus"></span>
+                    </div>
                 </div>
 
-                <!-- Hyperparameters Form -->
-                <div class="hyperparameters-form">
-                    <div class="form-title"><i class="fas fa-sliders-h"></i> Model Hyperparameters</div>
-                    <form>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="epochs">Epochs:</label>
-                                <input type="number" id="epochs" value="10" min="1" max="100">
-                            </div>
-                            <div class="form-group">
-                                <label for="batch-size">Batch Size:</label>
-                                <input type="number" id="batch-size" value="32" min="1" max="256">
-                            </div>
-                            <div class="form-group">
-                                <label for="learning-rate">Learning Rate:</label>
-                                <input type="number" id="learning-rate" step="0.001" value="0.001" min="0.0001" max="0.1">
-                            </div>
-                            <div class="form-group">
-                                <label for="model-type">Model Type:</label>
-                                <select id="model-type">
-                                    <option value="bert">BERT</option>
-                                    <option value="lstm">LSTM</option>
-                                    <option value="transformer">Transformer</option>
-                                    <option value="roberta">RoBERTa</option>
-                                    <option value="distilbert">DistilBERT</option>
-                                </select>
+                <!-- Detection Controls -->
+                <div class="detection-controls mb-4">
+                    <h4>Run Spam Detection</h4>
+                    <form id="spamDetectionForm" th:action="@{/admin/spam/detect}" method="post">
+                        <!-- Model Settings Section -->
+                        <div class="model-settings mb-3">
+                            <h5>Model Settings</h5>
+                            <div class="control-row">
+                                <div class="form-group">
+                                    <label for="modelType">NLI Model:</label>
+                                    <select id="modelType" name="modelType" class="form-control">
+                                        <option value="roberta-large-mnli" selected>RoBERTa Large MNLI</option>
+                                        <option value="bart-large-mnli">BART Large MNLI</option>
+                                        <option value="distilbert-base-uncased-mnli">DistilBERT Base MNLI</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="threshold">Default Threshold:</label>
+                                    <div class="input-group">
+                                        <input type="number" id="threshold" name="threshold" 
+                                               class="form-control" step="0.05" min="0" max="1" 
+                                               value="0.3" required>
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                    <small class="form-text">Annotators with mismatch rates above this threshold will be flagged as potential spammers.</small>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="config-file">Config File (Optional):</label>
-                            <input type="file" id="config-file">
-                        </div>
+                        
+                        <!-- Adding hidden input for all annotators since we're always using that value -->
+                        <input type="hidden" name="annotator_all" value="true">
                         <div class="form-actions">
-                            <button type="button" class="btn btn-secondary">Reset</button>
-                            <button type="button" class="btn btn-primary">Apply</button>
+                            <button type="submit" class="btn btn-primary" id="runDetectionBtn">
+                                <i class="fas fa-search"></i> Run Detection
+                            </button>
+                            <div class="detection-status" id="detectionStatus"></div>
                         </div>
                     </form>
                 </div>
 
-                <!-- Training Logs -->
-                <div class="training-logs">
-                    <div class="section-title"><i class="fas fa-terminal"></i> Training Logs</div>
-                    <pre id="log-output">[2025-05-12 17:45:23] INFO: Initializing model with batch_size=32, epochs=10
-[2025-05-12 17:45:24] INFO: Loading training data...
-[2025-05-12 17:45:26] INFO: Found 15,432 training examples
-[2025-05-12 17:45:27] INFO: Starting training...
-[2025-05-12 17:45:30] INFO: Epoch 1/10, Loss: 0.8245, Accuracy: 0.7123
-[2025-05-12 17:45:35] INFO: Epoch 2/10, Loss: 0.5672, Accuracy: 0.8245
-[2025-05-12 17:45:40] INFO: Epoch 3/10, Loss: 0.3421, Accuracy: 0.8934
-[2025-05-12 17:45:45] INFO: Epoch 4/10, Loss: 0.2876, Accuracy: 0.9123
-[2025-05-12 17:45:50] INFO: Training complete!
-[2025-05-12 17:45:51] INFO: Model saved to /models/annotation_model_v1.2.h5</pre>
-                </div>
-
-                <!-- Evaluation Results -->
-                <div class="evaluation-results">
-                    <div class="section-title"><i class="fas fa-chart-pie"></i> Evaluation Metrics</div>
-                    <div class="metrics-display">
-                        <div class="metric-card">
-                            <h4>Accuracy</h4>
-                            <div class="metric-value">92.4%</div>
-                            <div class="metric-trend"><i class="fas fa-arrow-up text-success"></i> +2.1%</div>
+                <!-- Results Table -->
+                <div class="results-container">
+                    <h4>Detection Results</h4>
+                    <div th:if="${success}" class="alert alert-success" role="alert" th:text="${success}"></div>
+                    <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+                    
+                    <div class="results-summary mb-3" th:if="${results != null && !results.empty}">
+                        <div class="summary-item">
+                            <span class="summary-label">Total Annotators:</span>
+                            <span class="summary-value" th:text="${#lists.size(results)}">0</span>
                         </div>
-                        <div class="metric-card">
-                            <h4>F1 Score</h4>
-                            <div class="metric-value">0.89</div>
-                            <div class="metric-trend"><i class="fas fa-arrow-up text-success"></i> +0.05</div>
+                        <div class="summary-item">
+                            <span class="summary-label">Flagged Annotators:</span>
+                            <span class="summary-value text-danger" th:text="${flaggedCount ?: 0}">0</span>
                         </div>
-                        <div class="metric-card">
-                            <h4>Precision</h4>
-                            <div class="metric-value">0.91</div>
-                            <div class="metric-trend"><i class="fas fa-arrow-up text-success"></i> +0.03</div>
-                        </div>
-                        <div class="metric-card">
-                            <h4>Recall</h4>
-                            <div class="metric-value">0.87</div>
-                            <div class="metric-trend"><i class="fas fa-arrow-up text-success"></i> +0.04</div>
+                        <div class="summary-item" th:if="${timestamp}">
+                            <span class="summary-label">Last Run:</span>
+                            <span class="summary-value" th:text="${timestamp}">Never</span>
                         </div>
                     </div>
                     
-                    <div class="confusion-matrix-container">
-                        <div class="section-title"><i class="fas fa-table"></i> Confusion Matrix</div>
-                        <div class="confusion-matrix">
-                            <div id="confusionMatrixChart"></div>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>Annotator</th>
+                                <th>Email</th>
+                                <th>Mismatch Rate</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${results == null || results.empty}">
+                                <td colspan="4" class="text-center">No detection results available. Run the detection process to see results.</td>
+                            </tr>
+                            <tr th:each="result : ${results}" th:if="${results != null && !results.empty}">
+                                <td th:text="${result.annotateur.prenom + ' ' + result.annotateur.nom}">John Doe</td>
+                                <td th:text="${result.annotateur.email}">john@example.com</td>
+                                <td>
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar" role="progressbar" 
+                                             th:style="'width: ' + ${result.mismatchRate * 100} + '%;'"
+                                             th:classappend="${result.flagged ? 'bg-danger' : 'bg-success'}"
+                                             th:text="${#numbers.formatDecimal(result.mismatchRate * 100, 1, 2) + '%'}">0%</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge" 
+                                          th:classappend="${result.flagged ? 'bg-danger' : 'bg-success'}"
+                                          th:text="${result.flagged ? 'Potential Spammer' : 'Normal'}">Normal</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
-                <!-- Training History Section Removed -->
             </div>
         </div>
     </section>
     
-    <!-- Additional Metrics Section -->
-    <section class="additional-metrics">
-        <div class="card">
-            <div class="card-header">
-                <h2><i class="fas fa-chart-line"></i> Performance Trends</h2>
-                <div class="card-actions">
-                    <select class="time-range-selector">
-                        <option value="week">Last Week</option>
-                        <option value="month" selected>Last Month</option>
-                        <option value="quarter">Last Quarter</option>
-                        <option value="year">Last Year</option>
-                    </select>
-                </div>
-            </div>
-            <div class="card-content">
-                <div class="chart-container">
-                    <div id="performanceTrendChart"></div>
-                </div>
-            </div>
-        </div>
-    </section>
 </div>
-
-
 </body>
 </html>

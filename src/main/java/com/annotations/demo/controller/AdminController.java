@@ -5,6 +5,7 @@ import com.annotations.demo.repository.RoleRepository;
 import com.annotations.demo.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -60,9 +61,12 @@ public class AdminController {
     }
     
     @GetMapping("/annotateurs")
-    public String showUsers(Model model) {
-        List<Annotateur> annotateurs = annotateurService.findAllActive();
+    public String showUsers(@RequestParam(defaultValue = "0") int page,
+                            @RequestParam(defaultValue = "5") int size,
+                            Model model) {
+        Page<Annotateur> annotateurs = annotateurService.findAllActive(page, size);
         Map<Long, LocalDateTime> lastActivity = new HashMap<>();
+        long totalAnnotateurs = annotateurService.countActiveAnnotateurs();
 
         for (Annotateur annotateur : annotateurs) {
             TaskProgress latestProgress = taskProgressService.getLastAnnotationByUser(annotateur);
@@ -77,6 +81,10 @@ public class AdminController {
         model.addAttribute("currentUserName", currentUserName);
         model.addAttribute("lastActivity", lastActivity);
         model.addAttribute("annotateurs", annotateurs);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
+        model.addAttribute("totalPages", annotateurs.getTotalPages());
+        model.addAttribute("totalItems", totalAnnotateurs);
         return "admin/annotateur_management/annotateurs";
     }
     

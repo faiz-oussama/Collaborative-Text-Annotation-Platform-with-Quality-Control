@@ -26,8 +26,6 @@ public class AssignTaskToAnnotator {
     }
 
 
-
-
     public void assignTaskToAnnotator(List<Annotateur> annotateurList, Dataset dataset, Date deadline) {
 
         // Récupération des paires de texte du dataset

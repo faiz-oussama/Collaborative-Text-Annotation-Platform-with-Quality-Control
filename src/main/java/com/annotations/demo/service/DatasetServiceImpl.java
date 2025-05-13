@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 @Service
 public class DatasetServiceImpl implements DatasetService {
 
-    // Changed to a constant path that exists in project structure
     private static final String UPLOAD_DIR = "uploads/datasets";
 
     @Autowired
@@ -59,26 +58,21 @@ public class DatasetServiceImpl implements DatasetService {
     @Override
     public void ParseDataset(Dataset dataset) {
         final int MAX_ROWS = 1000;
+        final int BATCH_SIZE = 25;
 
         String filename = dataset.getFilePath();
         if (filename == null || filename.isEmpty()) {
             throw new IllegalArgumentException("Dataset has no associated file");
         }
 
-        // Create a Path object from the stored filepath
         Path filePath = Paths.get(filename);
 
         if (!Files.exists(filePath)) {
-            // If the file doesn't exist at the stored path, try to resolve it as a resource
-            try {
-                File resourceFile = new File(filename);
-                if (resourceFile.exists()) {
-                    filePath = resourceFile.toPath();
-                } else {
-                    throw new RuntimeException("File not found: " + filePath.toString());
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("File not found: " + filePath.toString(), e);
+            File resourceFile = new File(filename);
+            if (resourceFile.exists()) {
+                filePath = resourceFile.toPath();
+            } else {
+                throw new RuntimeException("File not found: " + filePath.toString());
             }
         }
 
@@ -89,7 +83,7 @@ public class DatasetServiceImpl implements DatasetService {
             Iterator<Row> rowIterator = sheet.iterator();
 
             int rowCount = 0;
-            Set<CoupleText> coupleTexts = new HashSet<>();
+            List<CoupleText> batch = new ArrayList<>();
 
             // Skip header
             if (rowIterator.hasNext()) rowIterator.next();
@@ -109,11 +103,19 @@ public class DatasetServiceImpl implements DatasetService {
                 couple.setText_2(text2);
                 couple.setDataset(dataset);
 
-                coupleTexts.add(couple);
+                batch.add(couple);
                 rowCount++;
+
+                if (batch.size() == BATCH_SIZE) {
+                    coupleTextRepository.saveAll(batch);
+                    batch.clear();
+                }
             }
 
-            coupleTextRepository.saveAll(coupleTexts);
+            // Save remaining rows if any
+            if (!batch.isEmpty()) {
+                coupleTextRepository.saveAll(batch);
+            }
 
         } catch (IOException e) {
             throw new RuntimeException("Error reading Excel file", e);
@@ -130,7 +132,6 @@ public class DatasetServiceImpl implements DatasetService {
         dataset.setDescription(description);
 
         if (file != null && !file.isEmpty()) {
-            // Create upload directory if it doesn't exist
             File uploadDirFile = new File(UPLOAD_DIR);
             if (!uploadDirFile.exists()) {
                 uploadDirFile.mkdirs();

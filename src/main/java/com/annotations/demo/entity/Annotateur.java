@@ -33,4 +33,7 @@ public class Annotateur extends User {
 
     @OneToMany(mappedBy="annotateur", cascade = CascadeType.ALL)
     private List<Annotation> annotations = new ArrayList<>();
+
+    @OneToMany(mappedBy="annotateur", cascade = CascadeType.ALL)
+    private List<SpamDetectionResults> spamDetectionResults = new ArrayList<>();
 }
