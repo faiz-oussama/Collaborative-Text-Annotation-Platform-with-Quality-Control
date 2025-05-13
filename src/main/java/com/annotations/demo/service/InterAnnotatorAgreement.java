@@ -82,10 +82,106 @@ public class InterAnnotatorAgreement {
         // Fleiss' Kappa formula
         return (observedAgreement - expectedAgreement) / (1 - expectedAgreement);
     }
+    public double calculateCohensKappa(List<Annotation> annotations) {
+        if (annotations == null || annotations.isEmpty()) return 0.0;
 
+        // Group annotations by text pair
+        Map<CoupleText, Map<String, Integer>> annotationsByPair = new HashMap<>();
 
+        // First, count total annotations per category per text pair
+        for (Annotation annotation : annotations) {
+            CoupleText pair = annotation.getCoupleText();
+            String category = annotation.getChosenClass();
 
+            annotationsByPair.putIfAbsent(pair, new HashMap<>());
+            Map<String, Integer> categoryCounts = annotationsByPair.get(pair);
+            categoryCounts.put(category, categoryCounts.getOrDefault(category, 0) + 1);
+        }
 
+        // Calculate Cohen's Kappa
+        int n = annotationsByPair.size(); // Number of text pairs
+        if (n == 0) return 0.0;
+
+        // Calculate total annotations per category
+        Map<String, Integer> totalCategoryCounts = new HashMap<>();
+        for (Map<String, Integer> pairAnnotations : annotationsByPair.values()) {
+            for (Map.Entry<String, Integer> entry : pairAnnotations.entrySet()) {
+                totalCategoryCounts.put(entry.getKey(),
+                    totalCategoryCounts.getOrDefault(entry.getKey(), 0) + entry.getValue());
+            }
+        }
+
+        // Calculate proportions
+        double totalAnnotations = annotations.size();
+        Map<String, Double> proportions = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : totalCategoryCounts.entrySet()) {
+            proportions.put(entry.getKey(), entry.getValue() / totalAnnotations);
+        }
+
+        // Calculate observed agreement and expected agreement
+        double observedAgreement = 0.0;
+        double expectedAgreement = 0.0;
+
+        for (Map<String, Integer> pairAnnotations : annotationsByPair.values()) {
+            int totalPairAnnotations = pairAnnotations.values().stream().mapToInt(Integer::intValue).sum();
+            if (totalPairAnnotations <= 1) continue; // Skip pairs with only one annotation
+
+            // Calculate observed agreement for this pair
+            double pairAgreement = 0.0;
+            for (int count : pairAnnotations.values()) {
+                pairAgreement += count * (count - 1);
+            }
+            pairAgreement /= totalPairAnnotations * (totalPairAnnotations - 1);
+            observedAgreement += pairAgreement;
+
+            // Calculate expected agreement for this pair
+            double pairExpected = 0.0;
+            for (String category : proportions.keySet()) {
+                double prop = proportions.getOrDefault(category, 0.0);
+                pairExpected += prop * prop;
+            }
+            expectedAgreement += pairExpected;
+        }
+
+        observedAgreement /= n;
+        expectedAgreement /= n;
+
+        // Cohen's Kappa formula
+        return (observedAgreement - expectedAgreement) / (1 - expectedAgreement);
+    }
+    public double calculatePercentAgreement(List<Annotation> annotations) {
+        if (annotations == null || annotations.isEmpty()) return 0.0;
+
+        // Group annotations by text pair
+        Map<CoupleText, Map<String, Integer>> annotationsByPair = new HashMap<>();
+
+        // First, count total annotations per category per text pair
+        for (Annotation annotation : annotations) {
+            CoupleText pair = annotation.getCoupleText();
+            String category = annotation.getChosenClass();
+
+            annotationsByPair.putIfAbsent(pair, new HashMap<>());
+            Map<String, Integer> categoryCounts = annotationsByPair.get(pair);
+            categoryCounts.put(category, categoryCounts.getOrDefault(category, 0) + 1);
+        }
+
+        // Calculate percent agreement
+        int n = annotationsByPair.size(); // Number of text pairs
+        if (n == 0) return 0.0;
+
+        int matchingPairs = 0;
+        for (Map<String, Integer> pairAnnotations : annotationsByPair.values()) {
+            int maxCount = pairAnnotations.values().stream().mapToInt(Integer::intValue).max().orElse(0);
+            if (maxCount > 1) matchingPairs++;
+        }
+
+        return (double) matchingPairs / n;
+    }
+    public String getAgreementStatus(double kappa) {
+        if (kappa > 0.75) return "excellent";
+        else if (kappa > 0.4) return "good";
+        else return "poor";
+    }
     
     // Identify potential spam annotators
     public List<Annotateur> identifySpamAnnotators(Task task) {
