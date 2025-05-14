@@ -21,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -178,8 +177,40 @@ public class PythonService {
                 return new ArrayList<>();
             }
             
-            logger.info("Received {} predictions from Python model", response.getBody().length);
-            List<NliPrediction> predictions = Arrays.asList(response.getBody());
+            if (response.getBody() == null) {
+                logger.error("Received null response body from Python model");
+                return new ArrayList<>();
+            }
+            
+            // Store the body in a local variable to avoid multiple null checks
+            NliPrediction[] predictionArray = response.getBody();
+            
+            logger.info("Received {} predictions from Python model", predictionArray.length);
+            
+            // Create a list for our enhanced predictions with couple IDs
+            List<NliPrediction> predictions = new ArrayList<>();
+            
+            // Add couple text IDs to the predictions
+            for (int i = 0; i < predictionArray.length; i++) {
+                NliPrediction pred = predictionArray[i];
+                if (pred == null) {
+                    logger.warn("Null prediction encountered at index {}, skipping", i);
+                    continue;
+                }
+                
+                // Add the couple text ID if available from the request
+                if (i < texts.size()) {
+                    CoupleText coupleText = texts.get(i);
+                    if (coupleText != null && coupleText.getId() != null) {
+                        pred.setCoupleTextId(coupleText.getId());
+                        
+                        logger.info("Linking prediction ({}={}) to couple ID: {}", 
+                            pred.getLabel(), pred.getScore(), coupleText.getId());
+                    }
+                }
+                
+                predictions.add(pred);
+            }
             
             // Save predictions to database
             try {

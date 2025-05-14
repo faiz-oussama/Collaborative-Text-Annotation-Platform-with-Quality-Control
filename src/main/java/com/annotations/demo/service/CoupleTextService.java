@@ -11,4 +11,5 @@ public interface CoupleTextService {
     Page<CoupleText> getCoupleTextsByDatasetId(Long datasetId, int page, int size);
     List<CoupleText> findAllCoupleTextsByDatasetId(Long id);
     long countCoupleTextsByDatasetId(Long id);
+    void saveBatch(List<CoupleText> batch);
 }

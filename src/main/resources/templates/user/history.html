@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Annotation History</title>
-    <link rel="stylesheet" href="/main.css">
-    <link rel="stylesheet" href="/custom.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/custom.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <style>
@@ -170,11 +170,42 @@
                     <span>Dataset: </span>
                     <span th:text="${annotation.coupleText.dataset.name}" class="font-medium ml-1">Dataset Name</span>
                 </div>
+
+            </div>
+        </div>
+        <div class="pagination">
+            <div class="pagination-info" th:text="|Showing page ${currentPage + 1} of ${totalPages} (Total: ${totalItems} annotations)|">
+                Showing page 1 of 5 (Total: 100 annotations)
+            </div>
+            <div class="pagination-controls">
+                <!-- Previous Button -->
+                <a class="page-btn"
+                   th:classappend="${currentPage == 0} ? 'disabled'"
+                   th:href="${currentPage == 0 ? '#' : '/user/history?page=' + (currentPage - 1) + '&size=' + pageSize}"
+                   aria-label="Previous">
+                    <i class='bx bx-chevron-left'></i>
+                </a>
+
+                <!-- Page Numbers -->
+                <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                   th:href="@{/user/history(page=${i}, size=${pageSize})}"
+                   class="page-btn"
+                   th:classappend="${currentPage == i} ? 'active' : ''"
+                   th:text="${i + 1}">
+                </a>
+
+                <!-- Next Button -->
+                <a class="page-btn"
+                   th:classappend="${currentPage >= totalPages - 1} ? 'disabled'"
+                   th:href="${currentPage >= totalPages - 1 ? '#' : '/user/history?page=' + (currentPage + 1) + '&size=' + pageSize}"
+                   aria-label="Next">
+                    <i class='bx bx-chevron-right'></i>
+                </a>
             </div>
         </div>
     </div>
 </main>
 
-<script src="/dashboard.js"></script>
+<script src="/js/dashboard.js"></script>
 </body>
 </html>

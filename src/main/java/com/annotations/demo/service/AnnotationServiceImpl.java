@@ -8,6 +8,8 @@ import com.annotations.demo.entity.User;
 import com.annotations.demo.repository.AnnotationRepository;
 import com.annotations.demo.entity.Task;
 import com.annotations.demo.repository.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +73,10 @@ public class AnnotationServiceImpl implements AnnotationService {
     @Override
     public List<Annotation> findAllAnnotationsByUser(User user){
         return annotationRepository.findByAnnotateur(user);
+    }
+    @Override
+    public Page<Annotation> findAllAnnotationsByUser(User user, Pageable pageable) {
+        return annotationRepository.findByAnnotateur(user, pageable);
     }
 
     @Override

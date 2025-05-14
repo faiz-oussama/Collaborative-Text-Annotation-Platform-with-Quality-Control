@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -64,6 +66,12 @@ public class CoupleTextServiceImpl implements CoupleTextService {
             return coupleTextRepository.findByDataset(dataset, pageable);
         }
         return Page.empty();
+    }
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveBatch(List<CoupleText> batch) {
+        coupleTextRepository.saveAll(batch);
+        coupleTextRepository.flush();
     }
 
 }

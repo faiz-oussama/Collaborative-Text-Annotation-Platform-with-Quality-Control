@@ -22,10 +22,16 @@ public class NliPrediction {
     private Long id;
     private String label;
     private double score;
+    private Long coupleTextId; // Added field to store the couple text ID
     
-    // Constructor for deserialization from API
     public NliPrediction(String label, double score) {
         this.label = label;
         this.score = score;
+    }
+    
+    public NliPrediction(String label, double score, Long coupleTextId) {
+        this.label = label;
+        this.score = score;
+        this.coupleTextId = coupleTextId;
     }
 }

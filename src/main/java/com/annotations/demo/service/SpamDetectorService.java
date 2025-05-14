@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +37,8 @@ public class SpamDetectorService {
             "neutral", "neutral",
             "entail", "entailment",
             "contradict", "contradiction",
+            "entails", "entailment",
+            "contradition", "contradiction", // Note the spelling: 'contradition'
             "yes", "entailment",
             "no", "contradiction",
             "maybe", "neutral"
@@ -67,36 +68,37 @@ public class SpamDetectorService {
     }
     
     private double evaluateAnnotator(Annotateur annotator) {
-        List<CoupleText> pairs = annotator.getTaches().stream()
-                .flatMap(t -> t.getCouples().stream())
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-
-        if (pairs.isEmpty()) {
-            logger.info("No annotated pairs found for annotator {}", annotator.getId());
+        // Get annotations directly from the annotator
+        List<Annotation> userAnnotations = annotator.getAnnotations();
+        
+        if (userAnnotations == null || userAnnotations.isEmpty()) {
+            logger.info("No annotations found for annotator {}", annotator.getId());
             return 0.0;
         }
-
-        Map<CoupleText, String> annotatorLabelsMap = new HashMap<>();
-        for (CoupleText pair : pairs) {
-            List<Annotation> annotations = pair.getAnnotations();
-            if (annotations != null) {
-                for (Annotation annotation : annotations) {
-                    if (annotation != null && 
-                        annotation.getAnnotateur() != null && 
-                        annotation.getAnnotateur().getId().equals(annotator.getId()) && 
-                        annotation.getChosenClass() != null) {
-                        
-                        annotatorLabelsMap.put(pair, normalizeLabel(annotation.getChosenClass()));
-                        break;
-                    }
-                }
-            }
+        
+        logger.info("Found {} annotations for annotator {}", userAnnotations.size(), annotator.getId());
+        
+        // Process only valid annotations with coupleText
+        List<Annotation> validAnnotations = userAnnotations.stream()
+                .filter(a -> a != null && a.getCoupleText() != null && a.getChosenClass() != null)
+                .collect(Collectors.toList());
+        
+        if (validAnnotations.isEmpty()) {
+            logger.info("No valid annotations with text pairs found for annotator {}", annotator.getId());
+            return 0.0;
         }
         
-        List<CoupleText> annotatedPairs = pairs.stream()
-                .filter(annotatorLabelsMap::containsKey)
-                .collect(Collectors.toList());
+        // Create a map of couple texts to the user's chosen labels
+        Map<CoupleText, String> annotatorLabelsMap = validAnnotations.stream()
+                .collect(Collectors.toMap(
+                    Annotation::getCoupleText,
+                    a -> normalizeLabel(a.getChosenClass()),
+                    // If there are duplicate couples, keep the first one
+                    (label1, label2) -> label1
+                ));
+                
+        // Extract the unique couple texts
+        List<CoupleText> annotatedPairs = new ArrayList<>(annotatorLabelsMap.keySet());
                 
         if (annotatedPairs.isEmpty()) {
             logger.info("No valid annotations found for annotator {}", annotator.getId());
@@ -125,39 +127,76 @@ public class SpamDetectorService {
         }
         
         long mismatches = 0;
+        logger.info("====== SPAM DETECTION EVALUATION FOR ANNOTATOR ID: {} ======", annotator.getId());
         logger.info("Comparing {} model predictions with human annotations", predictions.size());
         
-        logger.info("Model predictions: ");
-        for (int i = 0; i < predictions.size(); i++) {
-            NliPrediction pred = predictions.get(i);
-            logger.info("  - Prediction {}: Label={}, Score={}", 
-                i, pred.getLabel(), pred.getScore());
-        }
+        // Print comparison table header
+        logger.info("+-------+---------------+---------------+---------------+-------------+----------+");
+        logger.info("| Pair  | Model Label    | Human Label    | Match/Mismatch | Couple ID   | Texts    |");
+        logger.info("+-------+---------------+---------------+---------------+-------------+----------+");
+        
+        // Track all comparison results for summary
+        Map<String, Integer> modelLabelCounts = new HashMap<>();
+        Map<String, Integer> humanLabelCounts = new HashMap<>();
+        Map<String, Integer> mismatchCounts = new HashMap<>(); // Tracks mismatch types
         
         for (int i = 0; i < predictions.size(); i++) {
             CoupleText pair = annotatedPairs.get(i);
-            String modelLabel = normalizeLabel(predictions.get(i).getLabel());
-            String humanLabel = annotatorLabelsMap.get(pair);
+            NliPrediction pred = predictions.get(i); 
+            String modelLabel = normalizeLabel(pred.getLabel());
+            String humanLabel = normalizeLabel(annotatorLabelsMap.get(pair));
 
-            logger.info("Comparing annotation for pair ID={}: ", pair.getId());
-            logger.info("  - Text 1: {}", pair.getText_1() != null ? 
-                (pair.getText_1().length() > 50 ? pair.getText_1().substring(0, 50) + "..." : pair.getText_1()) : "null");
-            logger.info("  - Text 2: {}", pair.getText_2() != null ? 
-                (pair.getText_2().length() > 50 ? pair.getText_2().substring(0, 50) + "..." : pair.getText_2()) : "null");
-            logger.info("  - Model label: {}", modelLabel);
-            logger.info("  - Human label: {}", humanLabel);
-
-            if (!modelLabel.equals(humanLabel)) {
+            // Update counters for summary
+            modelLabelCounts.put(modelLabel, modelLabelCounts.getOrDefault(modelLabel, 0) + 1);
+            humanLabelCounts.put(humanLabel, humanLabelCounts.getOrDefault(humanLabel, 0) + 1);
+            
+            // Short text snippets for the table
+            String text1Short = pair.getText_1() != null ? 
+                (pair.getText_1().length() > 25 ? pair.getText_1().substring(0, 25) + "..." : pair.getText_1()) : "null";
+            String text2Short = pair.getText_2() != null ? 
+                (pair.getText_2().length() > 25 ? pair.getText_2().substring(0, 25) + "..." : pair.getText_2()) : "null";
+            
+            boolean isMatch = modelLabel.equals(humanLabel);
+            String matchStatus = isMatch ? "MATCH" : "MISMATCH";
+            
+            if (!isMatch) {
                 mismatches++;
-                logger.info("  - MISMATCH DETECTED");
-            } else {
-                logger.info("  - Labels match");
+                // Track mismatch types for analysis
+                String mismatchType = modelLabel + " vs " + humanLabel;
+                mismatchCounts.put(mismatchType, mismatchCounts.getOrDefault(mismatchType, 0) + 1);
+            }
+            
+            // Print detailed comparison row
+            logger.info("| {:5d} | {:13s} | {:13s} | {:13s} | {:11d} | {} |",
+                i+1, modelLabel, humanLabel, matchStatus, pair.getId(), 
+                text1Short.substring(0, Math.min(text1Short.length(), 8)));
+        }
+        logger.info("+-------+---------------+---------------+---------------+-------------+----------+");
+        
+        // Calculate and log the final mismatch rate
+        double mismatchRate = predictions.isEmpty() ? 0.0 : (double) mismatches / predictions.size();
+        
+        // Print summary information
+        logger.info("\nSPAM DETECTION SUMMARY:");
+        logger.info("Total pairs analyzed: {}", predictions.size());
+        logger.info("Total mismatches found: {} ({}%)", mismatches, String.format("%.2f", mismatchRate * 100));
+        logger.info("Mismatch threshold: {}%", String.format("%.2f", defaultThreshold * 100));
+        logger.info("Is annotator flagged as spammer: {}", mismatchRate > defaultThreshold ? "YES" : "NO");
+        
+        // Log mismatch types for analysis
+        if (!mismatchCounts.isEmpty()) {
+            logger.info("\nMismatch types breakdown:");
+            for (Map.Entry<String, Integer> entry : mismatchCounts.entrySet()) {
+                logger.info("  {} -> {} occurrences ({}%)", 
+                    entry.getKey(), 
+                    entry.getValue(),
+                    String.format("%.2f", (entry.getValue() * 100.0) / mismatches));
             }
         }
         
-        logger.info("Found {} mismatches out of {} comparisons", mismatches, predictions.size());
+        // Print separator for better readability
+        logger.info("=================================================================\n");
 
-        double mismatchRate = predictions.isEmpty() ? 0.0 : (double) mismatches / predictions.size();
         return mismatchRate;
     }
     
@@ -250,7 +289,20 @@ public class SpamDetectorService {
             return "";
         }
         
+        // Convert to lowercase and trim whitespace
         String normalized = label.toLowerCase().trim();
-        return LABEL_NORMALIZATION.getOrDefault(normalized, normalized);
+        
+        // Log the original and normalized label using INFO level
+        logger.info("Normalizing label: '{}' -> '{}'", label, normalized);
+        
+        // Apply mapping or return the lowercase version
+        String result = LABEL_NORMALIZATION.getOrDefault(normalized, normalized);
+        
+        // Log the final result after applying mapping
+        if (!normalized.equals(result)) {
+            logger.info("Applied mapping: '{}' -> '{}'", normalized, result);
+        }
+        
+        return result;
     }
 }

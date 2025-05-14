@@ -108,8 +108,10 @@ public class StatisticsController {
         List<Integer> completionRates = new ArrayList<>();
 
         for (Annotateur annotator : annotators) {
-            int totalAssigned = taskService.countAssignedCouples(annotator);
+            Long totalAssigned = taskService.countAssignedCouples(annotator);
+            System.out.println("totalAssigned: " + totalAssigned);
             int totalAnnotated = annotationService.findAllAnnotationsByUser(annotator).size();
+            System.out.println("totalAnnotated: " + totalAnnotated);
             int completionRate = (totalAssigned == 0) ? 0 : (int) ((totalAnnotated / (double) totalAssigned) * 100);
 
             performanceLabels.add(annotator.getNom());

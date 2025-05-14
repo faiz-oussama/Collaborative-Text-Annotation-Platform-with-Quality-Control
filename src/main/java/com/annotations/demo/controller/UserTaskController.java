@@ -3,6 +3,8 @@ package com.annotations.demo.controller;
 import com.annotations.demo.entity.*;
 import com.annotations.demo.service.*;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +38,7 @@ public class UserTaskController {
         }
 
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
-        List<Task> tasks = taskService.findAllTasksByAnnotateurId(annotateur.getId());
+        List<Task> tasks = taskService.getValidTasksForAnnotateur(annotateur.getId());
 
         // Map task ID → lastIndex
         Map<Long, Float> taskProgressMap = new HashMap<>();
@@ -144,14 +146,23 @@ public class UserTaskController {
 
 
     @GetMapping("/history")
-    public String showUserHistory(Model model) {
+    public String showUserHistory(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model) {
         User annotateur = userService.getCurrentAnnotateur();
         if (annotateur == null) {
             return "redirect:/login";
         }
         String currentUserName = StringUtils.capitalize(userService.getCurrentUserName());
-        List<Annotation> annotations = annotationService.findAllAnnotationsByUser(annotateur);
-        model.addAttribute("annotations", annotations);
+        Page<Annotation> annotationsPage = annotationService.findAllAnnotationsByUser(
+                annotateur,
+                PageRequest.of(page, size)
+        );
+        model.addAttribute("annotations", annotationsPage.getContent());
+        model.addAttribute("currentPage", annotationsPage.getNumber());
+        model.addAttribute("totalPages", annotationsPage.getTotalPages());
+        model.addAttribute("totalItems", annotationsPage.getTotalElements());
+        model.addAttribute("pageSize", size);
         model.addAttribute("currentUserName", currentUserName);
         return "user/history";
     }

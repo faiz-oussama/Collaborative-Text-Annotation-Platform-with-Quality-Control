@@ -55,6 +55,9 @@ public class DatasetServiceImpl implements DatasetService {
     }
 
 
+    @Autowired
+    private CoupleTextService coupleTextService;
+
     @Override
     public void ParseDataset(Dataset dataset) {
         final int MAX_ROWS = 1000;
@@ -66,7 +69,6 @@ public class DatasetServiceImpl implements DatasetService {
         }
 
         Path filePath = Paths.get(filename);
-
         if (!Files.exists(filePath)) {
             File resourceFile = new File(filename);
             if (resourceFile.exists()) {
@@ -85,7 +87,7 @@ public class DatasetServiceImpl implements DatasetService {
             int rowCount = 0;
             List<CoupleText> batch = new ArrayList<>();
 
-            // Skip header
+            // Skip header row
             if (rowIterator.hasNext()) rowIterator.next();
 
             while (rowIterator.hasNext() && rowCount < MAX_ROWS) {
@@ -107,20 +109,21 @@ public class DatasetServiceImpl implements DatasetService {
                 rowCount++;
 
                 if (batch.size() == BATCH_SIZE) {
-                    coupleTextRepository.saveAll(batch);
+                    coupleTextService.saveBatch(batch);
                     batch.clear();
                 }
             }
 
-            // Save remaining rows if any
             if (!batch.isEmpty()) {
-                coupleTextRepository.saveAll(batch);
+                coupleTextService.saveBatch(batch);
             }
 
         } catch (IOException e) {
             throw new RuntimeException("Error reading Excel file", e);
         }
     }
+
+
 
 
 

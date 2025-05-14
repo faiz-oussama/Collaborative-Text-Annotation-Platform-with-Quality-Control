@@ -9,6 +9,7 @@ import com.annotations.demo.repository.AnnotationRepository;
 import com.annotations.demo.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,8 +56,14 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.count();
     }
     @Override
-    public int countAssignedCouples(Annotateur annotateur) {
-        return taskRepository.countAllCoupeTextByAnnotateur(annotateur);
+    public Long countAssignedCouples(Annotateur annotateur) {
+        return taskRepository.countAllCoupleTextByAnnotateur(annotateur);
+    }
+
+
+    @Override
+    public List<Task> getValidTasksForAnnotateur(Long annotateurId) {
+        return taskRepository.findByAnnotateurIdAndDateLimiteAfter(annotateurId, new Date());
     }
 
 

@@ -13,6 +13,6 @@ public interface TaskService {
     List<Task> findAllTasksByAnnotateurId(Long id);
     String getSelectedClassId(Long taskId, Long coupleId, Long annotateurId);
     long countActiveTasks();
-    int countAssignedCouples(Annotateur annotateur);
-
+    Long  countAssignedCouples(Annotateur annotateur);
+    List<Task> getValidTasksForAnnotateur(Long annotateurId);
 }

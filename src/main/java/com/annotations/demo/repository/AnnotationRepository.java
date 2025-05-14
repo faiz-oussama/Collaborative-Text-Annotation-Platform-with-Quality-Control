@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.annotations.demo.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +24,5 @@ public interface AnnotationRepository extends JpaRepository<Annotation, Long> {
     List<Annotation> findByCoupleText_Dataset_Id(Long datasetId);
     List<Annotation> findByAnnotateur_IdAndCoupleText_IdIn(Long annotateurId, List<Long> coupleIds);
     List<Annotation> findByAnnotateur_Taches_Id(Long taskId);
+    Page<Annotation> findByAnnotateur(User user, Pageable pageable);
 }

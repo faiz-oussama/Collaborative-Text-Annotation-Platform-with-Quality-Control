@@ -1,0 +1,356 @@
+
+:root {
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --border-radius: 12px;
+    --sidebar-width: 280px;
+    --navbar-height: 60px;
+    --accent-color: #4b5563; /* Darker gray for better contrast */
+    --success-color: #34d399; /* Bright emerald green */
+    --warning-color: #f97316; /* Vibrant orange */
+  }
+  
+  /* Sidebar Collapse Support */
+  body.sidebar-collapsed .main-content {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
+  
+  .content-header {
+    margin-bottom: 2rem;
+  }
+  
+  .content-subtitle {
+    font-size: 1rem;
+    color: var(--gray-500);
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Tasks Grid */
+  .tasks-container {
+    position: relative;
+  }
+  
+  .tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Task Card */
+  .task-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--gray-200);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+  }
+  
+  /* Task Card Header */
+  .task-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+  }
+  
+  .task-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2rem;
+    display: inline-block;
+  }
+  
+  .task-date {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    opacity: 0.9;
+  }
+  
+  .task-date i {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+  }
+  
+  /* Task Card Body */
+  .task-card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+  }
+  
+  .task-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .info-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+    color: var(--accent-color);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+  
+  .info-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .info-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-500);
+    margin-bottom: 0.25rem;
+  }
+  
+  .info-value {
+    font-weight: 500;
+    color: var(--dark-color);
+  }
+  
+  /* Progress Bar */
+  .task-progress {
+    margin-top: 1rem;
+  }
+  
+  .progress-bar-container {
+    height: 12px;
+    background-color: var(--gray-200);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--gray-300);
+  }
+  
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-color) 0%, var(--success-color) 100%);
+    border-radius: 6px;
+    transition: width 0.6s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    min-width: 20px;
+  }
+  
+  .progress-label {
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  }
+
+  .task-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+  }
+  /* Task Card Footer */
+  .task-card-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .view-details-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+  }
+  
+  .view-details-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateX(3px);
+  }
+  
+  .view-details-btn i {
+    margin-right: 0.5rem;
+    font-size: 1.25rem;
+  }
+  
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    grid-column: 1 / -1;
+    border: 1px dashed var(--gray-300);
+  }
+  
+  .empty-state-icon {
+    font-size: 3.5rem;
+    color: var(--gray-400);
+    margin-bottom: 1.5rem;
+  }
+  
+  .empty-state-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--dark-color);
+  }
+  
+  .empty-state-message {
+    color: var(--gray-500);
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  /* Dropdown menus styling to match the sidebar/navbar style */
+  .dropdown-menu {
+    border-radius: 10px;
+    border: none;
+    box-shadow: var(--shadow-md);
+    padding: 0.5rem;
+  }
+  
+  .dropdown-item {
+    border-radius: 6px;
+    padding: 0.4rem 1rem;
+    transition: var(--transition);
+  }
+  
+  .dropdown-item:hover {
+    background-color: var(--gray-100);
+    color: var(--primary-color);
+  }
+  
+  /* Style adjustments for the navbar search to match our design */
+  .form-control-sm {
+    border-radius: 20px;
+    border: 1px solid var(--gray-300);
+    box-shadow: none;
+    transition: var(--transition);
+  }
+  
+  .form-control-sm:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(173, 181, 189, 0.15);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 992px) {
+    .main-content {
+      margin-left: 0;
+      width: 100%;
+      padding: 1.5rem;
+    }
+  
+    body.sidebar-open .main-content {
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+    }
+  
+    .tasks-grid {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .main-content {
+      padding: 1rem;
+    }
+  
+    .tasks-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .task-card {
+      max-width: 100%;
+    }
+  
+    .content-header {
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  /* Animation for cards */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .task-card {
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: calc(var(--animation-order) * 0.1s);
+    opacity: 0;
+  }
+  
+  /* Ensure the task cards are animated sequentially */
+  .tasks-grid .task-card:nth-child(1) { --animation-order: 1; }
+  .tasks-grid .task-card:nth-child(2) { --animation-order: 2; }
+  .tasks-grid .task-card:nth-child(3) { --animation-order: 3; }
+  .tasks-grid .task-card:nth-child(4) { --animation-order: 4; }
+  .tasks-grid .task-card:nth-child(5) { --animation-order: 5; }
+  .tasks-grid .task-card:nth-child(6) { --animation-order: 6; }
+  .tasks-grid .task-card:nth-child(7) { --animation-order: 7; }
+  .tasks-grid .task-card:nth-child(8) { --animation-order: 8; }
+  
+  /* Style compatibility with sidebar and navbar */
+  .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .btn-primary:hover,
+  .btn-primary:focus {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+  }
+  
+  .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+  
+  .btn-outline-primary:hover,
+  .btn-outline-primary:focus {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+  }
+  
+  .sidebar-toggle {
+    z-index: 1050;
+  }
