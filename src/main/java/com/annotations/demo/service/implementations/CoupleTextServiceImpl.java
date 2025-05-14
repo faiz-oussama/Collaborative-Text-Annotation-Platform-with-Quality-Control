@@ -1,9 +1,10 @@
-package com.annotations.demo.service;
+package com.annotations.demo.service.implementations;
 
 import com.annotations.demo.entity.CoupleText;
 import com.annotations.demo.entity.Dataset;
 import com.annotations.demo.repository.CoupleTextRepository;
 import com.annotations.demo.repository.DatasetRepository;
+import com.annotations.demo.service.interfaces.CoupleTextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,8 +1,8 @@
-package com.annotations.demo.service;
+package com.annotations.demo.service.implementations;
 
+import com.annotations.demo.service.interfaces.PasswordService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;

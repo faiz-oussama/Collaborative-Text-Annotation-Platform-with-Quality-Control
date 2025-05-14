@@ -2,10 +2,11 @@ package com.annotations.demo.controller;
 
 
 import com.annotations.demo.entity.Annotateur;
-import com.annotations.demo.entity.ClassPossible;
 import com.annotations.demo.entity.CoupleText;
 import com.annotations.demo.entity.Dataset;
 import com.annotations.demo.service.*;
+import com.annotations.demo.service.implementations.CoupleTextServiceImpl;
+import com.annotations.demo.service.implementations.DatasetServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")

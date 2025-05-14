@@ -1,8 +1,7 @@
-package com.annotations.demo.service;
+package com.annotations.demo.service.interfaces;
 
 import com.annotations.demo.entity.Annotateur;
 import com.annotations.demo.entity.Task;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

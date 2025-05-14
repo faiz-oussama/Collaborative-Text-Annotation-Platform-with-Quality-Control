@@ -3,9 +3,9 @@ package com.annotations.demo.controller;
 
 import com.annotations.demo.entity.Annotation;
 import com.annotations.demo.entity.Dataset;
-import com.annotations.demo.service.AnnotationServiceImpl;
-import com.annotations.demo.service.CoupleTextServiceImpl;
-import com.annotations.demo.service.TaskProgressServiceImpl;
+import com.annotations.demo.service.implementations.AnnotationServiceImpl;
+import com.annotations.demo.service.implementations.CoupleTextServiceImpl;
+import com.annotations.demo.service.implementations.TaskProgressServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
