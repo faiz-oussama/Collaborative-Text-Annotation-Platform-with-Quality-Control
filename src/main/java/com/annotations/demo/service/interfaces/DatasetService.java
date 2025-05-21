@@ -1,4 +1,4 @@
-package com.annotations.demo.service;
+package com.annotations.demo.service.interfaces;
 
 import com.annotations.demo.entity.Dataset;
 import org.springframework.web.multipart.MultipartFile;

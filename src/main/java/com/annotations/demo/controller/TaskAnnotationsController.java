@@ -2,6 +2,10 @@ package com.annotations.demo.controller;
 
 import com.annotations.demo.entity.*;
 import com.annotations.demo.service.*;
+import com.annotations.demo.service.interfaces.TaskService;
+import com.annotations.demo.service.interfaces.*;
+import com.annotations.demo.service.implementations.AnnotationServiceImpl;
+import com.annotations.demo.service.implementations.TaskProgressServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,18 +41,30 @@ public class TaskAnnotationsController {
             User annotateur = task.getAnnotateur();
             Long taskId = task.getId();
 
-            Optional<TaskProgress> progressOpt = taskProgressService.getProgressForUserAndTask(annotateur, taskId);
-            int done = progressOpt.map(TaskProgress::getLastIndex).orElse(0);
-            int total = task.getCouples().size(); // ou task.getDataset().getCouples().size()
+            // Only proceed if there's an annotator assigned
+            if (annotateur != null) {
+                Optional<TaskProgress> progressOpt = taskProgressService.getProgressForUserAndTask(annotateur, taskId);
+                int done = progressOpt.map(TaskProgress::getLastIndex).orElse(0);
+                int total = task.getCouples().size();
 
-            Map<String, Object> data = new HashMap<>();
-            data.put("task", task);
-            data.put("annotatorName", annotateur.getLogin());
-            data.put("done", done);
-            data.put("total", total);
-            data.put("percent", total == 0 ? 0 : (int)((done * 100.0) / total));
+                Map<String, Object> data = new HashMap<>();
+                data.put("task", task);
+                data.put("annotatorName", annotateur.getLogin());
+                data.put("done", done);
+                data.put("total", total);
+                data.put("percent", total == 0 ? 0 : (int)((done * 100.0) / total));
 
-            tasksWithProgress.add(data);
+                tasksWithProgress.add(data);
+            } else {
+                Map<String, Object> data = new HashMap<>();
+                data.put("task", task);
+                data.put("annotatorName", null);
+                data.put("done", 0);
+                data.put("total", task.getCouples().size());
+                data.put("percent", 0);
+
+                tasksWithProgress.add(data);
+            }
         }
 
         model.addAttribute("tasksWithProgress", tasksWithProgress);

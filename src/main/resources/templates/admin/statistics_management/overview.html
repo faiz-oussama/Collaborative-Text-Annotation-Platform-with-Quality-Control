@@ -23,6 +23,7 @@
         <p class="content-subtitle">Monitor and analyze annotation data and performance metrics</p>
     </div>
     
+    
     <!-- Stats Grid -->
     <div class="stats-grid">
         <div class="stat-card">
@@ -111,6 +112,33 @@
             <div class="chart-content">
                 <canvas id="annotatorPerformanceChart"></canvas>
             </div>
+        </div>
+    </div>
+
+
+    <div class="download-section">
+        <div class="section-header">
+            <h3 class="section-title"><i class='bx bx-download'></i> Download Annotations</h3>
+            <p class="section-description">Export annotations with label, text 1, and text 2 columns</p>
+        </div>
+        
+        <div class="dataset-selector">
+            <label for="datasetSelect">Select Dataset:</label>
+            <select id="datasetSelect" class="form-select">
+                <option value="">Select a dataset</option>
+                <option th:each="dataset : ${datasets}"
+                        th:value="${dataset.id}" 
+                        th:text="${dataset.name}"></option>
+            </select>
+        </div>
+        
+        <div class="download-buttons">
+            <button id="excelBtn" class="download-btn excel-btn" disabled>
+                <i class='bx bx-file'></i> Download Excel
+            </button>
+            <button id="csvBtn" class="download-btn csv-btn" disabled>
+                <i class='bx bx-spreadsheet'></i> Download CSV
+            </button>
         </div>
     </div>
 
@@ -388,6 +416,31 @@
                     duration: 1200,
                     easing: 'easeOutQuart'
                 }
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const datasetSelect = document.getElementById('datasetSelect');
+        const excelBtn = document.getElementById('excelBtn');
+        const csvBtn = document.getElementById('csvBtn');
+        
+        datasetSelect.addEventListener('change', function() {
+            const datasetId = this.value;
+            const buttonsEnabled = datasetId !== '';
+            
+            excelBtn.disabled = !buttonsEnabled;
+            csvBtn.disabled = !buttonsEnabled;
+            
+            if (buttonsEnabled) {
+                excelBtn.onclick = function() {
+                    window.location.href = '/admin/download-annotations-excel/' + datasetId;
+                };
+                
+                csvBtn.onclick = function() {
+                    window.location.href = '/admin/download-annotations-csv/' + datasetId;
+                };
             }
         });
     });

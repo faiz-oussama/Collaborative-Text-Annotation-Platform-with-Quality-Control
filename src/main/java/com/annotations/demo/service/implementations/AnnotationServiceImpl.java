@@ -1,4 +1,4 @@
-package com.annotations.demo.service;
+package com.annotations.demo.service.implementations;
 
 
 import com.annotations.demo.entity.Annotateur;
@@ -8,6 +8,11 @@ import com.annotations.demo.entity.User;
 import com.annotations.demo.repository.AnnotationRepository;
 import com.annotations.demo.entity.Task;
 import com.annotations.demo.repository.TaskRepository;
+import com.annotations.demo.service.AnnotateurService;
+import com.annotations.demo.service.interfaces.AnnotationService;
+import com.annotations.demo.service.interfaces.TaskService;
+import com.annotations.demo.service.interfaces.*;
+import com.annotations.demo.service.implementations.CoupleTextServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -104,5 +109,10 @@ public class AnnotationServiceImpl implements AnnotationService {
     public Annotation findAnnotationById(Long id) {
         return annotationRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Annotation not found with ID: " + id));
+    }
+    
+    @Override
+    public List<Annotation> findAllAnnotations() {
+        return annotationRepository.findAll();
     }
 }

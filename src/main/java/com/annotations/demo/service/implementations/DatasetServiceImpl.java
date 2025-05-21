@@ -1,4 +1,4 @@
-package com.annotations.demo.service;
+package com.annotations.demo.service.implementations;
 
 import com.annotations.demo.entity.ClassPossible;
 import com.annotations.demo.entity.CoupleText;
@@ -6,7 +6,8 @@ import com.annotations.demo.entity.Dataset;
 import com.annotations.demo.repository.ClassPossibleRepository;
 import com.annotations.demo.repository.CoupleTextRepository;
 import com.annotations.demo.repository.DatasetRepository;
-import com.annotations.demo.service.DatasetService;
+import com.annotations.demo.service.interfaces.CoupleTextService;
+import com.annotations.demo.service.interfaces.DatasetService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;

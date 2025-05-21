@@ -1,0 +1,38 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY spammers_detection/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install PyTorch with CPU support (lighter weight)
+RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+# Install transformers and other ML dependencies
+RUN pip install --no-cache-dir \
+    transformers \
+    scikit-learn \
+    pandas \
+    numpy \
+    flask \
+    flask-cors \
+    requests
+
+# Copy the spam detection code
+COPY spammers_detection /app
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+# Expose the port the app runs on
+EXPOSE 5001
+
+# Command to run the application
+CMD ["python", "start_service.py", "start"]

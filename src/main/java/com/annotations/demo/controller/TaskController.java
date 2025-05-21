@@ -5,7 +5,7 @@ import com.annotations.demo.entity.Annotateur;
 import com.annotations.demo.entity.Dataset;
 import com.annotations.demo.service.AnnotateurService;
 import com.annotations.demo.service.AssignTaskToAnnotator;
-import com.annotations.demo.service.DatasetService;
+import com.annotations.demo.service.interfaces.DatasetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

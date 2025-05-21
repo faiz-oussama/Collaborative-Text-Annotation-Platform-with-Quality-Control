@@ -1,4 +1,4 @@
-package com.annotations.demo.service;
+package com.annotations.demo.service.interfaces;
 
 import com.annotations.demo.entity.Annotation;
 import com.annotations.demo.entity.User;
@@ -20,4 +20,10 @@ public interface AnnotationService {
      * Find all annotations for text couples in a specific task
      */
     List<Annotation> findAnnotationsByTaskId(Long taskId);
+    
+    /**
+     * Find all annotations in the system
+     * @return List of all annotations
+     */
+    List<Annotation> findAllAnnotations();
 }

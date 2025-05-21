@@ -1,4 +1,4 @@
-package com.annotations.demo.service;
+package com.annotations.demo.service.implementations;
 
 
 import com.annotations.demo.entity.Annotateur;
@@ -7,6 +7,8 @@ import com.annotations.demo.entity.ClassPossible;
 import com.annotations.demo.entity.Task;
 import com.annotations.demo.repository.AnnotationRepository;
 import com.annotations.demo.repository.TaskRepository;
+import com.annotations.demo.service.AnnotateurService;
+import com.annotations.demo.service.interfaces.TaskService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

@@ -6,6 +6,8 @@ import com.annotations.demo.entity.ClassPossible;
 import com.annotations.demo.entity.CoupleText;
 import com.annotations.demo.entity.Dataset;
 import com.annotations.demo.service.*;
+import com.annotations.demo.service.implementations.CoupleTextServiceImpl;
+import com.annotations.demo.service.implementations.DatasetServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,5 +1,4 @@
-// File: src/main/java/com/annotations/demo/service/PasswordService.java
-package com.annotations.demo.service;
+package com.annotations.demo.service.interfaces;
 
 public interface PasswordService {
     String generateRandomPassword(int length);

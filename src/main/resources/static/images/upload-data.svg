@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Elements -->
+  <rect width="400" height="300" rx="20" fill="#F8FAFC" />
+  <circle cx="320" cy="60" r="40" fill="#6366F1" fill-opacity="0.1" />
+  <circle cx="80" cy="240" r="30" fill="#EC4899" fill-opacity="0.1" />
+  
+  <!-- Main Upload Box -->
+  <rect x="100" y="80" width="200" height="140" rx="12" stroke="#6366F1" stroke-width="2" stroke-dasharray="6 6" fill="#F8FAFC" />
+  
+  <!-- Upload Icon -->
+  <circle cx="200" cy="120" r="30" fill="#6366F1" fill-opacity="0.2" />
+  <path d="M200 100V140" stroke="#6366F1" stroke-width="3" stroke-linecap="round" />
+  <path d="M180 120L200 100L220 120" stroke="#6366F1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Document Icons -->
+  <rect x="140" y="160" width="40" height="50" rx="4" fill="#F8FAFC" stroke="#6366F1" stroke-width="2" />
+  <line x1="150" y1="170" x2="170" y2="170" stroke="#6366F1" stroke-width="2" stroke-linecap="round" />
+  <line x1="150" y1="180" x2="170" y2="180" stroke="#6366F1" stroke-width="2" stroke-linecap="round" />
+  <line x1="150" y1="190" x2="160" y2="190" stroke="#6366F1" stroke-width="2" stroke-linecap="round" />
+  
+  <rect x="220" y="160" width="40" height="50" rx="4" fill="#F8FAFC" stroke="#EC4899" stroke-width="2" />
+  <line x1="230" y1="170" x2="250" y2="170" stroke="#EC4899" stroke-width="2" stroke-linecap="round" />
+  <line x1="230" y1="180" x2="250" y2="180" stroke="#EC4899" stroke-width="2" stroke-linecap="round" />
+  <line x1="230" y1="190" x2="240" y2="190" stroke="#EC4899" stroke-width="2" stroke-linecap="round" />
+  
+  <!-- Text Label -->
+  <text x="200" y="240" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="500" fill="#1E293B" text-anchor="middle">Upload Your Documents</text>
+</svg>

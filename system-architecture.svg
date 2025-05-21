@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f1f5f9;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Component Styles -->
+    <style type="text/css">
+      .title { font-family: 'Arial', sans-serif; font-size: 28px; font-weight: bold; fill: #1e293b; }
+      .subtitle { font-family: 'Arial', sans-serif; font-size: 18px; fill: #64748b; }
+      .section-title { font-family: 'Arial', sans-serif; font-size: 16px; font-weight: bold; fill: #334155; }
+      .tech-label { font-family: 'Arial', sans-serif; font-size: 12px; fill: #475569; }
+      .component-label { font-family: 'Arial', sans-serif; font-size: 12px; fill: white; text-anchor: middle; }
+      
+      .user-box { fill: #3b82f6; }
+      .frontend-box { fill: #6366f1; }
+      .backend-box { fill: #10b981; }
+      .database-box { fill: #f59e0b; }
+      .ai-box { fill: #8b5cf6; }
+      
+      .connector { stroke: #94a3b8; stroke-width: 2; stroke-dasharray: none; }
+      .arrow { marker-end: url(#arrowhead); }
+    </style>
+    
+    <!-- Arrow marker -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8" />
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg-gradient)" rx="8" ry="8" />
+  
+  <!-- Title -->
+  <text x="600" y="50" class="title" text-anchor="middle">Collaborative Text Annotation Platform</text>
+  <text x="600" y="80" class="subtitle" text-anchor="middle">Modern Architecture with AI-Powered Quality Control</text>
+  
+  <!-- Tech Stack -->
+  <g transform="translate(100, 110)">
+    <rect x="0" y="0" width="1000" height="50" rx="8" fill="#e2e8f0" opacity="0.8" />
+    <text x="20" y="25" class="section-title" dominant-baseline="middle">Tech Stack:</text>
+    
+    <!-- Tech Icons -->
+    <g transform="translate(100, 10)">
+      <!-- Row 1 -->
+      <text x="0" y="15" class="tech-label">Java 17</text>
+      <text x="70" y="15" class="tech-label">•</text>
+      <text x="85" y="15" class="tech-label">Spring Boot 3.4.5</text>
+      <text x="200" y="15" class="tech-label">•</text>
+      <text x="215" y="15" class="tech-label">MySQL 8.0</text>
+      <text x="300" y="15" class="tech-label">•</text>
+      <text x="315" y="15" class="tech-label">Python 3.8+</text>
+      
+      <!-- Row 2 -->
+      <text x="0" y="35" class="tech-label">Flask</text>
+      <text x="50" y="35" class="tech-label">•</text>
+      <text x="65" y="35" class="tech-label">RoBERTa NLI</text>
+      <text x="160" y="35" class="tech-label">•</text>
+      <text x="175" y="35" class="tech-label">TailwindCSS</text>
+      <text x="260" y="35" class="tech-label">•</text>
+      <text x="275" y="35" class="tech-label">Alpine.js</text>
+    </g>
+  </g>
+  
+  <!-- User Layer -->
+  <g transform="translate(100, 190)">
+    <rect x="0" y="0" width="1000" height="100" rx="8" fill="#dbeafe" stroke="#93c5fd" stroke-width="2" />
+    <text x="20" y="25" class="section-title">Users</text>
+    
+    <!-- Admin User -->
+    <g transform="translate(50, 40)">
+      <rect width="150" height="50" rx="6" class="user-box" />
+      <text x="75" y="30" class="component-label">Administrator</text>
+    </g>
+    
+    <!-- Annotator User -->
+    <g transform="translate(250, 40)">
+      <rect width="150" height="50" rx="6" class="user-box" />
+      <text x="75" y="30" class="component-label">Annotators</text>
+    </g>
+    
+    <!-- Connections -->
+    <path d="M75,100 L75,130" class="connector arrow" />
+    <path d="M325,100 L325,130" class="connector arrow" />
+  </g>
+  
+  <!-- Frontend Layer -->
+  <g transform="translate(100, 320)">
+    <rect x="0" y="0" width="1000" height="150" rx="8" fill="#eef2ff" stroke="#a5b4fc" stroke-width="2" />
+    <text x="20" y="25" class="section-title">Frontend (Thymeleaf + TailwindCSS)</text>
+    
+    <!-- Components -->
+    <g transform="translate(30, 50)">
+      <!-- Row 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="180" height="80" rx="6" class="frontend-box" />
+        <text x="90" y="45" class="component-label">Admin Dashboard</text>
+      </g>
+      
+      <g transform="translate(200, 0)">
+        <rect width="180" height="80" rx="6" class="frontend-box" />
+        <text x="90" y="45" class="component-label">Task Management</text>
+      </g>
+      
+      <g transform="translate(400, 0)">
+        <rect width="180" height="80" rx="6" class="frontend-box" />
+        <text x="90" y="45" class="component-label">Annotation UI</text>
+      </g>
+      
+      <!-- Row 2 -->
+      <g transform="translate(100, 100)">
+        <rect width="180" height="80" rx="6" class="frontend-box" />
+        <text x="90" y="45" class="component-label">Analytics Dashboard</text>
+      </g>
+      
+      <g transform="translate(300, 100)">
+        <rect width="180" height="80" rx="6" class="frontend-box" />
+        <text x="90" y="45" class="component-label">Quality Control</text>
+      </g>
+    </g>
+    
+    <!-- Connections -->
+    <path d="M120,470 L120,500" class="connector arrow" />
+    <path d="M420,470 L420,500" class="connector arrow" />
+  </g>
+  
+  <!-- Backend Layer -->
+  <g transform="translate(100, 500)">
+    <rect x="0" y="0" width="1000" height="200" rx="8" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="2" />
+    <text x="20" y="25" class="section-title">Backend (Spring Boot)</text>
+    
+    <!-- Components -->
+    <g transform="translate(30, 50">
+      <!-- Row 1 -->
+      <g transform="translate(0, 0)">
+        <rect width="220" height="60" rx="6" class="backend-box" />
+        <text x="110" y="35" class="component-label">REST Controllers</text>
+      </g>
+      
+      <g transform="translate(240, 0)">
+        <rect width="220" height="60" rx="6" class="backend-box" />
+        <text x="110" y="35" class="component-label">Business Services</text>
+      </g>
+      
+      <g transform="translate(480, 0)">
+        <rect width="220" height="60" rx="6" class="backend-box" />
+        <text x="110" y="35" class="component-label">Data Access Layer</text>
+      </g>
+      
+      <!-- Row 2 -->
+      <g transform="translate(120, 80)">
+        <rect width="220" height="60" rx="6" class="backend-box" />
+        <text x="110" y="35" class="component-label">Security & Auth</text>
+      </g>
+      
+      <g transform="translate(360, 80)">
+        <rect width="220" height="60" rx="6" class="backend-box" />
+        <text x="110" y="35" class="component-label">File Processing</text>
+      </g>
+      
+      <!-- Row 3 -->
+      <g transform="translate(240, 160)">
+        <rect width="220" height="60" rx="6" class="ai-box" />
+        <text x="110" y="35" class="component-label">AI Quality Service</text>
+      </g>
+    </g>
+    
+    <!-- Connections -->
+    <path d="M350,700 L350,730" class="connector arrow" />
+  </g>
+  
+  <!-- Database & AI Layer -->
+  <g transform="translate(100, 730)">
+    <g transform="translate(0, 0)">
+      <rect width="450" height="50" rx="6" class="database-box" />
+      <text x="225" y="30" class="component-label">MySQL Database</text>
+    </g>
+    
+    <g transform="translate(550, 0)">
+      <rect width="450" height="50" rx="6" class="ai-box" />
+      <text x="225" y="30" class="component-label">Python AI Service (Flask + RoBERTa)</text>
+    </g>
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(100, 630)">
+    <rect x="0" y="0" width="1000" height="40" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" />
+    <text x="20" y="25" class="section-title" dominant-baseline="middle">Legend:</text>
+    
+    <g transform="translate(100, 0)">
+      <rect x="0" y="10" width="20" height="20" rx="4" class="user-box" />
+      <text x="30" y="25" class="tech-label" dominant-baseline="middle">User Interface</text>
+      
+      <rect x="180" y="10" width="20" height="20" rx="4" class="frontend-box" />
+      <text x="210" y="25" class="tech-label" dominant-baseline="middle">Frontend</text>
+      
+      <rect x="300" y="10" width="20" height="20" rx="4" class="backend-box" />
+      <text x="330" y="25" class="tech-label" dominant-baseline="middle">Backend</text>
+      
+      <rect x="420" y="10" width="20" height="20" rx="4" class="database-box" />
+      <text x="450" y="25" class="tech-label" dominant-baseline="middle">Database</text>
+      
+      <rect x="550" y="10" width="20" height="20" rx="4" class="ai-box" />
+      <text x="580" y="25" class="tech-label" dominant-baseline="middle">AI/ML Service</text>
+    </g>
+  </g>
+</svg>

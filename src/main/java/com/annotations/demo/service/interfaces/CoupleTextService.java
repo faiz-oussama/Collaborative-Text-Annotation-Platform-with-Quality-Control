@@ -1,4 +1,4 @@
-package com.annotations.demo.service;
+package com.annotations.demo.service.interfaces;
 
 import com.annotations.demo.entity.CoupleText;
 import org.springframework.data.domain.Page;

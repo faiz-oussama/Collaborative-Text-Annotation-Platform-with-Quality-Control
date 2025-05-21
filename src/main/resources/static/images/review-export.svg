@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Elements -->
+  <rect width="400" height="300" rx="20" fill="#F8FAFC" />
+  <circle cx="350" cy="50" r="30" fill="#6366F1" fill-opacity="0.1" />
+  <circle cx="50" cy="250" r="25" fill="#EC4899" fill-opacity="0.1" />
+  
+  <!-- Dashboard UI -->
+  <rect x="70" y="60" width="260" height="180" rx="8" fill="white" stroke="#E2E8F0" stroke-width="2" />
+  
+  <!-- Header -->
+  <rect x="70" y="60" width="260" height="30" rx="8 8 0 0" fill="#6366F1" />
+  <text x="100" y="80" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="white">Review and Export</text>
+  
+  <!-- Progress Bar -->
+  <rect x="90" y="100" width="220" height="10" rx="5" fill="#F1F5F9" />
+  <rect x="90" y="100" width="180" height="10" rx="5" fill="#10B981" />
+  <text x="90" y="125" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="500" fill="#64748B">Annotation Progress: 82%</text>
+  
+  <!-- Statistics Cards -->
+  <rect x="90" y="135" width="100" height="50" rx="4" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1" />
+  <text x="140" y="155" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="500" fill="#64748B" text-anchor="middle">Total Annotations</text>
+  <text x="140" y="175" font-family="'Space Grotesk', sans-serif" font-size="16" font-weight="700" fill="#1E293B" text-anchor="middle">1,248</text>
+  
+  <rect x="210" y="135" width="100" height="50" rx="4" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1" />
+  <text x="260" y="155" font-family="'Space Grotesk', sans-serif" font-size="10" font-weight="500" fill="#64748B" text-anchor="middle">Accuracy</text>
+  <text x="260" y="175" font-family="'Space Grotesk', sans-serif" font-size="16" font-weight="700" fill="#1E293B" text-anchor="middle">94.5%</text>
+  
+  <!-- Export Options -->
+  <rect x="90" y="195" width="60" height="30" rx="4" fill="#6366F1" />
+  <text x="120" y="215" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="white" text-anchor="middle">JSON</text>
+  
+  <rect x="160" y="195" width="60" height="30" rx="4" fill="#EC4899" />
+  <text x="190" y="215" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="white" text-anchor="middle">CSV</text>
+  
+  <rect x="230" y="195" width="60" height="30" rx="4" fill="#10B981" />
+  <text x="260" y="215" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600" fill="white" text-anchor="middle">XML</text>
+  
+  <!-- Download Icon -->
+  <circle cx="330" cy="210" r="15" fill="#6366F1" />
+  <path d="M330 202V218" stroke="white" stroke-width="2" stroke-linecap="round" />
+  <path d="M323 211L330 218L337 211" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Text Label -->
+  <text x="200" y="260" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="500" fill="#1E293B" text-anchor="middle">Review and Export Your Annotations</text>
+</svg>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Elements -->
+  <rect width="400" height="300" rx="20" fill="#F8FAFC" />
+  <circle cx="350" cy="70" r="30" fill="#10B981" fill-opacity="0.1" />
+  <circle cx="50" cy="230" r="25" fill="#6366F1" fill-opacity="0.1" />
+  
+  <!-- Main Schema Configuration UI -->
+  <rect x="80" y="70" width="240" height="160" rx="8" fill="white" stroke="#E2E8F0" stroke-width="2" />
+  
+  <!-- Header -->
+  <rect x="80" y="70" width="240" height="30" rx="8 8 0 0" fill="#6366F1" />
+  <text x="110" y="90" font-family="'Space Grotesk', sans-serif" font-size="12" font-weight="600" fill="white">Annotation Schema Configuration</text>
+  
+  <!-- Category Items -->
+  <rect x="100" y="110" width="200" height="30" rx="4" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1" />
+  <circle cx="115" cy="125" r="8" fill="#6366F1" />
+  <text x="135" y="128" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="500" fill="#1E293B">Person</text>
+  
+  <rect x="100" y="150" width="200" height="30" rx="4" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1" />
+  <circle cx="115" cy="165" r="8" fill="#EC4899" />
+  <text x="135" y="168" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="500" fill="#1E293B">Organization</text>
+  
+  <rect x="100" y="190" width="200" height="30" rx="4" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1" />
+  <circle cx="115" cy="205" r="8" fill="#10B981" />
+  <text x="135" y="208" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="500" fill="#1E293B">Location</text>
+  
+  <!-- Add Button -->
+  <circle cx="300" cy="220" r="15" fill="#6366F1" />
+  <text x="300" y="225" font-family="'Space Grotesk', sans-serif" font-size="16" font-weight="700" fill="white" text-anchor="middle">+</text>
+  
+  <!-- Gear Icon -->
+  <circle cx="340" cy="150" r="20" fill="#F1F5F9" />
+  <path d="M340 140V160" stroke="#64748B" stroke-width="2" stroke-linecap="round" />
+  <path d="M330 150H350" stroke="#64748B" stroke-width="2" stroke-linecap="round" />
+  <circle cx="340" cy="150" r="5" fill="#64748B" />
+  
+  <!-- Text Label -->
+  <text x="200" y="260" font-family="'Space Grotesk', sans-serif" font-size="14" font-weight="500" fill="#1E293B" text-anchor="middle">Configure Your Annotation Categories</text>
+</svg>
